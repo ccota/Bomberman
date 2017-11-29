@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e049570c-354e-413c-b100-7f520613cfdf" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/bomberman/Position.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bomberman/Gameobjects/Bomb.java" afterPath="$PROJECT_DIR$/src/bomberman/Gameobjects/Bomb.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bomberman/Gameobjects/GameObjects.java" afterPath="$PROJECT_DIR$/src/bomberman/Gameobjects/GameObjects.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bomberman/Gameobjects/ObjectFactory.java" afterPath="$PROJECT_DIR$/src/bomberman/Gameobjects/ObjectFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bomberman/Gameobjects/blocks/Blocks.java" afterPath="$PROJECT_DIR$/src/bomberman/Gameobjects/blocks/Blocks.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bomberman/Gameobjects/blocks/HardBlock.java" afterPath="$PROJECT_DIR$/src/bomberman/Gameobjects/blocks/HardBlock.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bomberman/Gameobjects/blocks/SoftBlock.java" afterPath="$PROJECT_DIR$/src/bomberman/Gameobjects/blocks/SoftBlock.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bomberman/Gameobjects/gameitems/ExtraBomb.java" afterPath="$PROJECT_DIR$/src/bomberman/Gameobjects/gameitems/ExtraBomb.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bomberman/Gameobjects/gameitems/GameItems.java" afterPath="$PROJECT_DIR$/src/bomberman/Gameobjects/gameitems/GameItems.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bomberman/Gameobjects/gameitems/PowerUp.java" afterPath="$PROJECT_DIR$/src/bomberman/Gameobjects/gameitems/PowerUp.java" />
-    </list>
+    <list default="true" id="e049570c-354e-413c-b100-7f520613cfdf" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -491,12 +479,12 @@
       <workItem from="1511815217553" duration="6052000" />
       <workItem from="1511862876955" duration="1623000" />
       <workItem from="1511899504158" duration="284000" />
-      <workItem from="1511954814431" duration="6379000" />
+      <workItem from="1511954814431" duration="6576000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19316000" />
+    <option name="totallyTimeSpent" value="19513000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
