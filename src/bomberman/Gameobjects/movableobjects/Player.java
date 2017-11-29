@@ -9,9 +9,11 @@ public class Player extends MovableObjects {
     private int power;
     private GridPosition position;
 
-    public Player(GridPosition position){
+    public Player(GridPosition pos, Bomb bomb, int power, GridPosition position) {
+        super(pos);
+        this.bomb = bomb;
+        this.power = power;
         this.position = position;
-        this.bomb = new Bomb();
     }
 
 
