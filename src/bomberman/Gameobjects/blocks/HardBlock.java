@@ -1,8 +1,5 @@
 package bomberman.Gameobjects.blocks;
 
-import bomberman.Gameobjects.blocks.Blocks;
-import bomberman.Position;
-import bomberman.gfx.simpleGfx.SimpleGfxGridPosition;
 import bomberman.grid.position.GridPosition;
 
 public class HardBlock extends Blocks {
@@ -11,5 +8,9 @@ public class HardBlock extends Blocks {
         super(pos, BlockType.HARDBLOCK);
     }
 
+    @Override
+    public void setDestroyed() {
+        //this type of block never gets destroyed
 
+    }
 }

@@ -4,7 +4,15 @@ import bomberman.Gameobjects.blocks.Blocks;
 import bomberman.grid.position.GridPosition;
 
 public class SoftBlock extends Blocks {
+    private boolean destroyed; // blocks are destroyed after being hit by a bomb
+
     public SoftBlock(GridPosition pos){
         super(pos, BlockType.SOFTBLOCK);
     }
+
+    public void destroy(){
+
+    }
+
+
 }
