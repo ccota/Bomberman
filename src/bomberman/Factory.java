@@ -6,6 +6,7 @@ import bomberman.Gameobjects.blocks.SoftBlock;
 import bomberman.Gameobjects.movableobjects.Player;
 import bomberman.Gameobjects.movableobjects.enemys.Faustino;
 import bomberman.grid.Grid;
+import bomberman.grid.position.GridPosition;
 
 public class Factory {
 
@@ -34,7 +35,7 @@ public class Factory {
 
     /**Bombs */
     public Bomb generateBombs (Grid grid, int x, int y){
-        return new Bomb(grid.makeGridPosition(x, y));
+        return new Bomb(grid.makeGridPosition(x,y));
     }
 
 

@@ -132,7 +132,14 @@ public class Game {
 
             // Pause for a while
             Thread.sleep(delay);
+            if (myPlayer.getDropOrder()){
+                dropBromb(myPlayer);
 
+
+
+
+
+            }
             // MOVE BITCH
             for (Enemy curInstance: enemies) {
                 curInstance.move();
@@ -145,8 +152,14 @@ public class Game {
         }
     }
 
+    public void dropBromb(Player player){
+        objects.add(factory.generateBombs(grid,player.getPos().getCol(),player.getPos().getRow()));
+        player.resetDropOrder();
+    }
+
     public static Grid getGrid() {
         return grid;
     }
 
 }
+

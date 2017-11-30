@@ -1,6 +1,5 @@
 package bomberman.Gameobjects.movableobjects;
 
-import bomberman.Game;
 import bomberman.Gameobjects.Bomb;
 import bomberman.grid.GridColor;
 import bomberman.grid.GridDirection;
@@ -9,8 +8,6 @@ import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Player extends MovableObjects implements KeyboardHandler{
 
@@ -20,6 +17,7 @@ public class Player extends MovableObjects implements KeyboardHandler{
     private int power=1;
     private int bombCapacty = 1;
     private int bombCurrent = 1;
+    private boolean dropOrder;
 
 
 
@@ -32,6 +30,8 @@ public class Player extends MovableObjects implements KeyboardHandler{
     public Player(GridPosition pos)  {
         super(pos);
        pos.setColor(GridColor.BLUE);
+
+       Bomb bomb = new Bomb(pos);
 
     }
 
@@ -69,30 +69,7 @@ public class Player extends MovableObjects implements KeyboardHandler{
 
 
 
-    public void releaseBomb(){
 
-        TimerTask myTimerTask = new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println("entrou");
-                getPos().hide();
-                //explodir a bombinha
-
-            }
-        };
-
-        Timer timer = new Timer();
-
-        timer.schedule(myTimerTask,2000);
-
-        System.out.println("BOOOOM");
-        Bomb bomb = new Bomb(Game.getGrid().makeGridPosition(getPos().getCol(),getPos().getRow()));
-
-
-        //game.makeBomb(0,0);
-       // bombCurrAmount--;
-       // Bomb bomb = new Bomb(power, this);
-    }
 
 
 
@@ -124,7 +101,8 @@ public class Player extends MovableObjects implements KeyboardHandler{
                 }
                 break;
             case KeyboardEvent.KEY_SPACE:
-                releaseBomb();
+                dropOrder = true;
+                System.out.println("not suposed to explode");
                 break;
 
             default:break;
@@ -136,5 +114,21 @@ public class Player extends MovableObjects implements KeyboardHandler{
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {
 
+    }
+
+    public boolean dropBomb() {
+        if (bombCurrent > 0) {
+            bombCurrent--;
+            return true;
+        }
+        return false;
+    }
+
+    public void resetDropOrder() {
+        dropOrder= false;
+    }
+
+    public boolean getDropOrder() {
+        return dropOrder;
     }
 }
