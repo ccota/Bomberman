@@ -100,7 +100,7 @@ public class Player extends MovableObjects implements KeyboardHandler{
                 }
                 break;
             case KeyboardEvent.KEY_SPACE:
-                dropOrder = true;
+                dropOrder = dropOrder();
                 System.out.println("not suposed to explode");
                 break;
 
@@ -115,19 +115,27 @@ public class Player extends MovableObjects implements KeyboardHandler{
 
     }
 
-    public boolean dropBomb() {
-        if (bombCurrent > 0) {
-            bombCurrent--;
-            return true;
-        }
-        return false;
+    public int getBombCurrent() {
+        return bombCurrent;
     }
 
     public void resetDropOrder() {
         dropOrder= false;
     }
 
+    public boolean dropOrder() {
+        if (getBombCurrent() > 0){
+            bombCurrent-- ;
+            return true;
+        }
+        return false;
+    }
+
     public boolean getDropOrder() {
         return dropOrder;
+    }
+
+    public void resetDropCurrent() {
+        bombCurrent = bombCapacty;
     }
 }

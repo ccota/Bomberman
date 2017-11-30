@@ -154,12 +154,14 @@ public class Game {
     }
 
     public void dropBomb(Player player){
-        Bomb bomb = factory.generateBombs(grid,player.getPos().getCol(),player.getPos().getRow(), collisionDetector);
+            Bomb bomb = factory.generateBombs(grid, player.getPos().getCol(), player.getPos().getRow(), collisionDetector);
 
-        objects.add(bomb);
-        bomb.explode();
-
-        player.resetDropOrder();
+            objects.add(bomb);
+            bomb.explode();
+            player.resetDropOrder();
+            if (player.getBombCurrent() == 0) {
+                player.resetDropCurrent();
+            }
     }
 
     public static Grid getGrid() {
