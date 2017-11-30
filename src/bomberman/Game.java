@@ -2,6 +2,7 @@ package bomberman;
 
 import bomberman.Gameobjects.GameObjects;
 import bomberman.Gameobjects.movableobjects.Player;
+import bomberman.Gameobjects.movableobjects.enemys.Enemy;
 import bomberman.grid.Grid;
 import bomberman.grid.GridFactory;
 import bomberman.grid.GridType;
@@ -9,10 +10,13 @@ import bomberman.grid.GridType;
 import java.util.ArrayList;
 
 public class Game {
-    private Grid grid;
+
+
+    private static Grid grid;
     private Factory factory;
-    private Player myplayer;
+    private Player myPlayer;
     private ArrayList<GameObjects> objects = new ArrayList<GameObjects>();
+    private ArrayList<Enemy> enemigos = new ArrayList<Enemy>();
 
 
 
@@ -25,7 +29,7 @@ public class Game {
     private GridType gridType= GridType.SIMPLE_GFX;
     private int cols= 15;
     private int rows=15;
-    private int delay=20;
+    private int delay=400;
 
 
 
@@ -49,8 +53,8 @@ public class Game {
 
         factory = new Factory();
 
-        myplayer =factory.generatePlayer(grid,0,0);
-        myplayer.move();
+        myPlayer =factory.generatePlayer(grid,0,0);
+        myPlayer.move();
 
         /* -------------| Hard Blocks |------------------ */
         for (int i = 1; i<grid.getCols(); i +=2){
@@ -61,30 +65,39 @@ public class Game {
 
 
 
+        /* -------------| Soft Blocks |------------------ */
         for (int x = 0; x<grid.getCols(); x ++){
+            System.out.println(grid.getCols());
             for (int y = 0 ; y < grid.getRows(); y ++){
-               // System.out.println(grid.getCols());
-                /*if ((x == 0 && y == 5)  ){
-                    System.out.println("entrou");
-                    continue;
+                    if (x==0 && y==0 || x==1 && y==0 || x==0 && y==1 || // Canto superior esquero
+                        x==grid.getCols()-1 && y==0 || x==grid.getCols()-2 && y==0 || x==grid.getCols()-1 && y==1 || //Canto superior direito
+                        x==0 && y==grid.getRows()-1 || x==0 && y==grid.getRows()-2 || x==1 && y==grid.getRows()-1  ||  // Canto inferior esq
+                        x==grid.getCols()-1 && y==grid.getRows()-1 || x==grid.getCols()-2 && y==grid.getRows()-1 || x==grid.getCols()-1 && y==grid.getRows()-2 ){
 
-                }*/
-
-
-
-                    /*if ((x == 0 && y == 0)  || (x ==0 && y == 1) || (x == 1 && y == 0) ||
-                        (x == grid.getCols()-1 && y == 0) || (x == grid.getCols() && y == 0) || (x == grid.getCols() && y == 1) ||
-
-                        (x == 0 && y == grid.getRows()-1) || (x == 0 && y == grid.getRows()) || (x == 1 && y == grid.getRows()) ||
-                        (x == grid.getCols() -1 && y == grid.getRows()) || (x == grid.getCols() && y == grid.getRows()) || (x == grid.getCols() && y == grid.getRows() -1)){
-                        System.out.println("entrou");
                         continue;
-                    }*/
-                    if (checkPosAvailable(x,y)){
-
-                        objects.add(factory.softBlocks(grid,x,y));
                     }
 
+                    else if (checkPosAvailable(x,y)){
+                        int randomNumber = (int) (Math.random()*100);
+
+                        if (randomNumber <=60) {
+                            objects.add(factory.softBlocks(grid, x, y));
+                        }
+                    }
+
+            }
+        }
+         /* -------------| Enemies |------------------ */
+        for (int x = 0; x<grid.getCols(); x ++){
+            for (int y = 0 ; y < grid.getRows(); y ++){
+
+                // todo: fix enemies instead of random
+                int randomNumber = (int) (Math.random()*100);
+                if (randomNumber <=4) {
+                    if (checkPosAvailable(x, y)) {
+                        enemigos.add(factory.generateEnemies(grid, x, y));
+                    }
+                }
             }
         }
 
@@ -107,8 +120,27 @@ public class Game {
 
     public void start() throws InterruptedException{
 
-        System.out.println(objects);
         init();
+
+        while (true) {
+
+            // Pause for a while
+            Thread.sleep(delay);
+
+            // MOVE BITCH
+            for (Enemy curInstance: enemigos) {
+                curInstance.move();
+            }
+
+
+            // Update screen
+            //Field.draw(cars);
+
+        }
+    }
+
+    public static Grid getGrid() {
+        return grid;
     }
 
 }

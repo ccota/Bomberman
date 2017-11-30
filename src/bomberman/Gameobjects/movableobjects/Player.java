@@ -1,5 +1,6 @@
 package bomberman.Gameobjects.movableobjects;
 
+import bomberman.Game;
 import bomberman.Gameobjects.Bomb;
 import bomberman.grid.Grid;
 import bomberman.grid.GridColor;
@@ -10,10 +11,15 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Player extends MovableObjects implements KeyboardHandler{
 
     private Bomb bomb;
     private int power=1;
+    private int bombCapacty = 1;
+    private int bombCurrent = 1;
 
 
 
@@ -49,18 +55,38 @@ public class Player extends MovableObjects implements KeyboardHandler{
         event3.setKey(KeyboardEvent.KEY_RIGHT);
         event3.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
+        KeyboardEvent event4 = new KeyboardEvent();
+        event4.setKey(KeyboardEvent.KEY_SPACE);
+        event4.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+
         k.addEventListener(event);
         k.addEventListener(event1);
         k.addEventListener(event2);
         k.addEventListener(event3);
+        k.addEventListener(event4);
 
     }
 
 
     public void releaseBomb(){
+        Timer time = new Timer();
+       // time.schedule(new RemindTask(),200);
 
+
+       //class RemindTask extends TimerTask {
+
+              //  System.out.println("Time's up!");
+              //  toolkit.beep();
+                //timer.cancel(); //Not necessary because we call System.exit
+                //System.exit(0); //Stops the AWT thread (and everything else)
+
+        //}
+
+        System.out.println("BOOOOM");
+        bomb = new Bomb(Game.getGrid().makeGridPosition(this.getPos().getCol(),this.getPos().getRow()));
+       // bombCurrAmount--;
+       // Bomb bomb = new Bomb(power, this);
     }
-
 
 
 
@@ -81,6 +107,9 @@ public class Player extends MovableObjects implements KeyboardHandler{
                 break;
             case KeyboardEvent.KEY_UP:
                 getPos().moveInDirection(GridDirection.UP,1);
+                break;
+            case KeyboardEvent.KEY_SPACE:
+                releaseBomb();
                 break;
 
             default:break;
