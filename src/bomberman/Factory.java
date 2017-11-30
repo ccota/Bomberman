@@ -3,7 +3,6 @@ package bomberman;
 import bomberman.Gameobjects.blocks.HardBlock;
 import bomberman.Gameobjects.blocks.SoftBlock;
 import bomberman.Gameobjects.movableobjects.Player;
-import bomberman.Gameobjects.movableobjects.enemys.Enemy;
 import bomberman.Gameobjects.movableobjects.enemys.Faustino;
 import bomberman.grid.Grid;
 

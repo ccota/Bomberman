@@ -4,7 +4,7 @@ import bomberman.Gameobjects.movableobjects.MovableObjects;
 import bomberman.grid.GridDirection;
 import bomberman.grid.position.GridPosition;
 
-abstract public class Enemy extends MovableObjects {
+abstract public class Enemy extends MovableObjects{
 
     private GridDirection currentDirection;
 
@@ -18,16 +18,24 @@ abstract public class Enemy extends MovableObjects {
 
         switch (currentDirection) {
             case LEFT:
-                getPos().moveInDirection(GridDirection.LEFT,1);
+                if (!collisionDetector.isUnSafe(getPos().getCol() -1, getPos().getRow())) {
+                    getPos().moveInDirection(GridDirection.LEFT, 1);
+                }
                 break;
             case RIGHT:
-                getPos().moveInDirection(GridDirection.RIGHT,1);
+                if (!collisionDetector.isUnSafe(getPos().getCol() +1, getPos().getRow())) {
+                    getPos().moveInDirection(GridDirection.RIGHT, 1);
+                }
                 break;
             case UP:
-                getPos().moveInDirection(GridDirection.UP,1);
+                if (!collisionDetector.isUnSafe(getPos().getCol() , getPos().getRow() -1)) {
+                    getPos().moveInDirection(GridDirection.UP, 1);
+                }
                 break;
             case DOWN:
-                getPos().moveInDirection(GridDirection.DOWN,1);
+                if (!collisionDetector.isUnSafe(getPos().getCol(), getPos().getRow()+1)) {
+                    getPos().moveInDirection(GridDirection.DOWN, 1);
+                }
                 break;
         }
     }

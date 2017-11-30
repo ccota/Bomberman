@@ -97,16 +97,25 @@ public class Player extends MovableObjects implements KeyboardHandler{
         switch (keyboardEvent.getKey()){
             case KeyboardEvent.KEY_LEFT:
                 System.out.println("key pressed1");
-                getPos().moveInDirection(GridDirection.LEFT,1);
+                if (!collisionDetector.isUnSafe(getPos().getCol() -1, getPos().getRow())) {
+                    getPos().moveInDirection(GridDirection.LEFT, 1);
+                }
                 break;
             case KeyboardEvent.KEY_RIGHT:
-                getPos().moveInDirection(GridDirection.RIGHT,1);
+                if (!collisionDetector.isUnSafe(getPos().getCol() +1, getPos().getRow())) {
+                    getPos().moveInDirection(GridDirection.RIGHT, 1);
+
+                }
                 break;
             case KeyboardEvent.KEY_DOWN:
-                getPos().moveInDirection(GridDirection.DOWN,1);
-                break;
+                if (!collisionDetector.isUnSafe(getPos().getCol()  , getPos().getRow()+1)) {
+                    getPos().moveInDirection(GridDirection.DOWN, 1);
+                }
+                    break;
             case KeyboardEvent.KEY_UP:
-                getPos().moveInDirection(GridDirection.UP,1);
+                if (!collisionDetector.isUnSafe(getPos().getCol() , getPos().getRow() -1)) {
+                    getPos().moveInDirection(GridDirection.UP, 1);
+                }
                 break;
             case KeyboardEvent.KEY_SPACE:
                 releaseBomb();

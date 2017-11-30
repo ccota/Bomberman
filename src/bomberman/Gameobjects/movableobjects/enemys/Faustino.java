@@ -9,4 +9,5 @@ public class Faustino extends Enemy {
         super(pos);
         pos.setColor(GridColor.MAGENTA);
     }
+
 }

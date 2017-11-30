@@ -16,8 +16,8 @@ public class Game {
     private Factory factory;
     private Player myPlayer;
     private ArrayList<GameObjects> objects = new ArrayList<GameObjects>();
-    private ArrayList<Enemy> enemigos = new ArrayList<Enemy>();
-
+    private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+    private CollisionDetector collisionDetector;
 
 
 
@@ -95,13 +95,19 @@ public class Game {
                 int randomNumber = (int) (Math.random()*100);
                 if (randomNumber <=4) {
                     if (checkPosAvailable(x, y)) {
-                        enemigos.add(factory.generateEnemies(grid, x, y));
+                        enemies.add(factory.generateEnemies(grid, x, y));
+
                     }
                 }
             }
         }
 
+        collisionDetector = new CollisionDetector(objects);
+        for (Enemy e : enemies){
+            e.setColisionDetector(collisionDetector);
+        }
 
+        myPlayer.setColisionDetector(collisionDetector);
 
 
 
@@ -128,7 +134,7 @@ public class Game {
             Thread.sleep(delay);
 
             // MOVE BITCH
-            for (Enemy curInstance: enemigos) {
+            for (Enemy curInstance: enemies) {
                 curInstance.move();
             }
 
