@@ -1,5 +1,6 @@
 package bomberman;
 
+import bomberman.Gameobjects.Bomb;
 import bomberman.Gameobjects.GameObjects;
 import bomberman.Gameobjects.movableobjects.Player;
 import bomberman.Gameobjects.movableobjects.enemys.Enemy;
@@ -133,7 +134,7 @@ public class Game {
             // Pause for a while
             Thread.sleep(delay);
             if (myPlayer.getDropOrder()){
-                dropBromb(myPlayer);
+                dropBomb(myPlayer);
 
 
 
@@ -152,8 +153,12 @@ public class Game {
         }
     }
 
-    public void dropBromb(Player player){
-        objects.add(factory.generateBombs(grid,player.getPos().getCol(),player.getPos().getRow()));
+    public void dropBomb(Player player){
+        Bomb bomb = factory.generateBombs(grid,player.getPos().getCol(),player.getPos().getRow(), collisionDetector);
+
+        objects.add(bomb);
+        bomb.explode();
+
         player.resetDropOrder();
     }
 

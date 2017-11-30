@@ -12,9 +12,6 @@ public class SoftBlock extends Blocks {
         pos.setColor(GridColor.GREEN);
     }
 
-    public void destroy(){
-
-    }
 
 
 }

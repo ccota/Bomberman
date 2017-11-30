@@ -31,7 +31,6 @@ public class Player extends MovableObjects implements KeyboardHandler{
         super(pos);
        pos.setColor(GridColor.BLUE);
 
-       Bomb bomb = new Bomb(pos);
 
     }
 

@@ -12,6 +12,7 @@ public abstract class GameObjects {
 
     public void setDestroyed() {
         this.destroyed = true;
+        this.getPos().hide();
     }
 
     public boolean isDestroyed() {

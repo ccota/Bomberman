@@ -34,8 +34,8 @@ public class Factory {
     }
 
     /**Bombs */
-    public Bomb generateBombs (Grid grid, int x, int y){
-        return new Bomb(grid.makeGridPosition(x,y));
+    public Bomb generateBombs (Grid grid, int x, int y, CollisionDetector collisionDetector){
+        return new Bomb(grid.makeGridPosition(x,y), collisionDetector);
     }
 
 

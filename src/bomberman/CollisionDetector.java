@@ -1,5 +1,6 @@
 package bomberman;
 
+import bomberman.Gameobjects.Bomb;
 import bomberman.Gameobjects.GameObjects;
 
 import java.util.ArrayList;
@@ -27,5 +28,24 @@ public class CollisionDetector {
     }
 
 
+    public void destroyObjects(Bomb bomb) {
 
+        for (GameObjects o : objects){
+            if (o.getPos().getCol() == bomb.getPos().getCol() && o.getPos().getRow() == ( bomb.getPos().getRow() + 1) ){
+                o.setDestroyed();
+            }
+            if (o.getPos().getCol() == bomb.getPos().getCol() && o.getPos().getRow() == ( bomb.getPos().getRow() - 1) ){
+                o.setDestroyed();
+            }
+            if (( o.getPos().getCol() == bomb.getPos().getCol() +1) && o.getPos().getRow() == ( bomb.getPos().getRow()) ){
+                o.setDestroyed();
+            }
+            if ((o.getPos().getCol() == bomb.getPos().getCol() -1) && o.getPos().getRow() == ( bomb.getPos().getRow()) ){
+                o.setDestroyed();
+            }
+        }
+
+
+
+    }
 }
