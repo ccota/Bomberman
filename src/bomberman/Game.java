@@ -18,6 +18,7 @@ public class Game {
     private Player myPlayer;
     private ArrayList<GameObjects> objects = new ArrayList<GameObjects>();
     private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+    private ArrayList<Bomb> activeBombs = new ArrayList<>();
     private CollisionDetector collisionDetector;
 
 
@@ -55,6 +56,7 @@ public class Game {
         factory = new Factory();
 
         myPlayer =factory.generatePlayer(grid,0,0);
+        objects.add(myPlayer);
         myPlayer.move();
 
         /* -------------| Hard Blocks |------------------ */
@@ -89,6 +91,7 @@ public class Game {
             }
         }
          /* -------------| Enemies |------------------ */
+         Enemy enemy;
         for (int x = 0; x<grid.getCols(); x ++){
             for (int y = 0 ; y < grid.getRows(); y ++){
 
@@ -96,7 +99,9 @@ public class Game {
                 int randomNumber = (int) (Math.random()*100);
                 if (randomNumber <=4) {
                     if (checkPosAvailable(x, y)) {
-                        enemies.add(factory.generateEnemies(grid, x, y));
+                        enemy = factory.generateEnemies(grid, x ,y);
+                        enemies.add(enemy);
+                        objects.add(enemy);
 
                     }
                 }
@@ -133,22 +138,21 @@ public class Game {
 
             // Pause for a while
             Thread.sleep(delay);
+
+            // checks if player want to drop a bomb
             if (myPlayer.getDropOrder()){
                 dropBomb(myPlayer);
-
-
-
-
-
             }
-            // MOVE BITCH
+
+
+            // Move the enemies
             for (Enemy curInstance: enemies) {
-                curInstance.move();
+                if (!curInstance.isDestroyed()) {
+                    curInstance.move();
+                }
             }
 
 
-            // Update screen
-            //Field.draw(cars);
 
         }
     }
@@ -156,10 +160,11 @@ public class Game {
     public void dropBomb(Player player){
         Bomb bomb = factory.generateBombs(grid,player.getPos().getCol(),player.getPos().getRow(), collisionDetector);
 
-        objects.add(bomb);
+        activeBombs.add(bomb);
         bomb.explode();
 
         player.resetDropOrder();
+        activeBombs.remove(bomb);
     }
 
     public static Grid getGrid() {
