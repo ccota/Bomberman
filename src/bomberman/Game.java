@@ -160,11 +160,10 @@ public class Game {
     public void dropBomb(Player player){
         Bomb bomb = factory.generateBombs(grid,player.getPos().getCol(),player.getPos().getRow(), collisionDetector);
 
-        activeBombs.add(bomb);
+        objects.add(bomb);
         bomb.explode();
 
         player.resetDropOrder();
-        activeBombs.remove(bomb);
     }
 
     public static Grid getGrid() {
