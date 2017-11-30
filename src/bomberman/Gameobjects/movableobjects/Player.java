@@ -2,7 +2,6 @@ package bomberman.Gameobjects.movableobjects;
 
 import bomberman.Game;
 import bomberman.Gameobjects.Bomb;
-import bomberman.grid.Grid;
 import bomberman.grid.GridColor;
 import bomberman.grid.GridDirection;
 import bomberman.grid.position.GridPosition;
@@ -10,11 +9,12 @@ import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Player extends MovableObjects implements KeyboardHandler{
+
+
 
     private Bomb bomb;
     private int power=1;
@@ -68,22 +68,28 @@ public class Player extends MovableObjects implements KeyboardHandler{
     }
 
 
+
     public void releaseBomb(){
-        Timer time = new Timer();
-       // time.schedule(new RemindTask(),200);
 
+        TimerTask myTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("entrou");
+                getPos().hide();
+                //explodir a bombinha
 
-       //class RemindTask extends TimerTask {
+            }
+        };
 
-              //  System.out.println("Time's up!");
-              //  toolkit.beep();
-                //timer.cancel(); //Not necessary because we call System.exit
-                //System.exit(0); //Stops the AWT thread (and everything else)
+        Timer timer = new Timer();
 
-        //}
+        timer.schedule(myTimerTask,2000);
 
         System.out.println("BOOOOM");
-        bomb = new Bomb(Game.getGrid().makeGridPosition(this.getPos().getCol(),this.getPos().getRow()));
+        Bomb bomb = new Bomb(Game.getGrid().makeGridPosition(getPos().getCol(),getPos().getRow()));
+
+
+        //game.makeBomb(0,0);
        // bombCurrAmount--;
        // Bomb bomb = new Bomb(power, this);
     }

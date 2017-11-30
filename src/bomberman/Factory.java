@@ -1,5 +1,6 @@
 package bomberman;
 
+import bomberman.Gameobjects.Bomb;
 import bomberman.Gameobjects.blocks.HardBlock;
 import bomberman.Gameobjects.blocks.SoftBlock;
 import bomberman.Gameobjects.movableobjects.Player;
@@ -29,8 +30,11 @@ public class Factory {
     /**Enemies */
     public Faustino generateEnemies (Grid grid, int x, int y){
         return new Faustino(grid.makeGridPosition(x, y));
+    }
 
-
+    /**Bombs */
+    public Bomb generateBombs (Grid grid, int x, int y){
+        return new Bomb(grid.makeGridPosition(x, y));
     }
 
 
