@@ -1,7 +1,6 @@
 package bomberman.Gameobjects.movableobjects;
 
 import bomberman.Gameobjects.Bomb;
-import bomberman.grid.Grid;
 import bomberman.grid.GridColor;
 import bomberman.grid.GridDirection;
 import bomberman.grid.position.GridPosition;
@@ -12,8 +11,13 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 
 public class Player extends MovableObjects implements KeyboardHandler{
 
+
+
     private Bomb bomb;
     private int power=1;
+    private int bombCapacty = 1;
+    private int bombCurrent = 1;
+    private boolean dropOrder;
 
 
 
@@ -26,6 +30,7 @@ public class Player extends MovableObjects implements KeyboardHandler{
     public Player(GridPosition pos)  {
         super(pos);
        pos.setColor(GridColor.BLUE);
+
 
     }
 
@@ -49,17 +54,20 @@ public class Player extends MovableObjects implements KeyboardHandler{
         event3.setKey(KeyboardEvent.KEY_RIGHT);
         event3.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
+        KeyboardEvent event4 = new KeyboardEvent();
+        event4.setKey(KeyboardEvent.KEY_SPACE);
+        event4.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+
         k.addEventListener(event);
         k.addEventListener(event1);
         k.addEventListener(event2);
         k.addEventListener(event3);
+        k.addEventListener(event4);
 
     }
 
 
-    public void releaseBomb(){
 
-    }
 
 
 
@@ -71,16 +79,31 @@ public class Player extends MovableObjects implements KeyboardHandler{
         switch (keyboardEvent.getKey()){
             case KeyboardEvent.KEY_LEFT:
                 System.out.println("key pressed1");
-                getPos().moveInDirection(GridDirection.LEFT,1);
+                if (!collisionDetector.isUnSafe(getPos().getCol() -1, getPos().getRow())) {
+                    getPos().moveInDirection(GridDirection.LEFT, 1);
+                }
                 break;
             case KeyboardEvent.KEY_RIGHT:
-                getPos().moveInDirection(GridDirection.RIGHT,1);
+                if (!collisionDetector.isUnSafe(getPos().getCol() +1, getPos().getRow())) {
+                    getPos().moveInDirection(GridDirection.RIGHT, 1);
+
+                }
                 break;
             case KeyboardEvent.KEY_DOWN:
-                getPos().moveInDirection(GridDirection.DOWN,1);
-                break;
+                if (!collisionDetector.isUnSafe(getPos().getCol()  , getPos().getRow()+1)) {
+                    getPos().moveInDirection(GridDirection.DOWN, 1);
+                }
+                    break;
             case KeyboardEvent.KEY_UP:
-                getPos().moveInDirection(GridDirection.UP,1);
+                if (!collisionDetector.isUnSafe(getPos().getCol() , getPos().getRow() -1)) {
+                    getPos().moveInDirection(GridDirection.UP, 1);
+                }
+                break;
+            case KeyboardEvent.KEY_SPACE:
+                if (bombCurrent> 0) {
+                    dropOrder = true;
+                    setBombCurrent();
+                }
                 break;
 
             default:break;
@@ -92,5 +115,23 @@ public class Player extends MovableObjects implements KeyboardHandler{
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {
 
+    }
+
+    private void setBombCurrent() {
+        if (bombCurrent > 0) {
+            bombCurrent--;
+        }
+    }
+
+    public void resetDropOrder() {
+        dropOrder= false;
+        if (bombCurrent == 0){
+            bombCurrent = bombCapacty;
+        }
+    }
+   
+
+    public boolean getDropOrder() {
+        return dropOrder;
     }
 }
