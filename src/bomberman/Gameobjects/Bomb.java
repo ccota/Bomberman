@@ -1,6 +1,7 @@
 package bomberman.Gameobjects;
 
 import bomberman.CollisionDetector;
+import bomberman.Game;
 import bomberman.Gameobjects.movableobjects.Player;
 import bomberman.gfx.simpleGfx.SimpleGfxGrid;
 import bomberman.gfx.simpleGfx.SimpleGfxGridPosition;
@@ -31,6 +32,7 @@ public class Bomb extends GameObjects {
         TimerTask myTimerTask = new TimerTask() {
             @Override
             public void run() {
+                // Turns destroyed true
                 setDestroyed();
 
 
@@ -47,7 +49,7 @@ public class Bomb extends GameObjects {
     }
 
     private void destroyObjects() {
-        collisionDetector.destroyObjects(this);
+        collisionDetector.destroyObjects(this, player.getGame());
     }
 
     public void setActive() {

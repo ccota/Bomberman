@@ -15,8 +15,8 @@ public class Player extends MovableObjects implements KeyboardHandler{
     private Game game = null;
     private Bomb bomb;
     private int power=1;
-    private int bombCapacty = 3;
-    private int bombCurrent = 3;
+    private int bombCapacty = 1;
+    private int bombCurrent = 1;
     private boolean dropOrder;
 
 
@@ -66,10 +66,9 @@ public class Player extends MovableObjects implements KeyboardHandler{
     }
 
 
-
-
-
-
+    public Game getGame() {
+        return game;
+    }
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
@@ -89,7 +88,7 @@ public class Player extends MovableObjects implements KeyboardHandler{
                 }
                 break;
             case KeyboardEvent.KEY_DOWN:
-                if (!collisionDetector.isUnSafe(getPos().getCol()  , getPos().getRow()+1)) {
+                if (!collisionDetector.isUnSafe(getPos().getCol(), getPos().getRow()+1)) {
                     getPos().moveInDirection(GridDirection.DOWN, 1);
                 }
                     break;

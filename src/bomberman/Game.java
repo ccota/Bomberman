@@ -2,8 +2,10 @@ package bomberman;
 
 import bomberman.Gameobjects.Bomb;
 import bomberman.Gameobjects.GameObjects;
+import bomberman.Gameobjects.gameitems.GameItems;
 import bomberman.Gameobjects.movableobjects.Player;
 import bomberman.Gameobjects.movableobjects.enemys.Enemy;
+import bomberman.Gameobjects.movableobjects.enemys.Faustino;
 import bomberman.grid.Grid;
 import bomberman.grid.GridFactory;
 import bomberman.grid.GridType;
@@ -18,6 +20,7 @@ public class Game {
     private Factory factory;
     private Player myPlayer;
     private ArrayList<GameObjects> objects = new ArrayList<GameObjects>();
+    private ArrayList<GameItems> items = new ArrayList<GameItems>();
     private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     private ArrayList<Bomb> activeBombs = new ArrayList<>();
     private CollisionDetector collisionDetector;
@@ -68,8 +71,8 @@ public class Game {
         }
 
          /* -------------| Enemies |------------------ */
+         /** Adjust this code later to be more flexible*/
         Enemy enemy;
-
         int counter = 0;
         int maxenimes=5;
         while (counter!=maxenimes){
@@ -166,8 +169,13 @@ public class Game {
         return grid;
     }
 
+
     public void add(GameObjects object) {
         objects.add(object);
+    }
+
+    public void addItem(GameItems object) {
+        items.add(object);
     }
 
    /* public void dropBomb(Player player){
