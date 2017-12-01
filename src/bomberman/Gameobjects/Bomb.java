@@ -2,9 +2,6 @@ package bomberman.Gameobjects;
 
 import bomberman.CollisionDetector;
 import bomberman.Gameobjects.movableobjects.Player;
-import bomberman.gfx.simpleGfx.SimpleGfxGrid;
-import bomberman.gfx.simpleGfx.SimpleGfxGridPosition;
-import bomberman.grid.GridColor;
 import bomberman.grid.position.GridPosition;
 
 import java.util.Timer;
@@ -35,7 +32,7 @@ public class Bomb extends GameObjects {
 
 
                 destroyObjects();
-                player.increseCurrentBomb();
+                player.increaseCurrentBomb();
                 System.out.println("BOOOOM");
             }
         };
