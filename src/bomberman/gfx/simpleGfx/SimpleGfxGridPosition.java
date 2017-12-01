@@ -3,8 +3,10 @@ package bomberman.gfx.simpleGfx;
 import bomberman.grid.GridColor;
 import bomberman.grid.GridDirection;
 import bomberman.grid.position.AbstractGridPosition;
+
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 import bomberman.grid.position.GridPosition;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 /**
  * Simple graphics position
@@ -12,6 +14,7 @@ import bomberman.grid.position.GridPosition;
 public class SimpleGfxGridPosition extends AbstractGridPosition {
 
     private Rectangle rectangle;
+    private Picture picture;
     private SimpleGfxGrid simpleGfxGrid;
 
     /**
@@ -22,6 +25,8 @@ public class SimpleGfxGridPosition extends AbstractGridPosition {
         super((int) (Math.random() * grid.getCols()), (int) (Math.random() * grid.getRows()), grid);
         this.simpleGfxGrid = grid;
         this.rectangle = new Rectangle(this.simpleGfxGrid.columnToX(getCol()),this.simpleGfxGrid.rowToY(getRow()),this.simpleGfxGrid.getCellSize(),this.simpleGfxGrid.getCellSize());
+
+
    // show();
     }
 
@@ -31,11 +36,13 @@ public class SimpleGfxGridPosition extends AbstractGridPosition {
      * @param row position row
      * @param grid Simple graphics grid
      */
-    public SimpleGfxGridPosition(int col, int row, SimpleGfxGrid grid){
+    public SimpleGfxGridPosition(int col, int row, SimpleGfxGrid grid, String img){
         super(col, row, grid);
         simpleGfxGrid = grid;
-        rectangle = new Rectangle(grid.columnToX(col) , grid.rowToY(row), grid.getCellSize(), grid.getCellSize());
-        rectangle.draw();
+        //rectangle = new Rectangle(grid.columnToX(col) , grid.rowToY(row), grid.getCellSize(), grid.getCellSize());
+        //rectangle.draw();
+        this.picture= new Picture(grid.columnToX(col), grid.rowToY(row),img);
+        picture.draw();
     }
 
     /**
@@ -43,7 +50,8 @@ public class SimpleGfxGridPosition extends AbstractGridPosition {
      */
     @Override
     public void show() {
-        rectangle.fill();
+        //rectangle.fill();
+        //picture.draw();
     }
 
     /**
@@ -51,7 +59,8 @@ public class SimpleGfxGridPosition extends AbstractGridPosition {
      */
     @Override
     public void hide() {
-        rectangle.delete();
+       // rectangle.delete();
+        picture.delete();
     }
 
     /**
@@ -63,7 +72,7 @@ public class SimpleGfxGridPosition extends AbstractGridPosition {
         int prevCol = getCol();
         super.moveInDirection(direction, distance);
 
-        rectangle.translate((getCol() - prevCol)*simpleGfxGrid.getCellSize(), (getRow() - prevRow)*simpleGfxGrid.getCellSize());
+        picture.translate((getCol() - prevCol)*simpleGfxGrid.getCellSize(), (getRow() - prevRow)*simpleGfxGrid.getCellSize());
 
 
     }
@@ -75,8 +84,8 @@ public class SimpleGfxGridPosition extends AbstractGridPosition {
      */
     @Override
     public void setColor(GridColor color) {
-        super.setColor(color);
-        rectangle.setColor(SimpleGfxColorMapper.getColor(color));
+        //super.setColor(color);
+        //rectangle.setColor(SimpleGfxColorMapper.getColor(color));
 
     }
 }

@@ -1,5 +1,6 @@
 package bomberman.Gameobjects.movableobjects;
 
+import bomberman.Game;
 import bomberman.Gameobjects.Bomb;
 import bomberman.grid.GridColor;
 import bomberman.grid.GridDirection;
@@ -11,12 +12,11 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 
 public class Player extends MovableObjects implements KeyboardHandler{
 
-
-
+    private Game game = null;
     private Bomb bomb;
     private int power=1;
-    private int bombCapacty = 1;
-    private int bombCurrent = 1;
+    private int bombCapacty = 3;
+    private int bombCurrent = 3;
     private boolean dropOrder;
 
 
@@ -24,11 +24,10 @@ public class Player extends MovableObjects implements KeyboardHandler{
 
 
 
-        //event.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        //k.addEventListener(event);
 
-    public Player(GridPosition pos)  {
+    public Player(GridPosition pos, Game game)  {
         super(pos);
+        this.game=game;
        pos.setColor(GridColor.BLUE);
 
 
@@ -100,10 +99,12 @@ public class Player extends MovableObjects implements KeyboardHandler{
                 }
                 break;
             case KeyboardEvent.KEY_SPACE:
-                if (bombCurrent> 0) {
-                    dropOrder = true;
-                    setBombCurrent();
+                System.out.println(bombCurrent);
+                if (bombCurrent > 0) {
+                    game.add(new Bomb(Game.getGrid().makeGridPosition(this.getPos().getCol(), this.getPos().getRow(),"bomb.png"), collisionDetector, this));
+                    bombCurrent--;
                 }
+
                 break;
 
             default:break;
@@ -117,21 +118,8 @@ public class Player extends MovableObjects implements KeyboardHandler{
 
     }
 
-    private void setBombCurrent() {
-        if (bombCurrent > 0) {
-            bombCurrent--;
-        }
+    public void increseCurrentBomb() {
+            bombCurrent++;
     }
 
-    public void resetDropOrder() {
-        dropOrder= false;
-        if (bombCurrent == 0){
-            bombCurrent = bombCapacty;
-        }
-    }
-   
-
-    public boolean getDropOrder() {
-        return dropOrder;
-    }
 }
