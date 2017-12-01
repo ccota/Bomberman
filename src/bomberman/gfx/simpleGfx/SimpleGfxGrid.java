@@ -16,7 +16,7 @@ public class SimpleGfxGrid implements Grid {
     private int width;
     private int x;
     private int y;
-    private int cellSize = 50;
+    private int cellSize = 40;
 
 
 
@@ -109,12 +109,12 @@ public class SimpleGfxGrid implements Grid {
     }
 
     /**
-     * @see Grid#makeGridPosition(int, int)
+     * @see Grid#makeGridPosition(int, int, String) (int, int)
      */
     @Override
-    public GridPosition makeGridPosition(int col, int row) {
+    public GridPosition makeGridPosition(int col, int row, String img) {
 
-        return  new SimpleGfxGridPosition(col, row, this);
+        return  new SimpleGfxGridPosition(col, row, this,img);
     }
 
     /**

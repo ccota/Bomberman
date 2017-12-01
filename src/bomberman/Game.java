@@ -7,11 +7,12 @@ import bomberman.Gameobjects.movableobjects.enemys.Enemy;
 import bomberman.grid.Grid;
 import bomberman.grid.GridFactory;
 import bomberman.grid.GridType;
+import bomberman.utilities.Random;
 
 import java.util.ArrayList;
 
-public class Game {
 
+public class Game {
 
     private static Grid grid;
     private Factory factory;
@@ -29,9 +30,9 @@ public class Game {
 	|--------------------------------------------------------------------------
 	 */
     private GridType gridType= GridType.SIMPLE_GFX;
-    private int cols= 15;
+    private int cols= 25;
     private int rows=15;
-    private int delay=400;
+    private int delay=100;
 
 
 
@@ -55,7 +56,7 @@ public class Game {
 
         factory = new Factory();
 
-        myPlayer =factory.generatePlayer(grid,0,0);
+        myPlayer =factory.generatePlayer(grid,0,0,this);
         objects.add(myPlayer);
         myPlayer.move();
 
@@ -64,6 +65,25 @@ public class Game {
             for (int j = 1 ; j < grid.getRows(); j += 2){
                 objects.add(factory.hardBlocks(grid,i,j));
             }
+        }
+
+         /* -------------| Enemies |------------------ */
+        Enemy enemy;
+
+        int counter = 0;
+        int maxenimes=5;
+        while (counter!=maxenimes){
+            System.out.println("entro no while");
+            int randomX = Random.generate(4,grid().getCols());
+            int randomY = Random.generate(4,grid().getRows());
+
+            if (checkPosAvailable(randomX, randomY)) {
+                enemy = factory.generateEnemies(grid, randomX ,randomY);
+                enemies.add(enemy);
+                objects.add(enemy);
+                counter++;
+            }
+
         }
 
 
@@ -90,23 +110,7 @@ public class Game {
 
             }
         }
-         /* -------------| Enemies |------------------ */
-         Enemy enemy;
-        for (int x = 0; x<grid.getCols(); x ++){
-            for (int y = 0 ; y < grid.getRows(); y ++){
 
-                // todo: fix enemies instead of random
-                int randomNumber = (int) (Math.random()*100);
-                if (randomNumber <=4) {
-                    if (checkPosAvailable(x, y)) {
-                        enemy = factory.generateEnemies(grid, x ,y);
-                        enemies.add(enemy);
-                        objects.add(enemy);
-
-                    }
-                }
-            }
-        }
 
         collisionDetector = new CollisionDetector(objects);
         for (Enemy e : enemies){
@@ -140,9 +144,9 @@ public class Game {
             Thread.sleep(delay);
 
             // checks if player want to drop a bomb
-            if (myPlayer.getDropOrder()){
+           /* if (myPlayer.getDropOrder()){
                 dropBomb(myPlayer);
-            }
+            }*/
 
 
             // Move the enemies
@@ -157,13 +161,22 @@ public class Game {
         }
     }
 
-    public void dropBomb(Player player){
+
+    public static Grid grid() {
+        return grid;
+    }
+
+    public void add(GameObjects object) {
+        objects.add(object);
+    }
+
+   /* public void dropBomb(Player player){
             Bomb bomb = factory.generateBombs(grid, player.getPos().getCol(), player.getPos().getRow(), collisionDetector);
 
             objects.add(bomb);
             bomb.explode();
             player.resetDropOrder();
-    }
+    }*/
 
     public static Grid getGrid() {
         return grid;

@@ -9,7 +9,7 @@ public class SoftBlock extends Blocks {
 
     public SoftBlock(GridPosition pos){
         super(pos, BlockType.SOFTBLOCK);
-        pos.setColor(GridColor.GREEN);
+        //pos.setColor(GridColor.GREEN);
     }
 
 

@@ -38,6 +38,6 @@ public interface Grid {
      * @param row   the position row
      * @return the new grid position
      */
-    public GridPosition makeGridPosition(int col, int row);
+    public GridPosition makeGridPosition(int col, int row, String img);
 
 }
