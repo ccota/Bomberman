@@ -41,6 +41,10 @@ public class CollisionDetector {
 
         for (GameObjects o : objects){
             int generateItemPercent = Random.generate(100);
+            if (o.getPos().getCol() == bomb.getPos().getCol() && o.getPos().getRow() == ( bomb.getPos().getRow() ) ) {
+                o.setDestroyed();
+            }
+
             if (o.getPos().getCol() == bomb.getPos().getCol() && o.getPos().getRow() == ( bomb.getPos().getRow() + 1) ){
                 o.setDestroyed();
 
