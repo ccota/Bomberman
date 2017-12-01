@@ -10,6 +10,8 @@ import bomberman.grid.Grid;
 import bomberman.grid.GridFactory;
 import bomberman.grid.GridType;
 import bomberman.utilities.Random;
+import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
+import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 
 import java.util.ArrayList;
 
@@ -24,6 +26,7 @@ public class Game {
     private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     private ArrayList<Bomb> activeBombs = new ArrayList<>();
     private CollisionDetector collisionDetector;
+    private ItemDetector itemDetector;
 
 
 
@@ -121,6 +124,7 @@ public class Game {
         }
 
         myPlayer.setColisionDetector(collisionDetector);
+        myPlayer.setItemDetector(itemDetector);
 
 
 

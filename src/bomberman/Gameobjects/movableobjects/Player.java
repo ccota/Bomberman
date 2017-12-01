@@ -18,12 +18,12 @@ public class Player extends MovableObjects implements KeyboardHandler{
     private int bombCapacty = 3;
     private int bombCurrent = 3;
     private boolean dropOrder;
+    private Keyboard keyboard;
 
 
-
-
-
-
+    public Keyboard getKeyboard() {
+        return keyboard;
+    }
 
     public Player(GridPosition pos, Game game)  {
         super(pos);
@@ -31,11 +31,12 @@ public class Player extends MovableObjects implements KeyboardHandler{
        pos.setColor(GridColor.BLUE);
 
 
+
     }
 
-    public void move() throws InterruptedException{
+    public void  move() throws InterruptedException{
 
-        Keyboard k = new Keyboard(this);
+       keyboard = new Keyboard(this);
 
         KeyboardEvent event = new KeyboardEvent();
         event.setKey(KeyboardEvent.KEY_UP);
@@ -57,11 +58,11 @@ public class Player extends MovableObjects implements KeyboardHandler{
         event4.setKey(KeyboardEvent.KEY_SPACE);
         event4.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
-        k.addEventListener(event);
-        k.addEventListener(event1);
-        k.addEventListener(event2);
-        k.addEventListener(event3);
-        k.addEventListener(event4);
+        keyboard.addEventListener(event);
+        keyboard.addEventListener(event1);
+        keyboard.addEventListener(event2);
+        keyboard.addEventListener(event3);
+        keyboard.addEventListener(event4);
 
     }
 
@@ -76,10 +77,10 @@ public class Player extends MovableObjects implements KeyboardHandler{
         if (isDestroyed()){
             return;
         }
-        System.out.println("key pressed1");
         switch (keyboardEvent.getKey()){
             case KeyboardEvent.KEY_LEFT:
                 System.out.println("key pressed1");
+
                 if (collisionDetector.hasEnemy(getPos().getCol() -1, getPos().getRow())){
                     this.setDestroyed();
                 }
@@ -126,6 +127,9 @@ public class Player extends MovableObjects implements KeyboardHandler{
 
     }
 
+    public Game getGame() {
+        return game;
+    }
 
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {
