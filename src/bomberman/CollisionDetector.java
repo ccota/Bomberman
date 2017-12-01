@@ -41,29 +41,48 @@ public class CollisionDetector {
 
         for (GameObjects o : objects){
             int generateItemPercent = Random.generate(100);
+
+
             if (o.getPos().getCol() == bomb.getPos().getCol() && o.getPos().getRow() == ( bomb.getPos().getRow() + 1) ){
+                if (o instanceof Bomb){
+
+                    ((Bomb) o).explode();
+                    break;
+                }
                 o.setDestroyed();
 
-                if (o instanceof SoftBlock && generateItemPercent>=84){
+                if (o instanceof SoftBlock && generateItemPercent>=84 && !o.isDestroyed()){
                     game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
 
             }
             if (o.getPos().getCol() == bomb.getPos().getCol() && o.getPos().getRow() == ( bomb.getPos().getRow() - 1) ){
+                if (o instanceof Bomb){
+                    ((Bomb) o).explode();
+                    break;
+                }
                 o.setDestroyed();
-                if (o instanceof SoftBlock && generateItemPercent>=84){
+                if (o instanceof SoftBlock && generateItemPercent>=84 && !o.isDestroyed()){
                     game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
             }
             if (( o.getPos().getCol() == bomb.getPos().getCol() +1) && o.getPos().getRow() == ( bomb.getPos().getRow()) ){
+                if (o instanceof Bomb){
+                    ((Bomb) o).explode();
+                    break;
+                }
                 o.setDestroyed();
-                if (o instanceof SoftBlock && generateItemPercent>=84){
+                if (o instanceof SoftBlock && generateItemPercent>=84 && !o.isDestroyed()){
                     game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
             }
             if ((o.getPos().getCol() == bomb.getPos().getCol() -1) && o.getPos().getRow() == ( bomb.getPos().getRow()) ){
+                if (o instanceof Bomb){
+                    ((Bomb) o).explode();
+                    break;
+                }
                 o.setDestroyed();
-                if (o instanceof SoftBlock && generateItemPercent>=84){
+                if (o instanceof SoftBlock && generateItemPercent>=84 && !o.isDestroyed()){
                     game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
             }
