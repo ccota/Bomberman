@@ -122,6 +122,7 @@ public class Game {
         for (Enemy e : enemies){
             e.setColisionDetector(collisionDetector);
         }
+        itemDetector = new ItemDetector(items);
 
         myPlayer.setColisionDetector(collisionDetector);
         myPlayer.setItemDetector(itemDetector);
@@ -162,6 +163,8 @@ public class Game {
                     curInstance.move();
                 }
             }
+
+
 
 
 

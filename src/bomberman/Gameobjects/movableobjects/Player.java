@@ -2,6 +2,9 @@ package bomberman.Gameobjects.movableobjects;
 
 import bomberman.Game;
 import bomberman.Gameobjects.Bomb;
+import bomberman.Gameobjects.gameitems.ExtraBomb;
+import bomberman.Gameobjects.gameitems.GameItems;
+import bomberman.Gameobjects.gameitems.PowerUp;
 import bomberman.grid.GridColor;
 import bomberman.grid.GridDirection;
 import bomberman.grid.position.GridPosition;
@@ -15,8 +18,8 @@ public class Player extends MovableObjects implements KeyboardHandler{
     private Game game = null;
     private Bomb bomb;
     private int power=1;
-    private int bombCapacty = 3;
-    private int bombCurrent = 3;
+    private int bombCapacty = 1;
+    private int bombCurrent = bombCapacty;
     private boolean dropOrder;
     private Keyboard keyboard;
 
@@ -28,7 +31,6 @@ public class Player extends MovableObjects implements KeyboardHandler{
     public Player(GridPosition pos, Game game)  {
         super(pos);
         this.game=game;
-       pos.setColor(GridColor.BLUE);
 
 
 
@@ -77,6 +79,7 @@ public class Player extends MovableObjects implements KeyboardHandler{
         if (isDestroyed()){
             return;
         }
+        GameItems item;
         switch (keyboardEvent.getKey()){
             case KeyboardEvent.KEY_LEFT:
                 System.out.println("key pressed1");
@@ -86,6 +89,9 @@ public class Player extends MovableObjects implements KeyboardHandler{
                 }
                 if (!collisionDetector.isUnSafe(getPos().getCol() -1, getPos().getRow())) {
                     getPos().moveInDirection(GridDirection.LEFT, 1);
+
+
+
                 }
                 break;
             case KeyboardEvent.KEY_RIGHT:
@@ -124,6 +130,12 @@ public class Player extends MovableObjects implements KeyboardHandler{
             default:break;
 
         }
+        item =itemDetector.hasItem(getPos().getCol() , getPos().getRow());
+        if ( item instanceof ExtraBomb){
+            increseBombCapacity((ExtraBomb) item);
+        }else if(item instanceof PowerUp){
+            increasePower((PowerUp) item);
+        }
 
     }
 
@@ -140,4 +152,19 @@ public class Player extends MovableObjects implements KeyboardHandler{
             bombCurrent++;
     }
 
+    private void increseBombCapacity(ExtraBomb extraBomb){  //just to make sure that the player realy got an extra bomb
+        bombCapacty ++;
+        bombCurrent = bombCapacty;
+
+
+    }
+
+    private void increasePower(PowerUp powerUp){
+        power ++;
+        System.out.println("Power = " + power);
+    }
+
+    public int getPower() {
+        return power;
+    }
 }
