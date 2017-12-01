@@ -2,6 +2,7 @@ package bomberman;
 
 import bomberman.Gameobjects.Bomb;
 import bomberman.Gameobjects.GameObjects;
+import bomberman.Gameobjects.blocks.HardBlock;
 import bomberman.Gameobjects.blocks.SoftBlock;
 import bomberman.Gameobjects.gameitems.GameItems;
 import bomberman.Gameobjects.movableobjects.enemys.Enemy;
@@ -39,44 +40,49 @@ public class CollisionDetector {
 
     public void destroyObjects(Bomb bomb, Game game) {
 
+
         for (GameObjects o : objects) {
-            for (Integer p = 1; p <= bomb.getPower(); p++) {
 
 
-                int generateItemPercent = Random.generate(100);
-                if (o.getPos().getCol() == bomb.getPos().getCol() && o.getPos().getRow() == (bomb.getPos().getRow())) {
-                    o.setDestroyed();
-                }
+            int generateItemPercent = Random.generate(100);
 
-                if (o.getPos().getCol() == bomb.getPos().getCol() && o.getPos().getRow() == (bomb.getPos().getRow() + p)) {
-                    o.setDestroyed();
 
-                    if (o instanceof SoftBlock && generateItemPercent >= 84) {
-                        game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
-                    }
 
+
+
+
+
+            if (o.getPos().getCol() == bomb.getPos().getCol() && o.getPos().getRow() == (bomb.getPos().getRow())) {
+                o.setDestroyed();
+            }
+
+            if (o.getPos().getCol() == bomb.getPos().getCol() && o.getPos().getRow() == (bomb.getPos().getRow() + 1)) {
+                if (o instanceof SoftBlock && generateItemPercent >= 84 && !o.isDestroyed()) {
+                    game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
-                if (o.getPos().getCol() == bomb.getPos().getCol() && o.getPos().getRow() == (bomb.getPos().getRow() - p)) {
-                    o.setDestroyed();
-                    if (o instanceof SoftBlock && generateItemPercent >= 84) {
-                        game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
-                    }
+                o.setDestroyed();
+            }
+            if (o.getPos().getCol() == bomb.getPos().getCol() && o.getPos().getRow() == (bomb.getPos().getRow() - 1)) {
+                if (o instanceof SoftBlock && generateItemPercent >= 84 && !o.isDestroyed()) {
+                    game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
-                if ((o.getPos().getCol() == bomb.getPos().getCol() + p) && o.getPos().getRow() == (bomb.getPos().getRow())) {
-                    o.setDestroyed();
-                    if (o instanceof SoftBlock && generateItemPercent >= 84) {
-                        game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
-                    }
+                o.setDestroyed();
+            }
+            if ((o.getPos().getCol() == bomb.getPos().getCol() + 1) && o.getPos().getRow() == (bomb.getPos().getRow())) {
+                if (o instanceof SoftBlock && generateItemPercent >= 84 && !o.isDestroyed()) {
+                    game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
-                if ((o.getPos().getCol() == bomb.getPos().getCol() - p) && o.getPos().getRow() == (bomb.getPos().getRow())) {
-                    o.setDestroyed();
-                    if (o instanceof SoftBlock && generateItemPercent >= 84) {
-                        game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
-                    }
+                o.setDestroyed();
+            }
+            if ((o.getPos().getCol() == bomb.getPos().getCol() - 1) && o.getPos().getRow() == (bomb.getPos().getRow())) {
+                if (o instanceof SoftBlock && generateItemPercent >= 84 && !o.isDestroyed()) {
+                    game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
+                o.setDestroyed();
             }
         }
     }
+
 
 
     public boolean hasEnemy(int col, int row){
