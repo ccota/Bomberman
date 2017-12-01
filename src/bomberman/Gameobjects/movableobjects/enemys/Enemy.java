@@ -14,6 +14,9 @@ abstract public class Enemy extends MovableObjects{
     }
 
     public void move() {
+        if (isDestroyed()){
+            return;
+        }
         chooseDirection();
 
         switch (currentDirection) {

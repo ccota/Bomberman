@@ -15,8 +15,8 @@ public class Player extends MovableObjects implements KeyboardHandler{
     private Game game = null;
     private Bomb bomb;
     private int power=1;
-    private int bombCapacty = 1;
-    private int bombCurrent = 1;
+    private int bombCapacty = 3;
+    private int bombCurrent = 3;
     private boolean dropOrder;
 
 
@@ -66,33 +66,47 @@ public class Player extends MovableObjects implements KeyboardHandler{
     }
 
 
-    public Game getGame() {
-        return game;
-    }
+
+
+
+
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
-
+        if (isDestroyed()){
+            return;
+        }
         System.out.println("key pressed1");
         switch (keyboardEvent.getKey()){
             case KeyboardEvent.KEY_LEFT:
                 System.out.println("key pressed1");
+                if (collisionDetector.hasEnemy(getPos().getCol() -1, getPos().getRow())){
+                    this.setDestroyed();
+                }
                 if (!collisionDetector.isUnSafe(getPos().getCol() -1, getPos().getRow())) {
                     getPos().moveInDirection(GridDirection.LEFT, 1);
                 }
                 break;
             case KeyboardEvent.KEY_RIGHT:
+                if (collisionDetector.hasEnemy(getPos().getCol() +1, getPos().getRow())){
+                    this.setDestroyed();
+                }
                 if (!collisionDetector.isUnSafe(getPos().getCol() +1, getPos().getRow())) {
                     getPos().moveInDirection(GridDirection.RIGHT, 1);
-
                 }
                 break;
             case KeyboardEvent.KEY_DOWN:
-                if (!collisionDetector.isUnSafe(getPos().getCol(), getPos().getRow()+1)) {
+                if (collisionDetector.hasEnemy(getPos().getCol() , getPos().getRow() + 1)){
+                    this.setDestroyed();
+                }
+                if (!collisionDetector.isUnSafe(getPos().getCol()  , getPos().getRow() + 1)) {
                     getPos().moveInDirection(GridDirection.DOWN, 1);
                 }
                     break;
             case KeyboardEvent.KEY_UP:
+                if (collisionDetector.hasEnemy(getPos().getCol() , getPos().getRow() - 1)){
+                    this.setDestroyed();
+                }
                 if (!collisionDetector.isUnSafe(getPos().getCol() , getPos().getRow() -1)) {
                     getPos().moveInDirection(GridDirection.UP, 1);
                 }
@@ -112,12 +126,13 @@ public class Player extends MovableObjects implements KeyboardHandler{
 
     }
 
+
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {
 
     }
 
-    public void increseCurrentBomb() {
+    public void increaseCurrentBomb() {
             bombCurrent++;
     }
 
