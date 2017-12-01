@@ -2,6 +2,9 @@ package bomberman;
 
 import bomberman.Gameobjects.Bomb;
 import bomberman.Gameobjects.GameObjects;
+import bomberman.Gameobjects.movableobjects.enemys.Enemy;
+import bomberman.grid.Grid;
+import bomberman.grid.position.GridPosition;
 
 import java.util.ArrayList;
 
@@ -44,8 +47,20 @@ public class CollisionDetector {
                 o.setDestroyed();
             }
         }
-
-
-
     }
+
+
+    public boolean hasEnemy(int col, int row){
+        for (GameObjects o : objects){
+            if ((o.getPos().getCol() == col && o.getPos().getRow() == row) && o instanceof Enemy && !o.isDestroyed()){
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+
 }
