@@ -10,13 +10,15 @@ import java.util.TimerTask;
 
 public class Bomb extends GameObjects {
     private Player player;
+    private int power;
+
     protected CollisionDetector collisionDetector;
-    private boolean isActive = true;
 
     public Bomb (GridPosition pos, CollisionDetector collisionDetector,Player player){
         super(pos);
         this.player=player;
         this.collisionDetector = collisionDetector;
+        this.power = player.getPower();
 
         //pos.setColor(GridColor.RED);
         explode();
@@ -49,12 +51,7 @@ public class Bomb extends GameObjects {
         collisionDetector.destroyObjects(this, player.getGame());
     }
 
-    public void setActive() {
-        isActive = false;
-
-    }
-
-    public boolean isActive() {
-        return isActive;
+    public int getPower() {
+        return power;
     }
 }

@@ -134,7 +134,7 @@ public class Player extends MovableObjects implements KeyboardHandler{
         if ( item instanceof ExtraBomb){
             increseBombCapacity((ExtraBomb) item);
         }else if(item instanceof PowerUp){
-            //do something
+            increasePower((PowerUp) item);
         }
 
     }
@@ -159,4 +159,12 @@ public class Player extends MovableObjects implements KeyboardHandler{
 
     }
 
+    private void increasePower(PowerUp powerUp){
+        power ++;
+        System.out.println("Power = " + power);
+    }
+
+    public int getPower() {
+        return power;
+    }
 }
