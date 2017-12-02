@@ -122,7 +122,7 @@ public class Game {
         for (Enemy e : enemies){
             e.setColisionDetector(collisionDetector);
         }
-        itemDetector = new ItemDetector(items);
+        itemDetector = new ItemDetector(items, objects);
 
         myPlayer.setColisionDetector(collisionDetector);
         myPlayer.setItemDetector(itemDetector);
@@ -164,6 +164,14 @@ public class Game {
                 }
             }
 
+            // add new and undestroyed Items to object Array
+            /*
+            for (GameItems i   : items){
+                if (!i.isDestroyed()){
+                    objects.add(i);
+                }
+            }
+            */
 
 
 
