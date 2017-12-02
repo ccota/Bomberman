@@ -6,6 +6,8 @@ import bomberman.Gameobjects.blocks.Blocks;
 import bomberman.Gameobjects.blocks.SoftBlock;
 import bomberman.Gameobjects.gameitems.GameItems;
 import bomberman.Gameobjects.movableobjects.enemys.Enemy;
+import bomberman.grid.GridDirection;
+import bomberman.grid.position.GridPosition;
 import bomberman.utilities.Random;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
@@ -32,12 +34,42 @@ public class CollisionDetector {
                 }
                 return true;
             }
-
         }
-
         return false;
-
     }
+
+    public GridDirection getSafeDirection(GridDirection prevDirection, int col, int row){
+
+        GridDirection newDirection = prevDirection;
+      switch (prevDirection){
+
+          case UP:
+              if (!isUnSafe(col , row - 1)){
+                  return GridDirection.UP;
+              }
+              break;
+          case DOWN:
+              if (!isUnSafe(col , row + 1)){
+                  return GridDirection.DOWN;
+              }
+              break;
+          case LEFT:
+              if (!isUnSafe(col - 1, row)){
+                  return GridDirection.LEFT;
+              }
+              break;
+          case RIGHT:
+              if (!isUnSafe(col +1, row)){
+                  return GridDirection.RIGHT;
+              }
+              break;
+      }
+
+        return newDirection;
+    }
+
+
+
 
 
     public void destroyObjects(Bomb bomb, Game game) {
