@@ -3,6 +3,7 @@ package bomberman.Gameobjects;
 import bomberman.CollisionDetector;
 import bomberman.Game;
 import bomberman.Gameobjects.movableobjects.Player;
+import bomberman.grid.Grid;
 import bomberman.grid.position.GridPosition;
 
 import java.util.Timer;
@@ -47,6 +48,10 @@ public class Bomb extends GameObjects {
 
     }
 
+    public void createExplosionImage(){
+
+    }
+
     private void destroyObjects() {
         collisionDetector.destroyObjects(this, player.getGame());
     }
@@ -54,4 +59,6 @@ public class Bomb extends GameObjects {
     public int getPower() {
         return power;
     }
+
+
 }

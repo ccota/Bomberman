@@ -101,6 +101,14 @@ public class SimpleGfxGrid implements Grid {
     }
 
     /**
+     * Obtains the Padding
+     * @return
+     */
+    public int getPADDING() {
+        return PADDING;
+    }
+
+    /**
      * @see Grid#makeGridPosition()
      */
     @Override
@@ -134,4 +142,5 @@ public class SimpleGfxGrid implements Grid {
     public int columnToX(int column) {
         return PADDING + cellSize*column;
     }
+
 }
