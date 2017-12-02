@@ -60,11 +60,16 @@ public class Player extends MovableObjects implements KeyboardHandler{
         event4.setKey(KeyboardEvent.KEY_SPACE);
         event4.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
+        KeyboardEvent event5 = new KeyboardEvent();
+        event4.setKey(KeyboardEvent.KEY_Q);
+        event4.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+
         keyboard.addEventListener(event);
         keyboard.addEventListener(event1);
         keyboard.addEventListener(event2);
         keyboard.addEventListener(event3);
         keyboard.addEventListener(event4);
+        keyboard.addEventListener(event5);
 
     }
 
@@ -129,6 +134,9 @@ public class Player extends MovableObjects implements KeyboardHandler{
                     bombCurrent--;
                 }
 
+                break;
+            case KeyboardEvent.KEY_Q:
+                //game.getPause().launch();
                 break;
 
             default:break;

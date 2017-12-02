@@ -5,13 +5,12 @@ import bomberman.Gameobjects.GameObjects;
 import bomberman.Gameobjects.gameitems.GameItems;
 import bomberman.Gameobjects.movableobjects.Player;
 import bomberman.Gameobjects.movableobjects.enemys.Enemy;
-import bomberman.Gameobjects.movableobjects.enemys.Faustino;
+import bomberman.Windows.Window;
+import bomberman.Windows.WindowsType;
 import bomberman.grid.Grid;
 import bomberman.grid.GridFactory;
 import bomberman.grid.GridType;
 import bomberman.utilities.Random;
-import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
-import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 
 import java.util.ArrayList;
 
@@ -27,18 +26,29 @@ public class Game {
     private ArrayList<Bomb> activeBombs = new ArrayList<>();
     private CollisionDetector collisionDetector;
     private ItemDetector itemDetector;
+    private Window window;
+    private int currentStage=1;
+
+
 
 
 
     /**
 	|--------------------------------------------------------------------------
-	| Game Options
+	| Game WindowHowToPlay
 	|--------------------------------------------------------------------------
 	 */
     private GridType gridType= GridType.SIMPLE_GFX;
     private int cols= 25;
     private int rows=15;
     private int delay=100;
+
+    private int cellSize = 40;
+    private int height = rows * cellSize;
+    private int width = cols * cellSize;
+    private int menuHeight= height / 2;;
+    private int menuWidth = width / 2;
+    private int menuItemHeight = 70;
 
 
 
@@ -60,7 +70,7 @@ public class Game {
         grid.init();
 
 
-        factory = new Factory();
+       // factory = new Factory();
 
         myPlayer =factory.generatePlayer(grid,0,0,this);
         objects.add(myPlayer);
@@ -79,7 +89,6 @@ public class Game {
         int counter = 0;
         int maxenimes=5;
         while (counter!=maxenimes){
-            System.out.println("entro no while");
             int randomX = Random.generate(4,grid().getCols());
             int randomY = Random.generate(4,grid().getRows());
 
@@ -142,19 +151,23 @@ public class Game {
         return true;
     }
 
-    public void start() throws InterruptedException{
+    public void setWindow(Window window) {
+        this.window = window;
+    }
 
-        init();
+    public void start() throws InterruptedException{
+        factory = new Factory();
+        window=factory.generateWindow(WindowsType.STARTMENU,height,width,menuItemHeight,this);
+        window.launch();
+
+
+
+       /*init();
 
         while (true) {
 
             // Pause for a while
             Thread.sleep(delay);
-
-            // checks if player want to drop a bomb
-           /* if (myPlayer.getDropOrder()){
-                dropBomb(myPlayer);
-            }*/
 
 
             // Move the enemies
@@ -164,19 +177,11 @@ public class Game {
                 }
             }
 
-            // add new and undestroyed Items to object Array
-            /*
-            for (GameItems i   : items){
-                if (!i.isDestroyed()){
-                    objects.add(i);
-                }
-            }
-            */
 
 
 
 
-        }
+        } */
     }
 
 
@@ -193,13 +198,7 @@ public class Game {
         items.add(object);
     }
 
-   /* public void dropBomb(Player player){
-            Bomb bomb = factory.generateBombs(grid, player.getPos().getCol(), player.getPos().getRow(), collisionDetector);
 
-            objects.add(bomb);
-            bomb.explode();
-            player.resetDropOrder();
-    }*/
 
     public static Grid getGrid() {
         return grid;

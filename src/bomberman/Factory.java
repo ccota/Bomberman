@@ -8,6 +8,9 @@ import bomberman.Gameobjects.gameitems.GameItems;
 import bomberman.Gameobjects.gameitems.PowerUp;
 import bomberman.Gameobjects.movableobjects.Player;
 import bomberman.Gameobjects.movableobjects.enemys.Faustino;
+import bomberman.Windows.Menu;
+import bomberman.Windows.Window;
+import bomberman.Windows.WindowsType;
 import bomberman.grid.Grid;
 import bomberman.utilities.Random;
 
@@ -47,6 +50,26 @@ public class Factory {
         return new Faustino(grid.makeGridPosition(x, y,"sapo.gif"));
     }
 
+    /**Windows */
+    public Window generateWindow(WindowsType typewindow,int width, int height,int menuItemHeight, Game game){
+        Window window =null;
+        switch (typewindow){
+            case WIN:
+                break;
+            case GAMEOVER:
+                break;
+            case HOWTOPLAY:
+                break;
+            case STARTMENU:
+                window= new Menu(width,height,menuItemHeight, game);
+                break;
+            case SELECTSTAGE:
+                break;
+
+        }
+
+        return window;
+    }
 
 //http://randomhoohaas.flyingomelette.com/bomb/mob/2014/game.html
     /**Items  ---FIX THIS LATER*/
