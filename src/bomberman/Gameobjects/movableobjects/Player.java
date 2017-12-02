@@ -80,6 +80,9 @@ public class Player extends MovableObjects implements KeyboardHandler{
             return;
         }
         GameItems item;
+
+
+
         switch (keyboardEvent.getKey()){
             case KeyboardEvent.KEY_LEFT:
                 System.out.println("key pressed1");
@@ -120,6 +123,7 @@ public class Player extends MovableObjects implements KeyboardHandler{
                 break;
             case KeyboardEvent.KEY_SPACE:
                 System.out.println(bombCurrent);
+                System.out.println(power);
                 if (bombCurrent > 0) {
                     game.add(new Bomb(Game.getGrid().makeGridPosition(this.getPos().getCol(), this.getPos().getRow(),"bomb.png"), collisionDetector, this));
                     bombCurrent--;
@@ -130,17 +134,13 @@ public class Player extends MovableObjects implements KeyboardHandler{
             default:break;
 
         }
+
         item =itemDetector.hasItem(getPos().getCol() , getPos().getRow());
         if ( item instanceof ExtraBomb){
             increseBombCapacity((ExtraBomb) item);
         }else if(item instanceof PowerUp){
             increasePower((PowerUp) item);
         }
-
-    }
-
-    public Game getGame() {
-        return game;
     }
 
     @Override
@@ -164,7 +164,12 @@ public class Player extends MovableObjects implements KeyboardHandler{
         System.out.println("Power = " + power);
     }
 
+    public Game getGame() {
+        return game;
+    }
+
     public int getPower() {
         return power;
     }
+
 }
