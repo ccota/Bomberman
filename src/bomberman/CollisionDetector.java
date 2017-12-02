@@ -46,10 +46,10 @@ public class CollisionDetector {
     public void destroyObjects(Bomb bomb, Game game) {
 
 
-        boolean blokUP = false;
-        boolean blokDOWN = false;
-        boolean blokLEFT = false;
-        boolean blokRIGHT = false;
+        boolean blockUP = false;
+        boolean blockDOWN = false;
+        boolean blockLEFT = false;
+        boolean blockRIGHT = false;
 
         generateExplosion(bomb.getPos().getCol(), bomb.getPos().getRow(), bomb);
 
@@ -64,9 +64,8 @@ public class CollisionDetector {
                     game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
                 if (o instanceof Blocks && !o.isDestroyed()) {
-                    blokDOWN = true;
+                    blockDOWN = true;
                 }
-                generateExplosion(bomb.getPos().getCol(), bomb.getPos().getRow() +1 , bomb);
                 o.setDestroyed();
             }
             if (o.getPos().getCol() == bomb.getPos().getCol() && o.getPos().getRow() == (bomb.getPos().getRow() - 1)) {
@@ -74,9 +73,8 @@ public class CollisionDetector {
                     game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
                 if (o instanceof Blocks && !o.isDestroyed()) {
-                    blokUP = true;
+                    blockUP = true;
                 }
-                generateExplosion(bomb.getPos().getCol(), bomb.getPos().getRow() -1 , bomb);
                 o.setDestroyed();
             }
             if ((o.getPos().getCol() == bomb.getPos().getCol() + 1) && o.getPos().getRow() == (bomb.getPos().getRow())) {
@@ -84,9 +82,8 @@ public class CollisionDetector {
                     game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
                 if (o instanceof Blocks && !o.isDestroyed()) {
-                    blokRIGHT = true;
+                    blockRIGHT = true;
                 }
-                generateExplosion(bomb.getPos().getCol() + 1 , bomb.getPos().getRow(), bomb);
                 o.setDestroyed();
             }
             if ((o.getPos().getCol() == bomb.getPos().getCol() - 1) && o.getPos().getRow() == (bomb.getPos().getRow())) {
@@ -94,44 +91,40 @@ public class CollisionDetector {
                     game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
                 if (o instanceof Blocks && !o.isDestroyed()) {
-                    blokLEFT = true;
+                    blockLEFT = true;
                 }
-                generateExplosion(bomb.getPos().getCol() - 1 , bomb.getPos().getRow(), bomb);
                 o.setDestroyed();
             }
         }
-
         for(GameObjects o : objects){
-
-            if ( !(o instanceof Blocks)) {
                 for (int p = 1; p <= bomb.getPower() ; p++) {
                     if ((o.getPos().getCol() == bomb.getPos().getCol()) && (o.getPos().getRow() == (bomb.getPos().getRow()) + p)) {
-                        if (!o.isDestroyed() && !blokDOWN){
-                            generateExplosion(bomb.getPos().getCol(), bomb.getPos().getRow() + p , bomb);
+
+                        if (!o.isDestroyed() && !blockDOWN) {
                             o.setDestroyed();
                         }
                     }
                     if ((o.getPos().getCol() == bomb.getPos().getCol()) && (o.getPos().getRow() == (bomb.getPos().getRow()) - p)) {
-                        if (!o.isDestroyed() && !blokUP){
-                            generateExplosion(bomb.getPos().getCol(), bomb.getPos().getRow() -p , bomb);
+                        if (!o.isDestroyed() && !blockUP) {
                             o.setDestroyed();
                         }
                     }
                     if ((o.getPos().getCol() == bomb.getPos().getCol() + p) && (o.getPos().getRow() == (bomb.getPos().getRow()))) {
-                        if (!o.isDestroyed() && !blokRIGHT){
-                            generateExplosion(bomb.getPos().getCol() + p , bomb.getPos().getRow(), bomb);
+                        if (!o.isDestroyed() && !blockRIGHT) {
                             o.setDestroyed();
                         }
                     }
                     if ((o.getPos().getCol() == bomb.getPos().getCol() - p) && (o.getPos().getRow() == (bomb.getPos().getRow()))) {
-                        if (!o.isDestroyed() && !blokLEFT){
-                            generateExplosion(bomb.getPos().getCol() - p, bomb.getPos().getRow(), bomb);
+                        if (!o.isDestroyed() && !blockLEFT){
                             o.setDestroyed();
                         }
                     }
                 }
             }
-        }
+
+        explosionInit(bomb, blockDOWN,blockUP,blockRIGHT,blockLEFT);
+
+
     }
 
 
@@ -146,13 +139,71 @@ public class CollisionDetector {
         return false;
     }
 
+    private void explosionInit(Bomb bomb, boolean blockDOWN, boolean blockUP, boolean blockRIGHT, boolean blockLEFT){
+        for (int p = 1; p < bomb.getPower(); p++) {
+
+            if ( (!blockDOWN && ((bomb.getPos().getRow() +p) < bomb.getPos().getMaxRows() )) ) {
+                generateExplosion(bomb.getPos().getCol(), bomb.getPos().getRow() + p, bomb);
+            }
+            if (!blockUP && ((bomb.getPos().getRow() - p) > 0) ) {
+                generateExplosion(bomb.getPos().getCol(), bomb.getPos().getRow() - p, bomb);
+            }
+            if (!blockRIGHT && ((bomb.getPos().getCol() +p) <  bomb.getPos().getMaxCols() )) {
+                generateExplosion(bomb.getPos().getCol() + p, bomb.getPos().getRow(), bomb);
+            }
+            if (!blockLEFT && ((bomb.getPos().getCol() - p) > 0 )) {
+                generateExplosion(bomb.getPos().getCol() - p, bomb.getPos().getRow(), bomb);
+            }
+        }
+
+        for(GameObjects o : objects){
+            if ( !(o instanceof Blocks)) {
+                for (int p = 1; p <= bomb.getPower() ; p++) {
+                    if ((o.getPos().getCol() == bomb.getPos().getCol()) && (o.getPos().getRow() == (bomb.getPos().getRow()) + p)) {
+                        if (!o.isDestroyed() && !blockDOWN) {
+                            generateExplosion(bomb.getPos().getCol(), bomb.getPos().getRow() + p, bomb);
+                        }
+                    }
+                    if ((o.getPos().getCol() == bomb.getPos().getCol()) && (o.getPos().getRow() == (bomb.getPos().getRow()) - p)) {
+                        if (!o.isDestroyed() && !blockUP) {
+                            generateExplosion(bomb.getPos().getCol(), bomb.getPos().getRow() - p, bomb);
+                        }
+                    }
+                    if ((o.getPos().getCol() == bomb.getPos().getCol() + p) && (o.getPos().getRow() == (bomb.getPos().getRow()))) {
+                        if (!o.isDestroyed() && !blockRIGHT) {
+                            generateExplosion(bomb.getPos().getCol() + p, bomb.getPos().getRow(), bomb);
+                        }
+                    }
+                    if ((o.getPos().getCol() == bomb.getPos().getCol() - p) && (o.getPos().getRow() == (bomb.getPos().getRow()))) {
+                        if (!o.isDestroyed() && !blockLEFT){
+                            generateExplosion(bomb.getPos().getCol() - p, bomb.getPos().getRow(), bomb);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+
     private void generateExplosion (int col, int row, Bomb bomb){
+
         int x = bomb.getPos().getPadding() + bomb.getPos().getCellSize() * col;
         int y = bomb.getPos().getPadding() + bomb.getPos().getCellSize() * row;
 
         Picture picture = new Picture(x ,y , "explosion.png");
+        picture.draw();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        picture.delete();
 
-        TimerTask timerTask =   new TimerTask() {
+        /*TimerTask timerTask =   new TimerTask() {
+
+
+
             @Override
             public void run() {
                picture.delete();
@@ -162,8 +213,9 @@ public class CollisionDetector {
 
         Timer timer = new Timer();
 
-        timer.schedule(timerTask,500);
-        picture.draw();
+        timer.schedule(timerTask,500);*/
+
+
 
     }
 

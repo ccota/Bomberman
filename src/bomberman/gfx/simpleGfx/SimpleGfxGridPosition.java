@@ -52,6 +52,16 @@ public class SimpleGfxGridPosition extends AbstractGridPosition {
         return simpleGfxGrid.getPADDING();
     }
 
+    @Override
+    public int getMaxRows() {
+        return simpleGfxGrid.getRows();
+    }
+
+    @Override
+    public int getMaxCols() {
+        return simpleGfxGrid.getCols();
+    }
+
     /**
      * @see GridPosition#show()
      */

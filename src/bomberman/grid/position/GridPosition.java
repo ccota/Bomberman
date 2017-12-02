@@ -39,6 +39,8 @@ public interface GridPosition {
 
     public int  getPadding();
     public int  getCellSize();
+    public int getMaxRows();
+    public int getMaxCols();
 
     /**
      * Changes the getColor of this grid position

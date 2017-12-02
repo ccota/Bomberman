@@ -38,7 +38,7 @@ public class Game {
     private GridType gridType= GridType.SIMPLE_GFX;
     private int cols= 25;
     private int rows=15;
-    private int delay=100;
+    private int delay=2000;
 
 
 
