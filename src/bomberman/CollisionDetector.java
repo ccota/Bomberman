@@ -64,6 +64,7 @@ public class CollisionDetector {
                     blockDOWN = true;
                 }
                 o.setDestroyed();
+                generateExplosionImg(bomb.getPos().getCol(), bomb.getPos().getRow() + 1, bomb);
             }
             if (o.getPos().getCol() == bomb.getPos().getCol() && o.getPos().getRow() == (bomb.getPos().getRow() - 1)) {
                 if (o instanceof SoftBlock && generateItemPercent >= 84 && !o.isDestroyed()) {
@@ -72,6 +73,7 @@ public class CollisionDetector {
                 if (o instanceof Blocks && !o.isDestroyed()) {
                     blockUP = true;
                 }
+                generateExplosionImg(bomb.getPos().getCol(), bomb.getPos().getRow() - 1, bomb);
                 o.setDestroyed();
             }
             if ((o.getPos().getCol() == bomb.getPos().getCol() + 1) && o.getPos().getRow() == (bomb.getPos().getRow())) {
@@ -81,6 +83,7 @@ public class CollisionDetector {
                 if (o instanceof Blocks && !o.isDestroyed()) {
                     blockRIGHT = true;
                 }
+                generateExplosionImg(bomb.getPos().getCol()+ 1, bomb.getPos().getRow() , bomb);
                 o.setDestroyed();
             }
             if ((o.getPos().getCol() == bomb.getPos().getCol() - 1) && o.getPos().getRow() == (bomb.getPos().getRow())) {
@@ -90,6 +93,7 @@ public class CollisionDetector {
                 if (o instanceof Blocks && !o.isDestroyed()) {
                     blockLEFT = true;
                 }
+                generateExplosionImg(bomb.getPos().getCol() - 1, bomb.getPos().getRow() , bomb);
                 o.setDestroyed();
             }
         }
