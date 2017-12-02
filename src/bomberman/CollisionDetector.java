@@ -64,7 +64,7 @@ public class CollisionDetector {
                 if (o instanceof SoftBlock && generateItemPercent >= 84 && !o.isDestroyed()) {
                     game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
-                if (o instanceof Blocks) {
+                if (o instanceof Blocks && !o.isDestroyed()) {
                     blokDOWN = true;
                 }
                 o.setDestroyed();
@@ -73,7 +73,7 @@ public class CollisionDetector {
                 if (o instanceof SoftBlock && generateItemPercent >= 84 && !o.isDestroyed()) {
                     game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
-                if (o instanceof Blocks) {
+                if (o instanceof Blocks && !o.isDestroyed()) {
                     blokUP = true;
                 }
                 o.setDestroyed();
@@ -82,7 +82,7 @@ public class CollisionDetector {
                 if (o instanceof SoftBlock && generateItemPercent >= 84 && !o.isDestroyed()) {
                     game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
-                if (o instanceof Blocks) {
+                if (o instanceof Blocks && !o.isDestroyed()) {
                     blokRIGHT = true;
                 }
                 o.setDestroyed();
@@ -91,7 +91,7 @@ public class CollisionDetector {
                 if (o instanceof SoftBlock && generateItemPercent >= 84 && !o.isDestroyed()) {
                     game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
-                if (o instanceof Blocks) {
+                if (o instanceof Blocks && !o.isDestroyed()) {
                     blokLEFT = true;
                 }
                 o.setDestroyed();
