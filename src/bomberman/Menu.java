@@ -28,7 +28,9 @@ public class Menu implements KeyboardHandler{
         }
 
     }
+
     public static final int PADDING = 10;
+    public Options options = new Options();
     private int cols = 25;
     private int rows = 15;
     private int cellSize = 40;
@@ -41,7 +43,6 @@ public class Menu implements KeyboardHandler{
     private int menuItemHeight = 70;
     private CurrentSelection currentSelection;
     private Keyboard keyboard;
-  //  private String[] arrays = new String[] { "AA", "BBB", "CCC", "DD", "eee" ,"dsd"};
     public Menu() {
         currentSelection = CurrentSelection.STARTGAME;
         this.height = rows * cellSize;
@@ -51,19 +52,15 @@ public class Menu implements KeyboardHandler{
     }
 
     public void launchMenu() {
-        System.out.println("launchmenu: "+currentSelection.ordinal());
         menuBackground = new Rectangle(PADDING, PADDING, width, height);
         menuBackground.draw();
 
         arrayOfPictures = new Picture[3][2];
-
         for (int row = 0; row < arrayOfPictures.length; row++)
         {
 
             for (int column = 0; column < arrayOfPictures[row].length; column++)
             {
-                System.out.println("row= "+ row +"colunm=" + column);
-
                 String imgsrc = null;
                 if ((column % 2) == 0) {
                     imgsrc= CurrentSelection.values()[row].getUnselected();
@@ -84,9 +81,9 @@ public class Menu implements KeyboardHandler{
         }
 
 
-            menuSelect();
+        menuSelect();
 
-        }
+    }
 
     public void menuSelect() {
 
@@ -104,20 +101,10 @@ public class Menu implements KeyboardHandler{
         keyboard.addEventListener(event1);
         keyboard.addEventListener(event2);
     }
-    /* public boolean checkIfArrayAndEnumIsTheSame() {
-         for (int i = 0; i < arrayTheRectangles.length; i++) {
-             if (i == currentSelection.ordinal()) {
-                 return true;
-             }
-         }
-         return false;
-     }
- */
 
-    public boolean test (){
-        return currentSelection.ordinal()>=0;
-    }
 
+
+   // public
 
 
     @Override
@@ -125,72 +112,48 @@ public class Menu implements KeyboardHandler{
         switch (keyboardEvent.getKey()) {
             case KeyboardEvent.KEY_DOWN:
 
-
-
-
-                /*int down = currentSelection.ordinal() + 1;
-                if (down > CurrentSelection.values().length) {
-                    break;
-                }*/
-                System.out.println("=========current up before add"+ currentSelection.ordinal() );
-                int handler= currentSelection.ordinal() + 1;
-                if (handler >= CurrentSelection.values().length) {
+                int downHandler= currentSelection.ordinal() + 1;
+                if (downHandler >= CurrentSelection.values().length) {
                     break;
                 }
-                System.out.println(handler);
+                System.out.println(downHandler);
                 currentSelection = CurrentSelection.values()[currentSelection.ordinal() + 1];
-                arrayOfPictures[handler-1][0].draw();
-                arrayOfPictures[handler-1][1].delete();
+                arrayOfPictures[downHandler-1][0].draw();
+                arrayOfPictures[downHandler-1][1].delete();
 
+                arrayOfPictures[downHandler][0].delete();
+                arrayOfPictures[downHandler][1].draw();
 
-                arrayOfPictures[handler][0].delete();
-                arrayOfPictures[handler][1].draw();
-                /* int handler= (currentSelection.ordinal()*2);
-
-                currentSelection = CurrentSelection.values()[currentSelection.ordinal() + 1];
-
-                System.out.println( "mycurrtenthandleris:" + handler);
-
-                if (handler-1 >= 0){
-                    arrayPictures[handler+1].draw();
-                } else {
-                    arrayPictures[handler].delete();
-                    arrayPictures[handler+1].draw();
-                } */
-
-                System.out.println(currentSelection);
 
                 break;
             case KeyboardEvent.KEY_UP:
-               // System.out.println("HERE I'M PRESSING UP BEFORE" + currentSelection.ordinal() );
 
                 int upHandler= currentSelection.ordinal() -1;
-
-                System.out.println("HERE I'M PRESSING UP" + upHandler);
                 if (upHandler <0) {
                     break;
                 }
-                System.out.println("up"+upHandler);
+
                 currentSelection = CurrentSelection.values()[currentSelection.ordinal() - 1];
-                //fix anterior images
                 arrayOfPictures[upHandler+1][0].draw();
                 arrayOfPictures[upHandler+1][1].delete();
-                // draw new one on current choose
+
                 arrayOfPictures[upHandler][0].delete();
                 arrayOfPictures[upHandler][1].draw();
-                /*int up = currentSelection.ordinal() - 1;
-                if (up < 0) {
-                    break;
-                }
-                currentSelection = CurrentSelection.values()[currentSelection.ordinal() - 1];
-
-                System.out.println(currentSelection);
-                System.out.println("EU CARRAGUEI PARA cima");*/
-                System.out.println(currentSelection);
 
                 break;
             case KeyboardEvent.KEY_SPACE:
-                System.out.println("lets fly");
+                 switch (currentSelection){
+                     case STARTGAME:
+
+                         break;
+                     case OPTIONS:
+                         options.launchOptions();
+                         break;
+                     case EXIT:
+                         System.exit(1);
+                         break;
+                 }
+
                 break;
             default:
                 break;
