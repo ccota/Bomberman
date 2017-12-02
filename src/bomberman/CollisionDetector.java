@@ -199,8 +199,8 @@ public class CollisionDetector {
             e.printStackTrace();
         }
         picture.delete();
-
-        /*TimerTask timerTask =   new TimerTask() {
+/*
+        TimerTask timerTask =   new TimerTask() {
 
 
 
@@ -213,7 +213,7 @@ public class CollisionDetector {
 
         Timer timer = new Timer();
 
-        timer.schedule(timerTask,500);*/
+        timer.schedule(timerTask,500); */
 
 
 
