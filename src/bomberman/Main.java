@@ -6,8 +6,12 @@ import org.academiadecodigo.simplegraphics.graphics.Text;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        Game game = new Game();
-        game.start();
+
+
+        Menu teste = new Menu();
+        teste.launchMenu();
+         //Game game = new Game();
+        //game.start();
 
 
 
