@@ -20,9 +20,9 @@ public class Game {
     private static Grid grid;
     private Factory factory;
     private Player myPlayer;
-    private ArrayList<GameObjects> objects = new ArrayList<GameObjects>();
-    private ArrayList<GameItems> items = new ArrayList<GameItems>();
-    private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+    private ArrayList<GameObjects> objects = new ArrayList();
+    private ArrayList<GameItems> items = new ArrayList();
+    private ArrayList<Enemy> enemies = new ArrayList();
     private ArrayList<Bomb> activeBombs = new ArrayList<>();
     private CollisionDetector collisionDetector;
     private ItemDetector itemDetector;
@@ -46,7 +46,7 @@ public class Game {
     private int cellSize = 40;
     private int height = rows * cellSize;
     private int width = cols * cellSize;
-    private int menuHeight= height / 2;;
+    private int menuHeight= height / 2;
     private int menuWidth = width / 2;
     private int menuItemHeight = 70;
 
@@ -66,8 +66,6 @@ public class Game {
 	|--------------------------------------------------------------------------
 	 */
     public void init() throws InterruptedException{
-        grid = GridFactory.makeGrid(gridType, cols, rows);
-        grid.init();
 
 
        // factory = new Factory();
@@ -157,7 +155,11 @@ public class Game {
 
     public void start() throws InterruptedException{
         factory = new Factory();
-        window=factory.generateWindow(WindowsType.STARTMENU,height,width,menuItemHeight,this);
+
+        grid = GridFactory.makeGrid(gridType, cols, rows);
+        grid.init();
+
+        window=factory.generateWindow(WindowsType.STARTMENU,width,height,menuItemHeight,this);
         window.launch();
 
 

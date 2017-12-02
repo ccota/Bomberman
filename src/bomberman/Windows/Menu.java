@@ -41,7 +41,7 @@ public class Menu extends Window implements KeyboardHandler{
 
 
 
-    public Menu(int menuHeight, int menuWidth, int menuItemHeight,Game game){
+    public Menu(int menuWidth, int menuHeight, int menuItemHeight,Game game){
         currentSelection = CurrentSelection.STARTGAME;
         this.menuHeight=menuHeight;
         this.menuWidth=menuWidth;
