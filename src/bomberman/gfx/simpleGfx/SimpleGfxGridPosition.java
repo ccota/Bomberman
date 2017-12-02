@@ -45,6 +45,13 @@ public class SimpleGfxGridPosition extends AbstractGridPosition {
         picture.draw();
     }
 
+    public int  getCellSize(){
+        return simpleGfxGrid.getCellSize();
+    }
+    public int getPadding(){
+        return simpleGfxGrid.getPADDING();
+    }
+
     /**
      * @see GridPosition#show()
      */

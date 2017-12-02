@@ -1,6 +1,5 @@
 package bomberman;
 
-import bomberman.Gameobjects.Bomb;
 import bomberman.Gameobjects.blocks.HardBlock;
 import bomberman.Gameobjects.blocks.SoftBlock;
 import bomberman.Gameobjects.gameitems.ExtraBomb;
