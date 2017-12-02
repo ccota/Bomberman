@@ -3,11 +3,11 @@ package bomberman;
 import bomberman.Gameobjects.Bomb;
 import bomberman.Gameobjects.GameObjects;
 import bomberman.Gameobjects.blocks.Blocks;
+import bomberman.Gameobjects.blocks.HardBlock;
 import bomberman.Gameobjects.blocks.SoftBlock;
 import bomberman.Gameobjects.gameitems.GameItems;
 import bomberman.Gameobjects.movableobjects.enemys.Enemy;
 import bomberman.grid.GridDirection;
-import bomberman.grid.position.GridPosition;
 import bomberman.utilities.Random;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
@@ -83,7 +83,8 @@ public class CollisionDetector {
         generateExplosionImg(bomb.getPos().getCol(), bomb.getPos().getRow(), bomb);
 
         for (GameObjects o : objects) {
-            int generateItemPercent = 100;//Random.generate(100);
+            int generateItemPercent = Random.generate(100);
+
 
             if (o.getPos().getCol() == bomb.getPos().getCol() && o.getPos().getRow() == (bomb.getPos().getRow())) {
                 o.setDestroyed();
@@ -95,8 +96,10 @@ public class CollisionDetector {
                 if (o instanceof Blocks && !o.isDestroyed()) {
                     blockDOWN = true;
                 }
+                if (!(o instanceof HardBlock)) {
+                    generateExplosionImg(bomb.getPos().getCol(), bomb.getPos().getRow() + 1, bomb);
+                }
                 o.setDestroyed();
-                generateExplosionImg(bomb.getPos().getCol(), bomb.getPos().getRow() + 1, bomb);
             }
             if (o.getPos().getCol() == bomb.getPos().getCol() && o.getPos().getRow() == (bomb.getPos().getRow() - 1)) {
                 if (o instanceof SoftBlock && generateItemPercent >= 84 && !o.isDestroyed()) {
@@ -105,7 +108,9 @@ public class CollisionDetector {
                 if (o instanceof Blocks && !o.isDestroyed()) {
                     blockUP = true;
                 }
-                generateExplosionImg(bomb.getPos().getCol(), bomb.getPos().getRow() - 1, bomb);
+                if (!(o instanceof HardBlock)) {
+                    generateExplosionImg(bomb.getPos().getCol(), bomb.getPos().getRow() - 1, bomb);
+                }
                 o.setDestroyed();
             }
             if ((o.getPos().getCol() == bomb.getPos().getCol() + 1) && o.getPos().getRow() == (bomb.getPos().getRow())) {
@@ -115,7 +120,9 @@ public class CollisionDetector {
                 if (o instanceof Blocks && !o.isDestroyed()) {
                     blockRIGHT = true;
                 }
-                generateExplosionImg(bomb.getPos().getCol()+ 1, bomb.getPos().getRow() , bomb);
+                if (!(o instanceof HardBlock)) {
+                    generateExplosionImg(bomb.getPos().getCol() + 1, bomb.getPos().getRow(), bomb);
+                }
                 o.setDestroyed();
             }
             if ((o.getPos().getCol() == bomb.getPos().getCol() - 1) && o.getPos().getRow() == (bomb.getPos().getRow())) {
@@ -125,7 +132,9 @@ public class CollisionDetector {
                 if (o instanceof Blocks && !o.isDestroyed()) {
                     blockLEFT = true;
                 }
-                generateExplosionImg(bomb.getPos().getCol() - 1, bomb.getPos().getRow() , bomb);
+                if (!(o instanceof HardBlock)) {
+                    generateExplosionImg(bomb.getPos().getCol() - 1, bomb.getPos().getRow(), bomb);
+                }
                 o.setDestroyed();
             }
         }
