@@ -2,6 +2,7 @@ package bomberman.Gameobjects;
 
 import bomberman.CollisionDetector;
 import bomberman.Gameobjects.movableobjects.Player;
+import bomberman.SoundEffect;
 import bomberman.grid.position.GridPosition;
 
 import java.util.Timer;
@@ -32,9 +33,9 @@ public class Bomb extends GameObjects {
             public void run() {
                 // Turns destroyed true
                 setDestroyed();
-
                 destroyObjects();
                 player.increaseCurrentBomb();
+                SoundEffect.bombSound();
                 System.out.println("BOOOOM");
             }
         };

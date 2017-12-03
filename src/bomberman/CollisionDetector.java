@@ -174,7 +174,6 @@ public class CollisionDetector {
     public boolean hasEnemy(int col, int row){
         for (GameObjects o : objects){
             if ((o.getPos().getCol() == col && o.getPos().getRow() == row) && o instanceof Enemy && !o.isDestroyed()){
-
                 return true;
             }
         }
