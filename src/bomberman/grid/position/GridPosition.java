@@ -37,6 +37,11 @@ public interface GridPosition {
      */
     public GridColor getColor();
 
+    public int  getPadding();
+    public int  getCellSize();
+    public int getMaxRows();
+    public int getMaxCols();
+
     /**
      * Changes the getColor of this grid position
      *
@@ -69,5 +74,7 @@ public interface GridPosition {
      * @return true if positions are equal
      */
     public boolean equals(GridPosition position);
+
+
 
 }

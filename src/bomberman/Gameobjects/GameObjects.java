@@ -22,4 +22,5 @@ public abstract class GameObjects {
     public GridPosition getPos() {
         return pos;
     }
+
 }

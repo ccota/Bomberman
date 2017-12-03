@@ -2,12 +2,16 @@ package bomberman;
 
 import bomberman.Gameobjects.Bomb;
 import bomberman.Gameobjects.GameObjects;
+import bomberman.Gameobjects.gameitems.GameItems;
 import bomberman.Gameobjects.movableobjects.Player;
 import bomberman.Gameobjects.movableobjects.enemys.Enemy;
+import bomberman.Gameobjects.movableobjects.enemys.Faustino;
 import bomberman.grid.Grid;
 import bomberman.grid.GridFactory;
 import bomberman.grid.GridType;
 import bomberman.utilities.Random;
+import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
+import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 
 import java.util.ArrayList;
 
@@ -18,9 +22,11 @@ public class Game {
     private Factory factory;
     private Player myPlayer;
     private ArrayList<GameObjects> objects = new ArrayList<GameObjects>();
+    private ArrayList<GameItems> items = new ArrayList<GameItems>();
     private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     private ArrayList<Bomb> activeBombs = new ArrayList<>();
     private CollisionDetector collisionDetector;
+    private ItemDetector itemDetector;
 
 
 
@@ -32,7 +38,7 @@ public class Game {
     private GridType gridType= GridType.SIMPLE_GFX;
     private int cols= 25;
     private int rows=15;
-    private int delay=100;
+    private int delay =500;
 
 
 
@@ -68,8 +74,8 @@ public class Game {
         }
 
          /* -------------| Enemies |------------------ */
+         /** Adjust this code later to be more flexible*/
         Enemy enemy;
-
         int counter = 0;
         int maxenimes=5;
         while (counter!=maxenimes){
@@ -116,8 +122,10 @@ public class Game {
         for (Enemy e : enemies){
             e.setColisionDetector(collisionDetector);
         }
+        itemDetector = new ItemDetector(items, objects);
 
         myPlayer.setColisionDetector(collisionDetector);
+        myPlayer.setItemDetector(itemDetector);
 
 
 
@@ -156,6 +164,16 @@ public class Game {
                 }
             }
 
+            // add new and undestroyed Items to object Array
+            /*
+            for (GameItems i   : items){
+                if (!i.isDestroyed()){
+                    objects.add(i);
+                }
+            }
+            */
+
+
 
 
         }
@@ -166,8 +184,13 @@ public class Game {
         return grid;
     }
 
+
     public void add(GameObjects object) {
         objects.add(object);
+    }
+
+    public void addItem(GameItems object) {
+        items.add(object);
     }
 
    /* public void dropBomb(Player player){

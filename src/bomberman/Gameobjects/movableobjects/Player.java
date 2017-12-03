@@ -2,6 +2,9 @@ package bomberman.Gameobjects.movableobjects;
 
 import bomberman.Game;
 import bomberman.Gameobjects.Bomb;
+import bomberman.Gameobjects.gameitems.ExtraBomb;
+import bomberman.Gameobjects.gameitems.GameItems;
+import bomberman.Gameobjects.gameitems.PowerUp;
 import bomberman.grid.GridColor;
 import bomberman.grid.GridDirection;
 import bomberman.grid.position.GridPosition;
@@ -15,27 +18,27 @@ public class Player extends MovableObjects implements KeyboardHandler{
     private Game game = null;
     private Bomb bomb;
     private int power=1;
-    private int bombCapacty = 3;
-    private int bombCurrent = 3;
+    private int bombCapacty = 1;
+    private int bombCurrent = bombCapacty;
     private boolean dropOrder;
+    private Keyboard keyboard;
 
 
-
-
-
-
+    public Keyboard getKeyboard() {
+        return keyboard;
+    }
 
     public Player(GridPosition pos, Game game)  {
         super(pos);
         this.game=game;
-       pos.setColor(GridColor.BLUE);
+
 
 
     }
 
-    public void move() throws InterruptedException{
+    public void  move() throws InterruptedException{
 
-        Keyboard k = new Keyboard(this);
+       keyboard = new Keyboard(this);
 
         KeyboardEvent event = new KeyboardEvent();
         event.setKey(KeyboardEvent.KEY_UP);
@@ -57,11 +60,11 @@ public class Player extends MovableObjects implements KeyboardHandler{
         event4.setKey(KeyboardEvent.KEY_SPACE);
         event4.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
-        k.addEventListener(event);
-        k.addEventListener(event1);
-        k.addEventListener(event2);
-        k.addEventListener(event3);
-        k.addEventListener(event4);
+        keyboard.addEventListener(event);
+        keyboard.addEventListener(event1);
+        keyboard.addEventListener(event2);
+        keyboard.addEventListener(event3);
+        keyboard.addEventListener(event4);
 
     }
 
@@ -76,15 +79,22 @@ public class Player extends MovableObjects implements KeyboardHandler{
         if (isDestroyed()){
             return;
         }
-        System.out.println("key pressed1");
+        GameItems item;
+
+
+
         switch (keyboardEvent.getKey()){
             case KeyboardEvent.KEY_LEFT:
                 System.out.println("key pressed1");
+
                 if (collisionDetector.hasEnemy(getPos().getCol() -1, getPos().getRow())){
                     this.setDestroyed();
                 }
                 if (!collisionDetector.isUnSafe(getPos().getCol() -1, getPos().getRow())) {
                     getPos().moveInDirection(GridDirection.LEFT, 1);
+
+
+
                 }
                 break;
             case KeyboardEvent.KEY_RIGHT:
@@ -113,6 +123,7 @@ public class Player extends MovableObjects implements KeyboardHandler{
                 break;
             case KeyboardEvent.KEY_SPACE:
                 System.out.println(bombCurrent);
+                System.out.println(power);
                 if (bombCurrent > 0) {
                     game.add(new Bomb(Game.getGrid().makeGridPosition(this.getPos().getCol(), this.getPos().getRow(),"bomb.png"), collisionDetector, this));
                     bombCurrent--;
@@ -124,8 +135,13 @@ public class Player extends MovableObjects implements KeyboardHandler{
 
         }
 
+        item =itemDetector.hasItem(getPos().getCol() , getPos().getRow());
+        if ( item instanceof ExtraBomb){
+            increseBombCapacity((ExtraBomb) item);
+        }else if(item instanceof PowerUp){
+            increasePower((PowerUp) item);
+        }
     }
-
 
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {
@@ -134,6 +150,26 @@ public class Player extends MovableObjects implements KeyboardHandler{
 
     public void increaseCurrentBomb() {
             bombCurrent++;
+    }
+
+    private void increseBombCapacity(ExtraBomb extraBomb){  //just to make sure that the player realy got an extra bomb
+        bombCapacty ++;
+        bombCurrent = bombCapacty;
+
+
+    }
+
+    private void increasePower(PowerUp powerUp){
+        power ++;
+        System.out.println("Power = " + power);
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public int getPower() {
+        return power;
     }
 
 }
