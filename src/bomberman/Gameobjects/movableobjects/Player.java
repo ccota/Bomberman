@@ -5,6 +5,7 @@ import bomberman.Gameobjects.Bomb;
 import bomberman.Gameobjects.gameitems.ExtraBomb;
 import bomberman.Gameobjects.gameitems.GameItems;
 import bomberman.Gameobjects.gameitems.PowerUp;
+import bomberman.SoundEffect;
 import bomberman.grid.GridColor;
 import bomberman.grid.GridDirection;
 import bomberman.grid.position.GridPosition;
@@ -18,8 +19,8 @@ public class Player extends MovableObjects implements KeyboardHandler{
     private Game game = null;
     private Bomb bomb;
     private int power=1;
-    private int bombCapacty = 1;
-    private int bombCurrent = bombCapacty;
+    private int bombCapacity = 1;
+    private int bombCurrent = bombCapacity;
     private boolean dropOrder;
     private Keyboard keyboard;
 
@@ -31,8 +32,6 @@ public class Player extends MovableObjects implements KeyboardHandler{
     public Player(GridPosition pos, Game game)  {
         super(pos);
         this.game=game;
-
-
 
     }
 
@@ -135,12 +134,15 @@ public class Player extends MovableObjects implements KeyboardHandler{
 
         }
 
-        item =itemDetector.hasItem(getPos().getCol() , getPos().getRow());
+        item = itemDetector.hasItem(getPos().getCol() , getPos().getRow());
         if ( item instanceof ExtraBomb){
             increseBombCapacity((ExtraBomb) item);
+           // SoundEffect.itemSound();
         }else if(item instanceof PowerUp){
             increasePower((PowerUp) item);
+           // SoundEffect.itemSound();
         }
+
     }
 
     @Override
@@ -153,8 +155,8 @@ public class Player extends MovableObjects implements KeyboardHandler{
     }
 
     private void increseBombCapacity(ExtraBomb extraBomb){  //just to make sure that the player realy got an extra bomb
-        bombCapacty ++;
-        bombCurrent = bombCapacty;
+        bombCapacity ++;
+        bombCurrent = bombCapacity;
 
 
     }
@@ -171,5 +173,6 @@ public class Player extends MovableObjects implements KeyboardHandler{
     public int getPower() {
         return power;
     }
+    
 
 }
