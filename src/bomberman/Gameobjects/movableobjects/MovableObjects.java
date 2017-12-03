@@ -6,6 +6,7 @@ import bomberman.ItemDetector;
 import bomberman.grid.position.GridPosition;
 
 abstract public class MovableObjects extends GameObjects {
+
     protected CollisionDetector collisionDetector;
     protected ItemDetector itemDetector;
 

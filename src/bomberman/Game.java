@@ -139,7 +139,7 @@ public class Game implements KeyboardHandler {
                 enemyImg = GameStage.values()[0].getEnemy();
                 numberOfStageEnemies = GameStage.values()[0].getEnemyNumber();
                 blockPercent = GameStage.values()[0].getBlockPercent();
-
+                SoundEffect.stageOneMusic();
                 break;
             case STAGE2:
                 backgroungImg = GameStage.values()[1].getBackground();
@@ -148,6 +148,7 @@ public class Game implements KeyboardHandler {
                 enemyImg = GameStage.values()[1].getEnemy();
                 numberOfStageEnemies = GameStage.values()[1].getEnemyNumber();
                 blockPercent = GameStage.values()[1].getBlockPercent();
+                SoundEffect.stageTwoMusic();
                 break;
             case STAGE3:
                 backgroungImg = GameStage.values()[2].getBackground();
@@ -156,8 +157,10 @@ public class Game implements KeyboardHandler {
                 enemyImg = GameStage.values()[2].getEnemy();
                 numberOfStageEnemies = GameStage.values()[2].getEnemyNumber();
                 blockPercent = GameStage.values()[2].getBlockPercent();
+                SoundEffect.stageThreeMusic();
                 break;
         }
+
 
 
         Picture background = new Picture(10,10, backgroungImg);
@@ -264,7 +267,6 @@ public class Game implements KeyboardHandler {
             // Pause for a while
             Thread.sleep(delay);
 
-            // SoundEffect.music();
             // checks if player want to drop a bomb
            /* if (myPlayer.getDropOrder()){
                 dropBomb(myPlayer);
@@ -393,6 +395,8 @@ public class Game implements KeyboardHandler {
     }
 
     public void menuGameOver () {
+        SoundEffect.stopMusic();
+        SoundEffect.gameOverSound();
         resetGame();
         state=GameStatus.SHOW;
         Picture bg = new Picture(10,10,"gameover.jpg");
@@ -401,6 +405,8 @@ public class Game implements KeyboardHandler {
 
     }
     public void resetGame(){
+        SoundEffect.stopMusic();
+
         myPlayer = null;
         objects.clear();
         enemies.clear();

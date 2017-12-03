@@ -17,8 +17,8 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 public class Player extends MovableObjects implements KeyboardHandler{
 
     private Game game = null;
-    private int power=1;
-    private int bombCapacity = 1;
+    private int power=4;
+    private int bombCapacity = 10;
     private int bombCurrent = bombCapacity;
     private Keyboard keyboard;
 

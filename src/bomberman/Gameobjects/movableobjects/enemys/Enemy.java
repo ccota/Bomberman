@@ -18,6 +18,7 @@ abstract public class Enemy extends MovableObjects {
         if (isDestroyed()) {
             return;
         }
+
         chooseDirection();
 
 
@@ -57,6 +58,7 @@ abstract public class Enemy extends MovableObjects {
 
     @Override
     public void setDestroyed() {
+
         super.setDestroyed();
     }
 
@@ -67,7 +69,7 @@ abstract public class Enemy extends MovableObjects {
 
         int randomNumber = (int) (Math.random() * 100);
 
-        if (randomNumber >= 50) {
+        if (randomNumber >= 30) {
             currentDirection = GridDirection.values()[(int) (Math.random() * GridDirection.values().length)];
         }
 
