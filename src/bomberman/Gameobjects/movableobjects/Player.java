@@ -173,6 +173,6 @@ public class Player extends MovableObjects implements KeyboardHandler{
     public int getPower() {
         return power;
     }
-    
+
 
 }

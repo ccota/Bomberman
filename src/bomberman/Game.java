@@ -145,14 +145,9 @@ public class Game {
     public void start() throws InterruptedException{
 
         init();
-        while(!myPlayer.isDestroyed()){
-            SoundEffect.music();
-        }
 
-        if(myPlayer.isDestroyed()){
+        SoundEffect.music();
 
-            SoundEffect.gameOverSound();
-        }
 
         while (true) {
 
