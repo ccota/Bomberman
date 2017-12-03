@@ -45,9 +45,7 @@ public class Bomb extends GameObjects {
 
     }
 
-    public void createExplosionImage(){
 
-    }
 
     private void destroyObjects() {
         collisionDetector.destroyObjects(this, player.getGame());

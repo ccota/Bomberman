@@ -67,8 +67,6 @@ public class SimpleGfxGridPosition extends AbstractGridPosition {
      */
     @Override
     public void show() {
-        //rectangle.fill();
-        //picture.draw();
     }
 
     /**
@@ -76,7 +74,6 @@ public class SimpleGfxGridPosition extends AbstractGridPosition {
      */
     @Override
     public void hide() {
-       // rectangle.delete();
         picture.delete();
     }
 
@@ -101,8 +98,13 @@ public class SimpleGfxGridPosition extends AbstractGridPosition {
      */
     @Override
     public void setColor(GridColor color) {
-        //super.setColor(color);
-        //rectangle.setColor(SimpleGfxColorMapper.getColor(color));
 
+    }
+
+    @Override
+    public String toString() {
+        return "SimpleGfxGridPosition{" +
+                "simpleGfxGrid=" + simpleGfxGrid +
+                '}';
     }
 }

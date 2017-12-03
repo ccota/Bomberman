@@ -64,33 +64,6 @@ public class SimpleGfxGrid implements Grid {
      * Obtains the width of the grid in pixels
      * @return the width of the grid
      */
-    public int getWidth() {
-        return width;
-    }
-
-    /**
-     * Obtains the height of the grid in pixels
-     * @return the height of the grid
-     */
-    public int getHeight() {
-        return height;
-    }
-
-    /**
-     * Obtains the grid X position in the SimpleGFX canvas
-     * @return the x position of the grid
-     */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * Obtains the grid Y position in the SimpleGFX canvas
-     * @return the y position of the grid
-     */
-    public int getY() {
-        return y;
-    }
 
     /**
      * Obtains the pixel width and height of a grid position

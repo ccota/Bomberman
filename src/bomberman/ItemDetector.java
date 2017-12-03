@@ -20,10 +20,7 @@ public class ItemDetector {
 
             if ((i.getPos().getCol() == col && i.getPos().getRow() == row) && !i.isDestroyed()) {
                 i.setDestroyed();
-               // objects.get(objects.indexOf(i)).setDestroyed();
                 return i;
-
-                    // return false;
                 }
 
         }

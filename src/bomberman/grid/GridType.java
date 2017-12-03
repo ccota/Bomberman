@@ -5,7 +5,6 @@ package bomberman.grid;
  */
 public enum GridType {
 
-    LANTERNA,
     SIMPLE_GFX
 
 }

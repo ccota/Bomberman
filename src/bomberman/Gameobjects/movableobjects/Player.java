@@ -13,6 +13,7 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 
+
 public class Player extends MovableObjects implements KeyboardHandler{
 
     private Game game = null;
@@ -126,9 +127,6 @@ public class Player extends MovableObjects implements KeyboardHandler{
                     }
 
                     break;
-                case KeyboardEvent.KEY_Q:
-                    //game.getPause().launch();
-                    break;
 
                 default:
                     break;
@@ -148,12 +146,20 @@ public class Player extends MovableObjects implements KeyboardHandler{
     public void keyReleased(KeyboardEvent keyboardEvent) {
 
     }
+    @Override
+    public void setDestroyed() {
+        super.setDestroyed();
+        game.menuGameOver();
+
+
+
+    }
 
     public void increaseCurrentBomb() {
             bombCurrent++;
     }
 
-    private void increseBombCapacity(ExtraBomb extraBomb){  //just to make sure that the player realy got an extra bomb
+    private void increseBombCapacity(ExtraBomb extraBomb){  //just to make sure that the player really got an extra bomb
         bombCapacity ++;
         bombCurrent = bombCapacity;
 
