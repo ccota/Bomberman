@@ -12,9 +12,9 @@ public class SoundEffect {
         TinySound.init();
         Music music = TinySound.loadMusic("GTmusic.wav");
         music.setVolume(1);
-        while (true) {
-            music.play(false);
-        }
+        music.play(true);
+
+
     }
 
 
@@ -35,7 +35,7 @@ public class SoundEffect {
         TinySound.init();
         Sound enemyDead = TinySound.loadSound("enemyDead.wav");
         for (int i = 0; i < 1; i++) {
-            enemyDead.play(6);
+            enemyDead.play(20);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -47,7 +47,7 @@ public class SoundEffect {
         TinySound.init();
         Sound grabItem = TinySound.loadSound("item.wav");
         for (int i = 0; i < 1; i++) {
-            grabItem.play(4);
+            grabItem.play(20);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

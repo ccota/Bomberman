@@ -75,8 +75,11 @@ abstract public class Enemy extends MovableObjects {
 
     @Override
     public void setDestroyed() {
+
+        if (!isDestroyed()) {
+            SoundEffect.enemySound();
+        }
         super.setDestroyed();
-        SoundEffect.enemySound();
     }
 
     public void /*GridDirection*/ chooseDirection() {

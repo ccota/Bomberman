@@ -144,10 +144,10 @@ public class Player extends MovableObjects implements KeyboardHandler{
             item = itemDetector.hasItem(getPos().getCol(), getPos().getRow());
             if (item instanceof ExtraBomb) {
                 increseBombCapacity((ExtraBomb) item);
-                // SoundEffect.itemSound();
+                SoundEffect.itemSound();
             } else if (item instanceof PowerUp) {
                 increasePower((PowerUp) item);
-                // SoundEffect.itemSound();
+                SoundEffect.itemSound();
             }
 
         }

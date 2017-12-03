@@ -169,10 +169,7 @@ public class Game implements KeyboardHandler {
         createKeyboard();
         menuLaunch();
 
-
-
-
-            SoundEffect.music();
+       // SoundEffect.music();
 
 
         while (true) {
