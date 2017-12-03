@@ -32,12 +32,12 @@ public class Factory {
     /** Hard Block */
     public HardBlock hardBlocks(Grid grid,int x, int y){
 
-        return new HardBlock(grid.makeGridPosition(x,y,"hardBlock2.gif"));
+        return new HardBlock(grid.makeGridPosition(x,y,"hardBlock1.gif"));
     }
 
     /** Soft Block */
     public SoftBlock softBlocks(Grid grid, int x, int y){
-        return new SoftBlock(grid.makeGridPosition(x,y,"softBlock3.png"));
+        return new SoftBlock(grid.makeGridPosition(x,y,"softBlock1.png"));
     }
 
     /** Player */
@@ -47,7 +47,7 @@ public class Factory {
 
     /**Enemies */
     public Faustino generateEnemies (Grid grid, int x, int y){
-        return new Faustino(grid.makeGridPosition(x, y,"sapo.gif"));
+        return new Faustino(grid.makeGridPosition(x, y,"enemigo3.png"));
     }
 
     /**Windows */
