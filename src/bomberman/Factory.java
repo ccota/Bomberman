@@ -32,12 +32,12 @@ public class Factory {
     /** Hard Block */
     public HardBlock hardBlocks(Grid grid,int x, int y){
 
-        return new HardBlock(grid.makeGridPosition(x,y,"hardBlock.png"));
+        return new HardBlock(grid.makeGridPosition(x,y,"hardBlock2.gif"));
     }
 
     /** Soft Block */
     public SoftBlock softBlocks(Grid grid, int x, int y){
-        return new SoftBlock(grid.makeGridPosition(x,y,"softBlock.png"));
+        return new SoftBlock(grid.makeGridPosition(x,y,"softBlock3.png"));
     }
 
     /** Player */

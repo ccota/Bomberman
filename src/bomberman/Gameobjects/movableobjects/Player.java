@@ -13,6 +13,8 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 
+import javax.swing.plaf.basic.BasicSplitPaneUI;
+
 public class Player extends MovableObjects implements KeyboardHandler{
 
     private Game game = null;
@@ -24,9 +26,7 @@ public class Player extends MovableObjects implements KeyboardHandler{
     private Keyboard keyboard;
 
 
-    public Keyboard getKeyboard() {
-        return keyboard;
-    }
+
 
     public Player(GridPosition pos, Game game)  {
         super(pos);
@@ -60,16 +60,13 @@ public class Player extends MovableObjects implements KeyboardHandler{
         event4.setKey(KeyboardEvent.KEY_SPACE);
         event4.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
-        KeyboardEvent event5 = new KeyboardEvent();
-        event4.setKey(KeyboardEvent.KEY_Q);
-        event4.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
 
         keyboard.addEventListener(event);
         keyboard.addEventListener(event1);
         keyboard.addEventListener(event2);
         keyboard.addEventListener(event3);
         keyboard.addEventListener(event4);
-        keyboard.addEventListener(event5);
+
 
     }
 
@@ -90,7 +87,7 @@ public class Player extends MovableObjects implements KeyboardHandler{
 
         switch (keyboardEvent.getKey()){
             case KeyboardEvent.KEY_LEFT:
-                System.out.println("key pressed1");
+
 
                 if (collisionDetector.hasEnemy(getPos().getCol() -1, getPos().getRow())){
                     this.setDestroyed();
@@ -127,6 +124,7 @@ public class Player extends MovableObjects implements KeyboardHandler{
                 }
                 break;
             case KeyboardEvent.KEY_SPACE:
+                System.out.println("space pressed");
                 System.out.println(bombCurrent);
                 System.out.println(power);
                 if (bombCurrent > 0) {

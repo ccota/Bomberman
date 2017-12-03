@@ -10,9 +10,9 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 public class Menu extends Window implements KeyboardHandler{
 
     private enum CurrentSelection {
-        STARTGAME("bomb.png", "sapo.gif"),
-        OPTIONS("bomb.png", "sapo.gif"),
-        EXIT("bomb.png", "sapo.gif");
+        STARTGAME("start.gif", "startHover.gif"),
+        OPTIONS("guide.gif", "guideHover.gif"),
+        EXIT("exit.gif", "exitHover.gif");
         private String unselected;
         private String selected;
         CurrentSelection(String unselected, String selected) {
@@ -72,7 +72,7 @@ public class Menu extends Window implements KeyboardHandler{
 
                 }
                 arrayOfPictures[row][column] = new Picture(
-                        (menuWidth - menuWidth / 2), (menuHeight - menuHeight / 2) + (menuItemHeight * row),  imgsrc);
+                        (menuWidth - menuWidth / 2 -173), (menuHeight - menuHeight / 2 -50) + (menuItemHeight * row),  imgsrc);
 
                 if ((column % 2) == 0) {
                     arrayOfPictures[row][column].draw();
@@ -80,11 +80,14 @@ public class Menu extends Window implements KeyboardHandler{
             }
         }
 
-
-        menuSelect();
+        // Force 1st item to be selected
+        arrayOfPictures[0][0].delete();
+        arrayOfPictures[0][1].draw();
+        // call keyboard
+        keyboardHandler();
     }
 
-    public void menuSelect() {
+    public void keyboardHandler() {
 
         keyboard = new Keyboard(this);
 
@@ -112,9 +115,15 @@ public class Menu extends Window implements KeyboardHandler{
                 arrayOfPictures[row][column].delete();
             }
         }
-        keyboard.removeEventListener(event);
-        keyboard.removeEventListener(event1);
-        keyboard.removeEventListener(event2);
+        KeyboardHandler handler;
+
+        //keyboard.removeEventListener(event);
+        //keyboard.removeEventListener(event1);
+        //keyboard.removeEventListener(event2);
+        keyboard=null;
+
+
+
     }
 
     @Override
@@ -156,7 +165,9 @@ public class Menu extends Window implements KeyboardHandler{
                         try {
                             //game.setWindow(null);
                             delete();
+                            //Thread.sleep(20000);
                             game.init();
+
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -267,11 +278,11 @@ public class WindowGameOver {
         }
 
 
-        menuSelect();
+        keyboardHandler();
 
     }
 
-    public void menuSelect() {
+    public void keyboardHandler() {
 
         keyboard = new Keyboard(this);
 

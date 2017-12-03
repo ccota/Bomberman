@@ -11,7 +11,9 @@ import bomberman.grid.Grid;
 import bomberman.grid.GridFactory;
 import bomberman.grid.GridType;
 import bomberman.utilities.Random;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 
@@ -48,7 +50,7 @@ public class Game {
     private int width = cols * cellSize;
     private int menuHeight= height / 2;
     private int menuWidth = width / 2;
-    private int menuItemHeight = 70;
+    private int menuItemHeight = 105;
 
 
 
@@ -149,18 +151,22 @@ public class Game {
         return true;
     }
 
-    public void setWindow(Window window) {
+    /*public void setWindow(Window window) {
         this.window = window;
-    }
+    }*/
 
     public void start() throws InterruptedException{
         factory = new Factory();
 
         grid = GridFactory.makeGrid(gridType, cols, rows);
         grid.init();
+        Picture bg = new Picture(10,10,"backgroundInit.gif");
+        bg.draw();
+
 
         window=factory.generateWindow(WindowsType.STARTMENU,width,height,menuItemHeight,this);
         window.launch();
+        //window.
 
 
 
