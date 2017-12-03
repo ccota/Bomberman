@@ -5,7 +5,6 @@ import bomberman.Gameobjects.GameObjects;
 import bomberman.Gameobjects.gameitems.GameItems;
 import bomberman.Gameobjects.movableobjects.Player;
 import bomberman.Gameobjects.movableobjects.enemys.Enemy;
-import bomberman.Windows.Window;
 import bomberman.grid.Grid;
 import bomberman.grid.GridFactory;
 import bomberman.grid.GridType;
@@ -31,12 +30,10 @@ public class Game implements KeyboardHandler {
     private ArrayList<Bomb> activeBombs = new ArrayList<>();
     private CollisionDetector collisionDetector;
     private ItemDetector itemDetector;
-    private Window window;
     private Keyboard keyboard;
 
-    public GameStatus getState() {
-        return state;
-    }
+
+
 
     private GameStatus state= GameStatus.MENU;
 
@@ -56,8 +53,6 @@ public class Game implements KeyboardHandler {
     private int cellSize = 40;
     private int height = rows * cellSize;
     private int width = cols * cellSize;
-    private int menuHeight= height / 2;
-    private int menuWidth = width / 2;
     private int menuItemHeight = 105;
 
 
@@ -78,13 +73,10 @@ public class Game implements KeyboardHandler {
     public void init() throws InterruptedException{
 
         this.state = GameStatus.BATTLE;
-        //System.out.println(state);
-        //grid = GridFactory.makeGrid(gridType, cols, rows);
-        //grid.init();
+
         Picture bg = new Picture(10,10,"stage2bg.jpg");
         bg.draw();
-        //launchBG = new Picture(10,10,"sapo.gif");
-        //launchBG.draw();
+
 
 
         factory = new Factory();
@@ -174,20 +166,15 @@ public class Game implements KeyboardHandler {
         grid.init();
 
 
-        //keyboard = new Keyboard(this);
         createKeyboard();
         menuLaunch();
 
-       // factory = new Factory();
 
 
 
 
 
-        //window=factory.generateWindow(WindowsType.STARTMENU,width,height,menuItemHeight,this);
-        //window.launch();
 
-        //init();
 
         while (true) {
 
@@ -207,14 +194,7 @@ public class Game implements KeyboardHandler {
                 }
             }
 
-            // add new and undestroyed Items to object Array
-            /*
-            for (GameItems i   : items){
-                if (!i.isDestroyed()){
-                    objects.add(i);
-                }
-            }
-            */
+
 
 
 
@@ -249,18 +229,6 @@ public class Game implements KeyboardHandler {
 
     }
 
-    /*public Menu(int menuWidth, int menuHeight, int menuItemHeight,Game game){
-        currentSelection = Menu.CurrentSelection.STARTGAME;
-        this.menuHeight=menuHeight;
-        this.menuWidth=menuWidth;
-        this.menuItemHeight=menuItemHeight;
-        this.game=game;
-    }*/
-
-    //private Keyboard keyboard;
-    //private KeyboardEvent event;
-    //private KeyboardEvent event1;
-    //private KeyboardEvent event2;
 
     private CurrentSelection currentSelection;
     private Picture[][] arrayOfPictures;
@@ -268,7 +236,6 @@ public class Game implements KeyboardHandler {
     public void menuLaunch() {
         launchBG = new Picture(10,10,"backgroundInit.gif");
         launchBG.draw();
-        System.out.println("Entrou");
         currentSelection = CurrentSelection.STARTGAME;
         arrayOfPictures = new Picture[3][2];
         for (int row = 0; row < arrayOfPictures.length; row++) {
@@ -285,7 +252,7 @@ public class Game implements KeyboardHandler {
 
                 }
                 arrayOfPictures[row][column] = new Picture(
-                        (menuWidth - menuWidth / 2 - 173), (menuHeight - menuHeight / 2 - 50) + (menuItemHeight * row), imgsrc);
+                        (width / 2 - 173), (height / 2 - 50) + (menuItemHeight * row), imgsrc);
 
                 if ((column % 2) == 0) {
                     arrayOfPictures[row][column].draw();
@@ -297,25 +264,17 @@ public class Game implements KeyboardHandler {
         arrayOfPictures[0][0].delete();
         arrayOfPictures[0][1].draw();
 
-       /* public void delete() {
-            for (int row = 0; row < arrayOfPictures.length; row++) {
-                for (int column = 0; column < arrayOfPictures[row].length; column++) {
-                    arrayOfPictures[row][column].delete();
-                }
-            }
-
-        }*/
 
     }
-      public void menuLaunchDelete() {
-            for (int row = 0; row < arrayOfPictures.length; row++) {
-                for (int column = 0; column < arrayOfPictures[row].length; column++) {
-                    arrayOfPictures[row][column].delete();
-                }
+    public void menuLaunchDelete() {
+        for (int row = 0; row < arrayOfPictures.length; row++) {
+            for (int column = 0; column < arrayOfPictures[row].length; column++) {
+                arrayOfPictures[row][column].delete();
             }
-            launchBG.delete();
-
         }
+        launchBG.delete();
+
+    }
 
 
 
@@ -323,6 +282,7 @@ public class Game implements KeyboardHandler {
         System.out.println("ENTROU NO MENU GUIDE");
         Picture bg = new Picture(10,10,"controls.jpg");
         bg.draw();
+        state=GameStatus.SHOW;
 
     }
 
@@ -367,20 +327,17 @@ public class Game implements KeyboardHandler {
         items.add(object);
     }
 
-   /* public void dropBomb(Player player){
-            Bomb bomb = factory.generateBombs(grid, player.getPos().getCol(), player.getPos().getRow(), collisionDetector);
 
-            objects.add(bomb);
-            bomb.explode();
-            player.resetDropOrder();
-    }*/
-
+    public GameStatus getState() {
+        return state;
+    }
     public static Grid getGrid() {
         return grid;
     }
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
+        /** If on LaunchMenu */
         if (state == GameStatus.MENU) {
             switch (keyboardEvent.getKey()) {
                 case KeyboardEvent.KEY_DOWN:
@@ -417,9 +374,7 @@ public class Game implements KeyboardHandler {
                     switch (currentSelection) {
                         case STARTGAME:
                             try {
-                                //game.setWindow(null);
-                                //delete();
-                                //Thread.sleep(20000);
+
                                 menuLaunchDelete();
                                 init();
 
@@ -429,10 +384,8 @@ public class Game implements KeyboardHandler {
                             break;
                         case OPTIONS:
                             menuGuide();
-                            System.out.println("ENTROU");
-                            state=GameStatus.SHOW;
-                            // windowHowToPlay.launchOptions();
-                            break;
+                            return;
+
                         case EXIT:
                             System.exit(1);
                             break;
@@ -445,7 +398,7 @@ public class Game implements KeyboardHandler {
             }
         }
 
-
+        /** Waiting mode for: GUIDE && GAMEOVER */
         if (state == GameStatus.SHOW) {
             switch (keyboardEvent.getKey()) {
                 case KeyboardEvent.KEY_DOWN:
@@ -461,8 +414,6 @@ public class Game implements KeyboardHandler {
                 case KeyboardEvent.KEY_SPACE:
                     state=GameStatus.MENU;
                     menuLaunch();
-                   // state=GameStatus.MENU;
-
 
                     break;
                 default:
@@ -476,6 +427,7 @@ public class Game implements KeyboardHandler {
 
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {
+
 
     }
 }
