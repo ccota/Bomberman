@@ -14,10 +14,13 @@ abstract public class Enemy extends MovableObjects{
     }
 
     public void move() {
+        GridDirection prevDirection;
+
         if (isDestroyed()){
             return;
         }
         chooseDirection();
+        prevDirection = currentDirection;
 
         switch (currentDirection) {
             case LEFT:
@@ -25,29 +28,42 @@ abstract public class Enemy extends MovableObjects{
                     getPos().moveInDirection(GridDirection.LEFT, 1);
                     break;
                 }
-                currentDirection = GridDirection.RIGHT;
+                currentDirection = collisionDetector.getSafeDirection(currentDirection, getPos().getCol() -1, getPos().getRow());
+
+                if (currentDirection != prevDirection){
+                    getPos().moveInDirection(currentDirection,1);
+                }
                 break;
             case RIGHT:
                 if (!collisionDetector.isUnSafe(getPos().getCol() +1, getPos().getRow())) {
                     getPos().moveInDirection(GridDirection.RIGHT, 1);
                     break;
                 }
+                currentDirection = collisionDetector.getSafeDirection(currentDirection, getPos().getCol() +1, getPos().getRow());
+                if (currentDirection != prevDirection){
+                    getPos().moveInDirection(currentDirection,1);
+                }
 
-                currentDirection = GridDirection.LEFT;
                 break;
             case UP:
                 if (!collisionDetector.isUnSafe(getPos().getCol() , getPos().getRow() -1)) {
                     getPos().moveInDirection(GridDirection.UP, 1);
                     break;
                 }
-                currentDirection = GridDirection.DOWN;
+                currentDirection = collisionDetector.getSafeDirection(currentDirection, getPos().getCol(), getPos().getRow() -1);
+                if (currentDirection != prevDirection){
+                    getPos().moveInDirection(currentDirection,1);
+                }
                 break;
             case DOWN:
                 if (!collisionDetector.isUnSafe(getPos().getCol(), getPos().getRow()+1)) {
                     getPos().moveInDirection(GridDirection.DOWN, 1);
                     break;
                 }
-                currentDirection = GridDirection.UP;
+                currentDirection = collisionDetector.getSafeDirection(currentDirection, getPos().getCol(), getPos().getRow() +1);
+                if (currentDirection != prevDirection){
+                    getPos().moveInDirection(currentDirection,1);
+                }
                 break;
             default:
                 System.out.println("something went terribly wrong");
@@ -55,21 +71,19 @@ abstract public class Enemy extends MovableObjects{
         }
     }
 
-    private void chooseSafeDirection(GridDirection oldDirection){
 
 
 
-    }
 
 
     public void /*GridDirection*/ chooseDirection() {
 
-
         int randomNumber = (int) (Math.random()*100);
 
-        if(randomNumber>=80){
+        if(randomNumber>=50){
             currentDirection = GridDirection.values()[(int) (Math.random() * GridDirection.values().length)];
         }
+
 
 
 

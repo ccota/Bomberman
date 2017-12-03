@@ -6,44 +6,52 @@ import bomberman.Gameobjects.gameitems.GameItems;
 import bomberman.Gameobjects.movableobjects.Player;
 import bomberman.Gameobjects.movableobjects.enemys.Enemy;
 import bomberman.Windows.Window;
-import bomberman.Windows.WindowsType;
 import bomberman.grid.Grid;
 import bomberman.grid.GridFactory;
 import bomberman.grid.GridType;
 import bomberman.utilities.Random;
+import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
+import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
+import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
+import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 
-public class Game {
+public class Game implements KeyboardHandler {
+
 
     private static Grid grid;
     private Factory factory;
     private Player myPlayer;
-    private ArrayList<GameObjects> objects = new ArrayList();
-    private ArrayList<GameItems> items = new ArrayList();
-    private ArrayList<Enemy> enemies = new ArrayList();
+    private ArrayList<GameObjects> objects = new ArrayList<GameObjects>();
+    private ArrayList<GameItems> items = new ArrayList<GameItems>();
+    private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     private ArrayList<Bomb> activeBombs = new ArrayList<>();
     private CollisionDetector collisionDetector;
     private ItemDetector itemDetector;
     private Window window;
-    private int currentStage=1;
+    private Keyboard keyboard;
 
+    public GameStatus getState() {
+        return state;
+    }
+
+    private GameStatus state= GameStatus.MENU;
 
 
 
 
     /**
 	|--------------------------------------------------------------------------
-	| Game WindowHowToPlay
+	| Game Options
 	|--------------------------------------------------------------------------
 	 */
     private GridType gridType= GridType.SIMPLE_GFX;
     private int cols= 25;
     private int rows=15;
-    private int delay=1000;
+    private int delay =500;
 
     private int cellSize = 40;
     private int height = rows * cellSize;
@@ -69,8 +77,17 @@ public class Game {
 	 */
     public void init() throws InterruptedException{
 
+        this.state = GameStatus.BATTLE;
+        //System.out.println(state);
+        //grid = GridFactory.makeGrid(gridType, cols, rows);
+        //grid.init();
+        Picture bg = new Picture(10,10,"stage2bg.jpg");
+        bg.draw();
+        //launchBG = new Picture(10,10,"sapo.gif");
+        //launchBG.draw();
 
-       // factory = new Factory();
+
+        factory = new Factory();
 
         myPlayer =factory.generatePlayer(grid,0,0,this);
         objects.add(myPlayer);
@@ -89,6 +106,7 @@ public class Game {
         int counter = 0;
         int maxenimes=5;
         while (counter!=maxenimes){
+            System.out.println("entro no while");
             int randomX = Random.generate(4,grid().getCols());
             int randomY = Random.generate(4,grid().getRows());
 
@@ -151,31 +169,35 @@ public class Game {
         return true;
     }
 
-    /*public void setWindow(Window window) {
-        this.window = window;
-    }*/
-
     public void start() throws InterruptedException{
-        factory = new Factory();
-
         grid = GridFactory.makeGrid(gridType, cols, rows);
         grid.init();
-        Picture bg = new Picture(10,10,"backgroundInit.gif");
-        bg.draw();
 
 
-        window=factory.generateWindow(WindowsType.STARTMENU,width,height,menuItemHeight,this);
-        window.launch();
-        //window.
+        //keyboard = new Keyboard(this);
+        createKeyboard();
+        menuLaunch();
+
+       // factory = new Factory();
 
 
 
-       /*init();
+
+
+        //window=factory.generateWindow(WindowsType.STARTMENU,width,height,menuItemHeight,this);
+        //window.launch();
+
+        //init();
 
         while (true) {
 
             // Pause for a while
             Thread.sleep(delay);
+
+            // checks if player want to drop a bomb
+           /* if (myPlayer.getDropOrder()){
+                dropBomb(myPlayer);
+            }*/
 
 
             // Move the enemies
@@ -185,12 +207,151 @@ public class Game {
                 }
             }
 
+            // add new and undestroyed Items to object Array
+            /*
+            for (GameItems i   : items){
+                if (!i.isDestroyed()){
+                    objects.add(i);
+                }
+            }
+            */
 
 
 
 
-        } */
+        }
     }
+
+
+    /**
+     |--------------------------------------------------------------------------
+     | MENU
+     |--------------------------------------------------------------------------
+     */
+
+
+    private enum CurrentSelection {
+        STARTGAME("start.gif", "startHover.gif"),
+        OPTIONS("guide.gif", "guideHover.gif"),
+        EXIT("exit.gif", "exitHover.gif");
+        private String unselected;
+        private String selected;
+        CurrentSelection(String unselected, String selected) {
+            this.unselected = unselected;
+            this.selected = selected;
+        }
+        public String getUnselected() {
+            return unselected;
+        }
+        public String getSelected() {
+            return selected;
+        }
+
+    }
+
+    /*public Menu(int menuWidth, int menuHeight, int menuItemHeight,Game game){
+        currentSelection = Menu.CurrentSelection.STARTGAME;
+        this.menuHeight=menuHeight;
+        this.menuWidth=menuWidth;
+        this.menuItemHeight=menuItemHeight;
+        this.game=game;
+    }*/
+
+    //private Keyboard keyboard;
+    //private KeyboardEvent event;
+    //private KeyboardEvent event1;
+    //private KeyboardEvent event2;
+
+    private CurrentSelection currentSelection;
+    private Picture[][] arrayOfPictures;
+    private Picture launchBG;
+    public void menuLaunch() {
+        launchBG = new Picture(10,10,"backgroundInit.gif");
+        launchBG.draw();
+        System.out.println("Entrou");
+        currentSelection = CurrentSelection.STARTGAME;
+        arrayOfPictures = new Picture[3][2];
+        for (int row = 0; row < arrayOfPictures.length; row++) {
+
+            for (int column = 0; column < arrayOfPictures[row].length; column++) {
+                String imgsrc = null;
+                if ((column % 2) == 0) {
+                    imgsrc = CurrentSelection.values()[row].getUnselected();
+
+
+                } else {
+                    imgsrc = CurrentSelection.values()[row].getSelected();
+
+
+                }
+                arrayOfPictures[row][column] = new Picture(
+                        (menuWidth - menuWidth / 2 - 173), (menuHeight - menuHeight / 2 - 50) + (menuItemHeight * row), imgsrc);
+
+                if ((column % 2) == 0) {
+                    arrayOfPictures[row][column].draw();
+                }
+            }
+        }
+
+        // Force 1st item to be selected
+        arrayOfPictures[0][0].delete();
+        arrayOfPictures[0][1].draw();
+
+       /* public void delete() {
+            for (int row = 0; row < arrayOfPictures.length; row++) {
+                for (int column = 0; column < arrayOfPictures[row].length; column++) {
+                    arrayOfPictures[row][column].delete();
+                }
+            }
+
+        }*/
+
+    }
+      public void menuLaunchDelete() {
+            for (int row = 0; row < arrayOfPictures.length; row++) {
+                for (int column = 0; column < arrayOfPictures[row].length; column++) {
+                    arrayOfPictures[row][column].delete();
+                }
+            }
+            launchBG.delete();
+
+        }
+
+
+
+    public void menuGuide () {
+        System.out.println("ENTROU NO MENU GUIDE");
+        Picture bg = new Picture(10,10,"controls.jpg");
+        bg.draw();
+
+    }
+
+
+    public void createKeyboard() {
+
+        keyboard = new Keyboard(this);
+
+        KeyboardEvent event = new KeyboardEvent();
+        event.setKey(KeyboardEvent.KEY_UP);
+        event.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+
+        KeyboardEvent event1 = new KeyboardEvent();
+        event1.setKey(KeyboardEvent.KEY_DOWN);
+        event1.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+
+        KeyboardEvent event2 = new KeyboardEvent();
+        event2.setKey(KeyboardEvent.KEY_SPACE);
+        event2.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+
+        keyboard.addEventListener(event);
+        keyboard.addEventListener(event1);
+        keyboard.addEventListener(event2);
+
+    }
+
+
+
+
 
 
     public static Grid grid() {
@@ -206,11 +367,116 @@ public class Game {
         items.add(object);
     }
 
+   /* public void dropBomb(Player player){
+            Bomb bomb = factory.generateBombs(grid, player.getPos().getCol(), player.getPos().getRow(), collisionDetector);
 
+            objects.add(bomb);
+            bomb.explode();
+            player.resetDropOrder();
+    }*/
 
     public static Grid getGrid() {
         return grid;
     }
 
+    @Override
+    public void keyPressed(KeyboardEvent keyboardEvent) {
+        if (state == GameStatus.MENU) {
+            switch (keyboardEvent.getKey()) {
+                case KeyboardEvent.KEY_DOWN:
+                    int downHandler = currentSelection.ordinal() + 1;
+                    if (downHandler >= CurrentSelection.values().length) {
+                        break;
+                    }
+                    System.out.println(downHandler);
+                    currentSelection = CurrentSelection.values()[currentSelection.ordinal() + 1];
+                    arrayOfPictures[downHandler - 1][0].draw();
+                    arrayOfPictures[downHandler - 1][1].delete();
+
+                    arrayOfPictures[downHandler][0].delete();
+                    arrayOfPictures[downHandler][1].draw();
+
+
+                    break;
+                case KeyboardEvent.KEY_UP:
+
+                    int upHandler = currentSelection.ordinal() - 1;
+                    if (upHandler < 0) {
+                        break;
+                    }
+
+                    currentSelection = CurrentSelection.values()[currentSelection.ordinal() - 1];
+                    arrayOfPictures[upHandler + 1][0].draw();
+                    arrayOfPictures[upHandler + 1][1].delete();
+
+                    arrayOfPictures[upHandler][0].delete();
+                    arrayOfPictures[upHandler][1].draw();
+
+                    break;
+                case KeyboardEvent.KEY_SPACE:
+                    switch (currentSelection) {
+                        case STARTGAME:
+                            try {
+                                //game.setWindow(null);
+                                //delete();
+                                //Thread.sleep(20000);
+                                menuLaunchDelete();
+                                init();
+
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                        case OPTIONS:
+                            menuGuide();
+                            System.out.println("ENTROU");
+                            state=GameStatus.SHOW;
+                            // windowHowToPlay.launchOptions();
+                            break;
+                        case EXIT:
+                            System.exit(1);
+                            break;
+
+                    }
+
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+        if (state == GameStatus.SHOW) {
+            switch (keyboardEvent.getKey()) {
+                case KeyboardEvent.KEY_DOWN:
+
+
+
+                    break;
+                case KeyboardEvent.KEY_UP:
+
+
+
+                    break;
+                case KeyboardEvent.KEY_SPACE:
+                    state=GameStatus.MENU;
+                    menuLaunch();
+                   // state=GameStatus.MENU;
+
+
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+
+    }
+
+    @Override
+    public void keyReleased(KeyboardEvent keyboardEvent) {
+
+    }
 }
 

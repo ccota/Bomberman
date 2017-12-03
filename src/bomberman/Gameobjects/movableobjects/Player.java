@@ -1,6 +1,7 @@
 package bomberman.Gameobjects.movableobjects;
 
 import bomberman.Game;
+import bomberman.GameStatus;
 import bomberman.Gameobjects.Bomb;
 import bomberman.Gameobjects.gameitems.ExtraBomb;
 import bomberman.Gameobjects.gameitems.GameItems;
@@ -78,74 +79,75 @@ public class Player extends MovableObjects implements KeyboardHandler{
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
-        if (isDestroyed()){
-            return;
-        }
-        GameItems item;
+        if (game.getState() == GameStatus.BATTLE) {
+            if (isDestroyed()) {
+                return;
+            }
+            GameItems item;
 
 
-
-        switch (keyboardEvent.getKey()){
-            case KeyboardEvent.KEY_LEFT:
-
-
-                if (collisionDetector.hasEnemy(getPos().getCol() -1, getPos().getRow())){
-                    this.setDestroyed();
-                }
-                if (!collisionDetector.isUnSafe(getPos().getCol() -1, getPos().getRow())) {
-                    getPos().moveInDirection(GridDirection.LEFT, 1);
+            switch (keyboardEvent.getKey()) {
+                case KeyboardEvent.KEY_LEFT:
 
 
+                    if (collisionDetector.hasEnemy(getPos().getCol() - 1, getPos().getRow())) {
+                        this.setDestroyed();
+                    }
+                    if (!collisionDetector.isUnSafe(getPos().getCol() - 1, getPos().getRow())) {
+                        getPos().moveInDirection(GridDirection.LEFT, 1);
 
-                }
-                break;
-            case KeyboardEvent.KEY_RIGHT:
-                if (collisionDetector.hasEnemy(getPos().getCol() +1, getPos().getRow())){
-                    this.setDestroyed();
-                }
-                if (!collisionDetector.isUnSafe(getPos().getCol() +1, getPos().getRow())) {
-                    getPos().moveInDirection(GridDirection.RIGHT, 1);
-                }
-                break;
-            case KeyboardEvent.KEY_DOWN:
-                if (collisionDetector.hasEnemy(getPos().getCol() , getPos().getRow() + 1)){
-                    this.setDestroyed();
-                }
-                if (!collisionDetector.isUnSafe(getPos().getCol()  , getPos().getRow() + 1)) {
-                    getPos().moveInDirection(GridDirection.DOWN, 1);
-                }
+
+                    }
                     break;
-            case KeyboardEvent.KEY_UP:
-                if (collisionDetector.hasEnemy(getPos().getCol() , getPos().getRow() - 1)){
-                    this.setDestroyed();
-                }
-                if (!collisionDetector.isUnSafe(getPos().getCol() , getPos().getRow() -1)) {
-                    getPos().moveInDirection(GridDirection.UP, 1);
-                }
-                break;
-            case KeyboardEvent.KEY_SPACE:
-                System.out.println("space pressed");
-                System.out.println(bombCurrent);
-                System.out.println(power);
-                if (bombCurrent > 0) {
-                    game.add(new Bomb(Game.getGrid().makeGridPosition(this.getPos().getCol(), this.getPos().getRow(),"bomb.png"), collisionDetector, this));
-                    bombCurrent--;
-                }
+                case KeyboardEvent.KEY_RIGHT:
+                    if (collisionDetector.hasEnemy(getPos().getCol() + 1, getPos().getRow())) {
+                        this.setDestroyed();
+                    }
+                    if (!collisionDetector.isUnSafe(getPos().getCol() + 1, getPos().getRow())) {
+                        getPos().moveInDirection(GridDirection.RIGHT, 1);
+                    }
+                    break;
+                case KeyboardEvent.KEY_DOWN:
+                    if (collisionDetector.hasEnemy(getPos().getCol(), getPos().getRow() + 1)) {
+                        this.setDestroyed();
+                    }
+                    if (!collisionDetector.isUnSafe(getPos().getCol(), getPos().getRow() + 1)) {
+                        getPos().moveInDirection(GridDirection.DOWN, 1);
+                    }
+                    break;
+                case KeyboardEvent.KEY_UP:
+                    if (collisionDetector.hasEnemy(getPos().getCol(), getPos().getRow() - 1)) {
+                        this.setDestroyed();
+                    }
+                    if (!collisionDetector.isUnSafe(getPos().getCol(), getPos().getRow() - 1)) {
+                        getPos().moveInDirection(GridDirection.UP, 1);
+                    }
+                    break;
+                case KeyboardEvent.KEY_SPACE:
+                    System.out.println("space pressed");
+                    System.out.println(bombCurrent);
+                    System.out.println(power);
+                    if (bombCurrent > 0) {
+                        game.add(new Bomb(Game.getGrid().makeGridPosition(this.getPos().getCol(), this.getPos().getRow(), "bomb.png"), collisionDetector, this));
+                        bombCurrent--;
+                    }
 
-                break;
-            case KeyboardEvent.KEY_Q:
-                //game.getPause().launch();
-                break;
+                    break;
+                case KeyboardEvent.KEY_Q:
+                    //game.getPause().launch();
+                    break;
 
-            default:break;
+                default:
+                    break;
 
-        }
+            }
 
-        item =itemDetector.hasItem(getPos().getCol() , getPos().getRow());
-        if ( item instanceof ExtraBomb){
-            increseBombCapacity((ExtraBomb) item);
-        }else if(item instanceof PowerUp){
-            increasePower((PowerUp) item);
+            item = itemDetector.hasItem(getPos().getCol(), getPos().getRow());
+            if (item instanceof ExtraBomb) {
+                increseBombCapacity((ExtraBomb) item);
+            } else if (item instanceof PowerUp) {
+                increasePower((PowerUp) item);
+            }
         }
     }
 

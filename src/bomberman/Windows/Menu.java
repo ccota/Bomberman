@@ -1,6 +1,7 @@
 package bomberman.Windows;
 
 import bomberman.Game;
+import bomberman.GameStatus;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -115,12 +116,6 @@ public class Menu extends Window implements KeyboardHandler{
                 arrayOfPictures[row][column].delete();
             }
         }
-        KeyboardHandler handler;
-
-        //keyboard.removeEventListener(event);
-        //keyboard.removeEventListener(event1);
-        //keyboard.removeEventListener(event2);
-        keyboard=null;
 
 
 
@@ -128,61 +123,63 @@ public class Menu extends Window implements KeyboardHandler{
 
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
-        switch (keyboardEvent.getKey()) {
-            case KeyboardEvent.KEY_DOWN:
-                int downHandler= currentSelection.ordinal() + 1;
-                if (downHandler >= CurrentSelection.values().length) {
+        if (game.getState() == GameStatus.MENU) {
+            switch (keyboardEvent.getKey()) {
+                case KeyboardEvent.KEY_DOWN:
+                    int downHandler = currentSelection.ordinal() + 1;
+                    if (downHandler >= CurrentSelection.values().length) {
+                        break;
+                    }
+                    System.out.println(downHandler);
+                    currentSelection = CurrentSelection.values()[currentSelection.ordinal() + 1];
+                    arrayOfPictures[downHandler - 1][0].draw();
+                    arrayOfPictures[downHandler - 1][1].delete();
+
+                    arrayOfPictures[downHandler][0].delete();
+                    arrayOfPictures[downHandler][1].draw();
+
+
                     break;
-                }
-                System.out.println(downHandler);
-                currentSelection = CurrentSelection.values()[currentSelection.ordinal() + 1];
-                arrayOfPictures[downHandler-1][0].draw();
-                arrayOfPictures[downHandler-1][1].delete();
+                case KeyboardEvent.KEY_UP:
 
-                arrayOfPictures[downHandler][0].delete();
-                arrayOfPictures[downHandler][1].draw();
+                    int upHandler = currentSelection.ordinal() - 1;
+                    if (upHandler < 0) {
+                        break;
+                    }
 
+                    currentSelection = CurrentSelection.values()[currentSelection.ordinal() - 1];
+                    arrayOfPictures[upHandler + 1][0].draw();
+                    arrayOfPictures[upHandler + 1][1].delete();
 
-                break;
-            case KeyboardEvent.KEY_UP:
+                    arrayOfPictures[upHandler][0].delete();
+                    arrayOfPictures[upHandler][1].draw();
 
-                int upHandler= currentSelection.ordinal() -1;
-                if (upHandler <0) {
                     break;
-                }
+                case KeyboardEvent.KEY_SPACE:
+                    switch (currentSelection) {
+                        case STARTGAME:
+                            try {
+                                //game.setWindow(null);
+                                delete();
+                                //Thread.sleep(20000);
+                                game.init();
 
-                currentSelection = CurrentSelection.values()[currentSelection.ordinal() - 1];
-                arrayOfPictures[upHandler+1][0].draw();
-                arrayOfPictures[upHandler+1][1].delete();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                        case OPTIONS:
+                            // windowHowToPlay.launchOptions();
+                            break;
+                        case EXIT:
+                            System.exit(1);
+                            break;
+                    }
 
-                arrayOfPictures[upHandler][0].delete();
-                arrayOfPictures[upHandler][1].draw();
-
-                break;
-            case KeyboardEvent.KEY_SPACE:
-                switch (currentSelection){
-                    case STARTGAME:
-                        try {
-                            //game.setWindow(null);
-                            delete();
-                            //Thread.sleep(20000);
-                            game.init();
-
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case OPTIONS:
-                       // windowHowToPlay.launchOptions();
-                        break;
-                    case EXIT:
-                        System.exit(1);
-                        break;
-                }
-
-                break;
-            default:
-                break;
+                    break;
+                default:
+                    break;
+            }
         }
 
     }
@@ -278,11 +275,11 @@ public class WindowGameOver {
         }
 
 
-        keyboardHandler();
+        createKeyboard();
 
     }
 
-    public void keyboardHandler() {
+    public void createKeyboard() {
 
         keyboard = new Keyboard(this);
 
