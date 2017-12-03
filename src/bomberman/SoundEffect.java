@@ -66,9 +66,14 @@ public class SoundEffect {
     public static void creditsSound(){
 
         TinySound.init();
-        Music music = TinySound.loadMusic("credits.wav");
-        music.setVolume(1);
-        music.play(true);
+        Sound music = TinySound.loadSound("credits.wav");
+        for (int i = 0; i < 1; i++) {
+            music.play(4);
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+            }
+        }
     }
 }
 

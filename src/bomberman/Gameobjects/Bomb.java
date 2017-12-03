@@ -30,12 +30,10 @@ public class Bomb extends GameObjects {
         TimerTask myTimerTask = new TimerTask() {
             @Override
             public void run() {
-                // Turns destroyed true
                 setDestroyed();
                 destroyObjects();
                 player.increaseCurrentBomb();
                 SoundEffect.bombSound();
-                System.out.println("BOOOOM");
             }
         };
 

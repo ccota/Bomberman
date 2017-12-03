@@ -17,8 +17,8 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 public class Player extends MovableObjects implements KeyboardHandler{
 
     private Game game = null;
-    private int power=4;
-    private int bombCapacity = 10;
+    private int power = 1;
+    private int bombCapacity = 1;
     private int bombCurrent = bombCapacity;
     private Keyboard keyboard;
 
@@ -66,11 +66,6 @@ public class Player extends MovableObjects implements KeyboardHandler{
     }
 
 
-
-
-
-
-
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
         if (game.getState() == GameStatus.BATTLE) {
@@ -82,15 +77,11 @@ public class Player extends MovableObjects implements KeyboardHandler{
 
             switch (keyboardEvent.getKey()) {
                 case KeyboardEvent.KEY_LEFT:
-
-
                     if (collisionDetector.hasEnemy(getPos().getCol() - 1, getPos().getRow())) {
                         this.setDestroyed();
                     }
                     if (!collisionDetector.isUnSafe(getPos().getCol() - 1, getPos().getRow())) {
                         getPos().moveInDirection(GridDirection.LEFT, 1);
-
-
                     }
                     break;
                 case KeyboardEvent.KEY_RIGHT:
@@ -118,9 +109,6 @@ public class Player extends MovableObjects implements KeyboardHandler{
                     }
                     break;
                 case KeyboardEvent.KEY_SPACE:
-                    System.out.println("space pressed");
-                    System.out.println(bombCurrent);
-                    System.out.println(power);
                     if (bombCurrent > 0) {
                         game.add(new Bomb(Game.getGrid().makeGridPosition(this.getPos().getCol(), this.getPos().getRow(), "bomb.png"), collisionDetector, this));
                         bombCurrent--;
@@ -135,7 +123,7 @@ public class Player extends MovableObjects implements KeyboardHandler{
 
             item = itemDetector.hasItem(getPos().getCol(), getPos().getRow());
             if (item instanceof ExtraBomb) {
-                increseBombCapacity((ExtraBomb) item);
+                increaseBombCapacity((ExtraBomb) item);
             } else if (item instanceof PowerUp) {
                 increasePower((PowerUp) item);
             }
@@ -163,7 +151,7 @@ public class Player extends MovableObjects implements KeyboardHandler{
             bombCurrent++;
     }
 
-    private void increseBombCapacity(ExtraBomb extraBomb){  //just to make sure that the player really got an extra bomb
+    private void increaseBombCapacity(ExtraBomb extraBomb){
         bombCapacity ++;
         bombCurrent = bombCapacity;
 
@@ -172,7 +160,6 @@ public class Player extends MovableObjects implements KeyboardHandler{
 
     private void increasePower(PowerUp powerUp){
         power ++;
-        System.out.println("Power = " + power);
     }
 
     public Game getGame() {

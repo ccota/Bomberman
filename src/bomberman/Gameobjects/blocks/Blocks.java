@@ -13,12 +13,4 @@ abstract public class Blocks extends GameObjects {
 
 
 
-
-
-
-
-    public BlockType getBlockType() {
-        return blockType;
-    }
-
 }

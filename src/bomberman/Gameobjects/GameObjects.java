@@ -3,7 +3,7 @@ import bomberman.grid.position.GridPosition;
 
 
 public abstract class GameObjects {
-    private boolean destroyed; //object is destroyed if hit by a bomb
+    private boolean destroyed;
     private GridPosition pos;
 
     public GameObjects(GridPosition pos) {

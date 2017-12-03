@@ -1,6 +1,5 @@
 package bomberman;
 
-import bomberman.Gameobjects.Bomb;
 import bomberman.Gameobjects.GameObjects;
 import bomberman.Gameobjects.gameitems.GameItems;
 import bomberman.Gameobjects.movableobjects.Player;
@@ -22,9 +21,9 @@ public class Game implements KeyboardHandler {
 
     private enum GameStage {
          //string order == backgroung, hardBlock, softBlock, enemy, enemy quantity, percentage of softBlocks
-        STAGE1 ("stage1bg.jpg", "hardBlockS1.gif", "softBlockS1.gif", "enemyS1.png", 1, 0),
-        STAGE2("stage2bg.jpg", "hardBlockS2.gif", "softBlockS2.png", "enemyS2.png", 1, 0),
-        STAGE3("stage3bg.jpg", "hardBlockS3.gif", "softBlockS3.gif" ,"enemyS3.png" , 1, 0);
+        STAGE1 ("stage1bg.jpg", "hardBlockS1.gif", "softBlockS1.gif", "enemyS1.png", 3, 40),
+        STAGE2("stage2bg.jpg", "hardBlockS2.gif", "softBlockS2.png", "enemyS2.png", 5, 50),
+        STAGE3("stage3bg.jpg", "hardBlockS3.gif", "softBlockS3.gif" ,"enemyS3.png" , 7, 60);
 
 
         String background;
@@ -79,11 +78,9 @@ public class Game implements KeyboardHandler {
     private ArrayList<GameObjects> objects = new ArrayList<GameObjects>();
     private ArrayList<GameItems> items = new ArrayList<GameItems>();
     private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-    private ArrayList<Bomb> activeBombs = new ArrayList<>();
     private CollisionDetector collisionDetector;
     private ItemDetector itemDetector;
     private Keyboard keyboard;
-    private GameStage currentStage;
 
 
 
@@ -114,15 +111,6 @@ public class Game implements KeyboardHandler {
     private String enemyImg;
     private int numberOfStageEnemies;
     private int blockPercent;
-
-
-
-
-    public Game (){
-
-
-    }
-
 
 
 
@@ -170,8 +158,6 @@ public class Game implements KeyboardHandler {
         Picture background = new Picture(10,10, backgroungImg);
         background.draw();
 
-
-
         factory = new Factory();
 
         myPlayer =factory.generatePlayer(grid,0,0,this);
@@ -186,12 +172,10 @@ public class Game implements KeyboardHandler {
         }
 
          /* -------------| Enemies |------------------ */
-         /** Adjust this code later to be more flexible*/
         Enemy enemy;
         int counter = 0;
         int maxenimes= numberOfStageEnemies;
         while (counter!=maxenimes){
-            System.out.println("entro no while");
             int randomX = Random.generate(4,grid().getCols());
             int randomY = Random.generate(4,grid().getRows());
 
@@ -204,15 +188,12 @@ public class Game implements KeyboardHandler {
 
         }
 
-
-
         /* -------------| Soft Blocks |------------------ */
         for (int x = 0; x<grid.getCols(); x ++){
-            System.out.println(grid.getCols());
             for (int y = 0 ; y < grid.getRows(); y ++){
-                    if (x==0 && y==0 || x==1 && y==0 || x==0 && y==1 || // Canto superior esquero
-                        x==grid.getCols()-1 && y==0 || x==grid.getCols()-2 && y==0 || x==grid.getCols()-1 && y==1 || //Canto superior direito
-                        x==0 && y==grid.getRows()-1 || x==0 && y==grid.getRows()-2 || x==1 && y==grid.getRows()-1  ||  // Canto inferior esq
+                    if (x==0 && y==0 || x==1 && y==0 || x==0 && y==1 ||
+                        x==grid.getCols()-1 && y==0 || x==grid.getCols()-2 && y==0 || x==grid.getCols()-1 && y==1 ||
+                        x==0 && y==grid.getRows()-1 || x==0 && y==grid.getRows()-2 || x==1 && y==grid.getRows()-1  ||
                         x==grid.getCols()-1 && y==grid.getRows()-1 || x==grid.getCols()-2 && y==grid.getRows()-1 || x==grid.getCols()-1 && y==grid.getRows()-2 ){
 
                         continue;
@@ -262,20 +243,9 @@ public class Game implements KeyboardHandler {
         createKeyboard();
         menuLaunch();
 
-
-
-
-
         while (true) {
-            System.out.println("o rodrigo está meuitio ste");
             // Pause for a while
             Thread.sleep(delay);
-
-            // checks if player want to drop a bomb
-           /* if (myPlayer.getDropOrder()){
-                dropBomb(myPlayer);
-            }*/
-
 
             // Move the enemies
             if (state==GameStatus.BATTLE){
@@ -288,24 +258,19 @@ public class Game implements KeyboardHandler {
             if (allEnemysDead() && state ==GameStatus.BATTLE) {
                 myPlayer.WinGame();
                 }
-
             }
-
-
-
-
 
         }
 
 
     private boolean allEnemysDead() {
-        int deadenemies = 0;
+        int deadEnemies = 0;
         for (Enemy e  :enemies) {
             if (e.isDestroyed()) {
-                deadenemies++;
+                deadEnemies++;
             }
         }
-        if (deadenemies == enemies.size()){
+        if (deadEnemies == enemies.size()){
             return true;
         }
         return false;
@@ -321,8 +286,10 @@ public class Game implements KeyboardHandler {
         STARTGAME("start.gif", "startHover.gif"),
         OPTIONS("guide.gif", "guideHover.gif"),
         EXIT("exit.gif", "exitHover.gif");
+
         private String unselected;
         private String selected;
+
         CurrentSelection(String unselected, String selected) {
             this.unselected = unselected;
             this.selected = selected;
@@ -340,23 +307,23 @@ public class Game implements KeyboardHandler {
     private CurrentSelection currentSelection;
     private Picture[][] arrayOfPictures;
     private Picture launchBG;
+
     public void menuLaunch() {
+
+        SoundEffect.stopMusic();
         launchBG = new Picture(10,10,"backgroundInit.gif");
         launchBG.draw();
         currentSelection = CurrentSelection.STARTGAME;
         arrayOfPictures = new Picture[3][2];
+
         for (int row = 0; row < arrayOfPictures.length; row++) {
 
             for (int column = 0; column < arrayOfPictures[row].length; column++) {
                 String imgsrc = null;
                 if ((column % 2) == 0) {
                     imgsrc = CurrentSelection.values()[row].getUnselected();
-
-
                 } else {
                     imgsrc = CurrentSelection.values()[row].getSelected();
-
-
                 }
                 arrayOfPictures[row][column] = new Picture(
                         (width / 2 - 173), (height / 2 - 50) + (menuItemHeight * row), imgsrc);
@@ -371,7 +338,6 @@ public class Game implements KeyboardHandler {
         arrayOfPictures[0][0].delete();
         arrayOfPictures[0][1].draw();
 
-
     }
     public void menuLaunchDelete() {
         for (int row = 0; row < arrayOfPictures.length; row++) {
@@ -380,7 +346,6 @@ public class Game implements KeyboardHandler {
             }
         }
         launchBG.delete();
-
     }
 
 
@@ -389,29 +354,26 @@ public class Game implements KeyboardHandler {
         Picture bg = new Picture(10,10,"controls.jpg");
         bg.draw();
         state=GameStatus.SHOW;
-
     }
 
     public void menuCredits () {
-       // SoundEffect.stopMusic();
-        // SoundEffect.gameOverSound();
         resetGame();
         state=GameStatus.SHOW;
         Picture bg = new Picture(10,10,"credits.jpg");
         bg.draw();
-        state=GameStatus.SHOW;
-
-    }
-    public void menuGameOver () {
         SoundEffect.stopMusic();
-        SoundEffect.gameOverSound();
+        SoundEffect.creditsSound();
+    }
+
+    public void menuGameOver () {
         resetGame();
-        state=GameStatus.SHOW;
         Picture bg = new Picture(10,10,"gameover.jpg");
         bg.draw();
         state=GameStatus.SHOW;
-
+        SoundEffect.stopMusic();
+        SoundEffect.gameOverSound();
     }
+
     public void resetGame(){
         SoundEffect.stopMusic();
 
@@ -441,11 +403,6 @@ public class Game implements KeyboardHandler {
         keyboard.addEventListener(event2);
 
     }
-
-
-
-
-
 
     public static Grid grid() {
         return grid;
@@ -478,7 +435,6 @@ public class Game implements KeyboardHandler {
                     if (downHandler >= CurrentSelection.values().length) {
                         break;
                     }
-                    System.out.println(downHandler);
                     currentSelection = CurrentSelection.values()[currentSelection.ordinal() + 1];
                     arrayOfPictures[downHandler - 1][0].draw();
                     arrayOfPictures[downHandler - 1][1].delete();
@@ -535,27 +491,17 @@ public class Game implements KeyboardHandler {
         if (state == GameStatus.SHOW) {
             switch (keyboardEvent.getKey()) {
                 case KeyboardEvent.KEY_DOWN:
-
-
-
                     break;
                 case KeyboardEvent.KEY_UP:
-
-
-
                     break;
                 case KeyboardEvent.KEY_SPACE:
                     state=GameStatus.MENU;
                     menuLaunch();
-
                     break;
                 default:
                     break;
             }
         }
-
-
-
     }
 
     @Override

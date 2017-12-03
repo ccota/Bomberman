@@ -26,7 +26,6 @@ public class CollisionDetector {
     public boolean isUnSafe(int col, int row) {
 
         for (int c = 0 ; c< objects.size(); c++) {
-
             if ((objects.get(c).getPos().getCol() == col && objects.get(c).getPos().getRow() == row) && !objects.get(c).isDestroyed()) {
                 if (objects.get(c) instanceof GameItems){
                    return false;
@@ -55,7 +54,7 @@ public class CollisionDetector {
                 o.setDestroyed();
             }
             if (o.getPos().getCol() == bomb.getPos().getCol() && o.getPos().getRow() == (bomb.getPos().getRow() + 1)) {
-                if (o instanceof SoftBlock && generateItemPercent >= 84 && !o.isDestroyed()) {
+                if (o instanceof SoftBlock && generateItemPercent >= 75 && !o.isDestroyed()) {
                     game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
                 if (o instanceof Blocks && !o.isDestroyed()) {
@@ -67,7 +66,7 @@ public class CollisionDetector {
                 o.setDestroyed();
             }
             if (o.getPos().getCol() == bomb.getPos().getCol() && o.getPos().getRow() == (bomb.getPos().getRow() - 1)) {
-                if (o instanceof SoftBlock && generateItemPercent >= 84 && !o.isDestroyed()) {
+                if (o instanceof SoftBlock && generateItemPercent >= 75 && !o.isDestroyed()) {
                     game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
                 if (o instanceof Blocks && !o.isDestroyed()) {
@@ -79,7 +78,7 @@ public class CollisionDetector {
                 o.setDestroyed();
             }
             if ((o.getPos().getCol() == bomb.getPos().getCol() + 1) && o.getPos().getRow() == (bomb.getPos().getRow())) {
-                if (o instanceof SoftBlock && generateItemPercent >= 84 && !o.isDestroyed()) {
+                if (o instanceof SoftBlock && generateItemPercent >= 75 && !o.isDestroyed()) {
                     game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
                 if (o instanceof Blocks && !o.isDestroyed()) {
@@ -91,7 +90,7 @@ public class CollisionDetector {
                 o.setDestroyed();
             }
             if ((o.getPos().getCol() == bomb.getPos().getCol() - 1) && o.getPos().getRow() == (bomb.getPos().getRow())) {
-                if (o instanceof SoftBlock && generateItemPercent >= 84 && !o.isDestroyed()) {
+                if (o instanceof SoftBlock && generateItemPercent >= 75 && !o.isDestroyed()) {
                     game.addItem(Factory.generateRandomItem(o.getPos().getCol(), o.getPos().getRow()));
                 }
                 if (o instanceof Blocks && !o.isDestroyed()) {
@@ -128,10 +127,7 @@ public class CollisionDetector {
                     }
                 }
             }
-
         explosionInit(bomb, blockDOWN,blockUP,blockRIGHT,blockLEFT);
-
-
     }
 
 
@@ -144,6 +140,9 @@ public class CollisionDetector {
         }
         return false;
     }
+
+
+
 
     private void explosionInit(Bomb bomb, boolean blockDOWN, boolean blockUP, boolean blockRIGHT, boolean blockLEFT){
         for (int p = 1; p <= bomb.getPower(); p++) {
@@ -194,7 +193,6 @@ public class CollisionDetector {
 
     private void clearExplosion(){
 
-
         TimerTask timerTask =   new TimerTask() {
 
 
@@ -209,13 +207,11 @@ public class CollisionDetector {
                 }
             }
         };
-
         Timer timer = new Timer();
-
         timer.schedule(timerTask,500);
-
-
     }
+
+
 
     private void generateExplosionImg(int col, int row, Bomb bomb){
 
@@ -223,6 +219,7 @@ public class CollisionDetector {
         int y = bomb.getPos().getPadding() + bomb.getPos().getCellSize() * row;
 
         Picture picture = new Picture(x ,y , "explosion.png");
+
         for (int i = 0; i < explosionsArray.length; i++) {
             if (explosionsArray[i] == null){
                 explosionsArray[i] = picture;
@@ -230,9 +227,6 @@ public class CollisionDetector {
             }
         }
         picture.draw();
-
-
-
     }
 
 
