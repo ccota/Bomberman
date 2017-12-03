@@ -72,7 +72,7 @@ public class Game implements KeyboardHandler {
 	 */
     public void init() throws InterruptedException{
 
-        this.state = GameStatus.BATTLE;
+
 
         Picture bg = new Picture(10,10,"stage2bg.jpg");
         bg.draw();
@@ -96,7 +96,7 @@ public class Game implements KeyboardHandler {
          /** Adjust this code later to be more flexible*/
         Enemy enemy;
         int counter = 0;
-        int maxenimes=1;
+        int maxenimes=5;
         while (counter!=maxenimes){
             System.out.println("entro no while");
             int randomX = Random.generate(4,grid().getCols());
@@ -146,7 +146,7 @@ public class Game implements KeyboardHandler {
         myPlayer.setColisionDetector(collisionDetector);
         myPlayer.setItemDetector(itemDetector);
 
-
+        this.state = GameStatus.BATTLE;
 
 
     }
@@ -186,12 +186,18 @@ public class Game implements KeyboardHandler {
 
 
             // Move the enemies
-            for (Enemy curInstance: enemies) {
-                if (!curInstance.isDestroyed()) {
-                    curInstance.move();
+            if (state==GameStatus.BATTLE){
+                for (Enemy curInstance : enemies) {
+                    if (!curInstance.isDestroyed()) {
+                        curInstance.move();
+                    }
                 }
             }
+            if (allEnemysDead() && state ==GameStatus.BATTLE) {
+                System.out.println("check for casualties");
+                menuGameOver();
 
+            }
 
 
 
@@ -200,7 +206,18 @@ public class Game implements KeyboardHandler {
         }
     }
 
-
+    private boolean allEnemysDead() {
+        int deadenemies = 0;
+        for (Enemy e  :enemies) {
+            if (e.isDestroyed()) {
+                deadenemies++;
+            }
+        }
+        if (deadenemies == enemies.size()){
+            return true;
+        }
+        return false;
+    }
     /**
      |--------------------------------------------------------------------------
      | MENU
@@ -277,13 +294,25 @@ public class Game implements KeyboardHandler {
 
 
     public void menuGuide () {
-        System.out.println("ENTROU NO MENU GUIDE");
         Picture bg = new Picture(10,10,"controls.jpg");
         bg.draw();
         state=GameStatus.SHOW;
 
     }
 
+    public void menuGameOver () {
+        resetGame();
+        state=GameStatus.SHOW;
+        Picture bg = new Picture(10,10,"gameover.jpg");
+        bg.draw();
+        state=GameStatus.SHOW;
+
+    }
+    public void resetGame(){
+        objects.clear();
+        enemies.clear();
+        items.clear();
+    }
 
     public void createKeyboard() {
 

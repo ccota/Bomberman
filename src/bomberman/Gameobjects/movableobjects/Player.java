@@ -146,6 +146,14 @@ public class Player extends MovableObjects implements KeyboardHandler{
     public void keyReleased(KeyboardEvent keyboardEvent) {
 
     }
+    @Override
+    public void setDestroyed() {
+        super.setDestroyed();
+        game.menuGameOver();
+
+
+
+    }
 
     public void increaseCurrentBomb() {
             bombCurrent++;
