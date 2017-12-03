@@ -5,18 +5,21 @@ import bomberman.Gameobjects.GameObjects;
 import bomberman.Gameobjects.gameitems.GameItems;
 import bomberman.Gameobjects.movableobjects.Player;
 import bomberman.Gameobjects.movableobjects.enemys.Enemy;
-import bomberman.Gameobjects.movableobjects.enemys.Faustino;
 import bomberman.grid.Grid;
 import bomberman.grid.GridFactory;
 import bomberman.grid.GridType;
 import bomberman.utilities.Random;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
+import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
+import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 import java.util.ArrayList;
 
 
-public class Game {
+public class Game implements KeyboardHandler {
+
 
     private static Grid grid;
     private Factory factory;
@@ -27,6 +30,13 @@ public class Game {
     private ArrayList<Bomb> activeBombs = new ArrayList<>();
     private CollisionDetector collisionDetector;
     private ItemDetector itemDetector;
+    private Keyboard keyboard;
+
+
+
+
+    private GameStatus state= GameStatus.MENU;
+
 
 
 
@@ -39,6 +49,11 @@ public class Game {
     private int cols= 25;
     private int rows=15;
     private int delay =500;
+
+    private int cellSize = 40;
+    private int height = rows * cellSize;
+    private int width = cols * cellSize;
+    private int menuItemHeight = 105;
 
 
 
@@ -56,8 +71,12 @@ public class Game {
 	|--------------------------------------------------------------------------
 	 */
     public void init() throws InterruptedException{
-        grid = GridFactory.makeGrid(gridType, cols, rows);
-        grid.init();
+
+        this.state = GameStatus.BATTLE;
+
+        Picture bg = new Picture(10,10,"stage2bg.jpg");
+        bg.draw();
+
 
 
         factory = new Factory();
@@ -143,10 +162,17 @@ public class Game {
     }
 
     public void start() throws InterruptedException{
+        grid = GridFactory.makeGrid(gridType, cols, rows);
+        grid.init();
 
-        init();
 
-        SoundEffect.music();
+        createKeyboard();
+        menuLaunch();
+
+
+
+
+            SoundEffect.music();
 
 
         while (true) {
@@ -167,20 +193,124 @@ public class Game {
                 }
             }
 
-            // add new and undestroyed Items to object Array
-            /*
-            for (GameItems i   : items){
-                if (!i.isDestroyed()){
-                    objects.add(i);
-                }
-            }
-            */
+
 
 
 
 
         }
     }
+
+
+    /**
+     |--------------------------------------------------------------------------
+     | MENU
+     |--------------------------------------------------------------------------
+     */
+
+
+    private enum CurrentSelection {
+        STARTGAME("start.gif", "startHover.gif"),
+        OPTIONS("guide.gif", "guideHover.gif"),
+        EXIT("exit.gif", "exitHover.gif");
+        private String unselected;
+        private String selected;
+        CurrentSelection(String unselected, String selected) {
+            this.unselected = unselected;
+            this.selected = selected;
+        }
+        public String getUnselected() {
+            return unselected;
+        }
+        public String getSelected() {
+            return selected;
+        }
+
+    }
+
+
+    private CurrentSelection currentSelection;
+    private Picture[][] arrayOfPictures;
+    private Picture launchBG;
+    public void menuLaunch() {
+        launchBG = new Picture(10,10,"backgroundInit.gif");
+        launchBG.draw();
+        currentSelection = CurrentSelection.STARTGAME;
+        arrayOfPictures = new Picture[3][2];
+        for (int row = 0; row < arrayOfPictures.length; row++) {
+
+            for (int column = 0; column < arrayOfPictures[row].length; column++) {
+                String imgsrc = null;
+                if ((column % 2) == 0) {
+                    imgsrc = CurrentSelection.values()[row].getUnselected();
+
+
+                } else {
+                    imgsrc = CurrentSelection.values()[row].getSelected();
+
+
+                }
+                arrayOfPictures[row][column] = new Picture(
+                        (width / 2 - 173), (height / 2 - 50) + (menuItemHeight * row), imgsrc);
+
+                if ((column % 2) == 0) {
+                    arrayOfPictures[row][column].draw();
+                }
+            }
+        }
+
+        // Force 1st item to be selected
+        arrayOfPictures[0][0].delete();
+        arrayOfPictures[0][1].draw();
+
+
+    }
+    public void menuLaunchDelete() {
+        for (int row = 0; row < arrayOfPictures.length; row++) {
+            for (int column = 0; column < arrayOfPictures[row].length; column++) {
+                arrayOfPictures[row][column].delete();
+            }
+        }
+        launchBG.delete();
+
+    }
+
+
+
+    public void menuGuide () {
+        System.out.println("ENTROU NO MENU GUIDE");
+        Picture bg = new Picture(10,10,"controls.jpg");
+        bg.draw();
+        state=GameStatus.SHOW;
+
+    }
+
+
+    public void createKeyboard() {
+
+        keyboard = new Keyboard(this);
+
+        KeyboardEvent event = new KeyboardEvent();
+        event.setKey(KeyboardEvent.KEY_UP);
+        event.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+
+        KeyboardEvent event1 = new KeyboardEvent();
+        event1.setKey(KeyboardEvent.KEY_DOWN);
+        event1.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+
+        KeyboardEvent event2 = new KeyboardEvent();
+        event2.setKey(KeyboardEvent.KEY_SPACE);
+        event2.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+
+        keyboard.addEventListener(event);
+        keyboard.addEventListener(event1);
+        keyboard.addEventListener(event2);
+
+    }
+
+
+
+
 
 
     public static Grid grid() {
@@ -196,17 +326,108 @@ public class Game {
         items.add(object);
     }
 
-   /* public void dropBomb(Player player){
-            Bomb bomb = factory.generateBombs(grid, player.getPos().getCol(), player.getPos().getRow(), collisionDetector);
 
-            objects.add(bomb);
-            bomb.explode();
-            player.resetDropOrder();
-    }*/
-
+    public GameStatus getState() {
+        return state;
+    }
     public static Grid getGrid() {
         return grid;
     }
 
+    @Override
+    public void keyPressed(KeyboardEvent keyboardEvent) {
+        /** If on LaunchMenu */
+        if (state == GameStatus.MENU) {
+            switch (keyboardEvent.getKey()) {
+                case KeyboardEvent.KEY_DOWN:
+                    int downHandler = currentSelection.ordinal() + 1;
+                    if (downHandler >= CurrentSelection.values().length) {
+                        break;
+                    }
+                    System.out.println(downHandler);
+                    currentSelection = CurrentSelection.values()[currentSelection.ordinal() + 1];
+                    arrayOfPictures[downHandler - 1][0].draw();
+                    arrayOfPictures[downHandler - 1][1].delete();
+
+                    arrayOfPictures[downHandler][0].delete();
+                    arrayOfPictures[downHandler][1].draw();
+
+
+                    break;
+                case KeyboardEvent.KEY_UP:
+
+                    int upHandler = currentSelection.ordinal() - 1;
+                    if (upHandler < 0) {
+                        break;
+                    }
+
+                    currentSelection = CurrentSelection.values()[currentSelection.ordinal() - 1];
+                    arrayOfPictures[upHandler + 1][0].draw();
+                    arrayOfPictures[upHandler + 1][1].delete();
+
+                    arrayOfPictures[upHandler][0].delete();
+                    arrayOfPictures[upHandler][1].draw();
+
+                    break;
+                case KeyboardEvent.KEY_SPACE:
+                    switch (currentSelection) {
+                        case STARTGAME:
+                            try {
+
+                                menuLaunchDelete();
+                                init();
+
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                        case OPTIONS:
+                            menuGuide();
+                            return;
+
+                        case EXIT:
+                            System.exit(1);
+                            break;
+
+                    }
+
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        /** Waiting mode for: GUIDE && GAMEOVER */
+        if (state == GameStatus.SHOW) {
+            switch (keyboardEvent.getKey()) {
+                case KeyboardEvent.KEY_DOWN:
+
+
+
+                    break;
+                case KeyboardEvent.KEY_UP:
+
+
+
+                    break;
+                case KeyboardEvent.KEY_SPACE:
+                    state=GameStatus.MENU;
+                    menuLaunch();
+
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+
+    }
+
+    @Override
+    public void keyReleased(KeyboardEvent keyboardEvent) {
+
+
+    }
 }
 
