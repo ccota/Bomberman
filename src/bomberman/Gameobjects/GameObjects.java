@@ -23,4 +23,8 @@ public abstract class GameObjects {
         return pos;
     }
 
+    public void WinGame(){
+        destroyed = true;
+        this.getPos().hide();
+    }
 }

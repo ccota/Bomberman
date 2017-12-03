@@ -151,8 +151,12 @@ public class Player extends MovableObjects implements KeyboardHandler{
         super.setDestroyed();
         game.menuGameOver();
 
+    }
 
-
+    @Override
+    public void WinGame() {
+        super.WinGame();
+        game.menuCredits();
     }
 
     public void increaseCurrentBomb() {

@@ -22,9 +22,9 @@ public class Game implements KeyboardHandler {
 
     private enum GameStage {
          //string order == backgroung, hardBlock, softBlock, enemy, enemy quantity, percentage of softBlocks
-        STAGE1 ("stage1bg.jpg", "hardBlockS1.gif", "softBlockS1.gif", "enemyS1.png", 3, 10),
-        STAGE2("stage2bg.jpg", "hardBlockS2.gif", "softBlockS2.png", "enemyS2.png", 5, 50),
-        STAGE3("stage3bg.jpg", "hardBlockS3.gif", "softBlockS3.gif" ,"enemyS3.png" , 7, 60);
+        STAGE1 ("stage1bg.jpg", "hardBlockS1.gif", "softBlockS1.gif", "enemyS1.png", 1, 0),
+        STAGE2("stage2bg.jpg", "hardBlockS2.gif", "softBlockS2.png", "enemyS2.png", 1, 0),
+        STAGE3("stage3bg.jpg", "hardBlockS3.gif", "softBlockS3.gif" ,"enemyS3.png" , 1, 0);
 
 
         String background;
@@ -67,6 +67,9 @@ public class Game implements KeyboardHandler {
         public int getBlockPercent() {
             return blockPercent;
         }
+        public static GameStage randomStage(){
+            return values()[Random.generate(GameStage.values().length)];
+        }
     }
 
 
@@ -80,7 +83,7 @@ public class Game implements KeyboardHandler {
     private CollisionDetector collisionDetector;
     private ItemDetector itemDetector;
     private Keyboard keyboard;
-    private GameStage currentStage = GameStage.STAGE1;
+    private GameStage currentStage;
 
 
 
@@ -130,7 +133,8 @@ public class Game implements KeyboardHandler {
 	 */
     public void init() throws InterruptedException{
 
-        switch (currentStage){
+
+        switch (GameStage.randomStage()) {
 
             case STAGE1:
                 backgroungImg = GameStage.values()[0].getBackground();
@@ -282,13 +286,7 @@ public class Game implements KeyboardHandler {
                 }
             }
             if (allEnemysDead() && state ==GameStatus.BATTLE) {
-                System.out.println("check for casualties");
-                resetGame();
-                if (currentStage.ordinal() < GameStage.values().length) {
-                    currentStage = currentStage.values()[currentStage.ordinal() + 1];
-                    init();
-                }else {
-                    menuGuide();
+                myPlayer.WinGame();
                 }
 
             }
@@ -298,7 +296,7 @@ public class Game implements KeyboardHandler {
 
 
         }
-    }
+
 
     private boolean allEnemysDead() {
         int deadenemies = 0;
@@ -394,6 +392,16 @@ public class Game implements KeyboardHandler {
 
     }
 
+    public void menuCredits () {
+       // SoundEffect.stopMusic();
+        // SoundEffect.gameOverSound();
+        resetGame();
+        state=GameStatus.SHOW;
+        Picture bg = new Picture(10,10,"credits.jpg");
+        bg.draw();
+        state=GameStatus.SHOW;
+
+    }
     public void menuGameOver () {
         SoundEffect.stopMusic();
         SoundEffect.gameOverSound();
@@ -407,7 +415,6 @@ public class Game implements KeyboardHandler {
     public void resetGame(){
         SoundEffect.stopMusic();
 
-        myPlayer = null;
         objects.clear();
         enemies.clear();
         items.clear();
