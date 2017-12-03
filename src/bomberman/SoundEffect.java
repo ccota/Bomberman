@@ -7,6 +7,13 @@ import org.academiadecodigo.bootcamp.kuusisto.tinysound.TinySound;
 public class SoundEffect {
 
 
+    public static void menuMusic(){
+        TinySound.init();
+        Music music = TinySound.loadMusic("menuMusic.wav");
+        music.setVolume(2);
+        music.play(true);
+    }
+
     public static void stageOneMusic() {
 
         TinySound.init();
@@ -19,7 +26,7 @@ public class SoundEffect {
 
         TinySound.init();
         Music music = TinySound.loadMusic("SecondStageMusic.wav");
-        music.setVolume(1);
+        music.setVolume(2);
         music.play(true);
     }
 
@@ -27,7 +34,7 @@ public class SoundEffect {
 
         TinySound.init();
         Music music = TinySound.loadMusic("ThirdStageMusic.wav");
-        music.setVolume(1);
+        music.setVolume(2);
         music.play(true);
     }
 
