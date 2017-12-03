@@ -10,10 +10,9 @@ public class SoundEffect {
 
     public static void music() {
         TinySound.init();
-        Music music = TinySound.loadMusic("GTmusic.wav");
+        Music music = TinySound.loadMusic("ManaMana.wav");
         music.setVolume(1);
         music.play(true);
-
 
     }
 
@@ -56,6 +55,7 @@ public class SoundEffect {
     }
 
     public static void gameOverSound() {
+        TinySound.init();
         Sound gameOver = TinySound.loadSound("PlayerDead.wav");
         for (int i = 0; i < 1; i++) {
             gameOver.play(4);

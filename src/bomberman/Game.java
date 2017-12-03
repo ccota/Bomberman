@@ -96,7 +96,7 @@ public class Game implements KeyboardHandler {
          /** Adjust this code later to be more flexible*/
         Enemy enemy;
         int counter = 0;
-        int maxenimes=5;
+        int maxenimes = 5;
         while (counter!=maxenimes){
             System.out.println("entro no while");
             int randomX = Random.generate(4,grid().getCols());
@@ -169,7 +169,7 @@ public class Game implements KeyboardHandler {
         createKeyboard();
         menuLaunch();
 
-       // SoundEffect.music();
+       SoundEffect.music();
 
 
         while (true) {
@@ -337,6 +337,7 @@ public class Game implements KeyboardHandler {
         if (state == GameStatus.MENU) {
             switch (keyboardEvent.getKey()) {
                 case KeyboardEvent.KEY_DOWN:
+
                     int downHandler = currentSelection.ordinal() + 1;
                     if (downHandler >= CurrentSelection.values().length) {
                         break;
@@ -349,8 +350,8 @@ public class Game implements KeyboardHandler {
                     arrayOfPictures[downHandler][0].delete();
                     arrayOfPictures[downHandler][1].draw();
 
-
                     break;
+
                 case KeyboardEvent.KEY_UP:
 
                     int upHandler = currentSelection.ordinal() - 1;
@@ -366,6 +367,7 @@ public class Game implements KeyboardHandler {
                     arrayOfPictures[upHandler][1].draw();
 
                     break;
+
                 case KeyboardEvent.KEY_SPACE:
                     switch (currentSelection) {
                         case STARTGAME:
@@ -397,18 +399,17 @@ public class Game implements KeyboardHandler {
         /** Waiting mode for: GUIDE && GAMEOVER */
         if (state == GameStatus.SHOW) {
             switch (keyboardEvent.getKey()) {
+
                 case KeyboardEvent.KEY_DOWN:
-
-
 
                     break;
                 case KeyboardEvent.KEY_UP:
 
-
-
                     break;
+
                 case KeyboardEvent.KEY_SPACE:
-                    state=GameStatus.MENU;
+
+                    state = GameStatus.MENU;
                     menuLaunch();
 
                     break;

@@ -26,10 +26,10 @@ public class CollisionDetector {
 
     public boolean isUnSafe(int col, int row) {
 
-        for (GameObjects c : objects) {
+        for (int c = 0; c < objects.size(); c++) {
 
-            if ((c.getPos().getCol() == col && c.getPos().getRow() == row) && !c.isDestroyed()) {
-                if (c instanceof GameItems){
+            if ((objects.get(c).getPos().getCol() == col && objects.get(c).getPos().getRow() == row) && !objects.get(c).isDestroyed()) {
+                if (objects.get(c) instanceof GameItems){
                    // return false;
                 }
                 return true;

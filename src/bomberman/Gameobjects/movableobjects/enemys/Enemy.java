@@ -1,7 +1,6 @@
 package bomberman.Gameobjects.movableobjects.enemys;
 
 import bomberman.Gameobjects.movableobjects.MovableObjects;
-import bomberman.SoundEffect;
 import bomberman.grid.GridDirection;
 import bomberman.grid.position.GridPosition;
 
@@ -20,6 +19,7 @@ abstract public class Enemy extends MovableObjects {
         if (isDestroyed()) {
             return;
         }
+
         chooseDirection();
         prevDirection = currentDirection;
 
@@ -76,9 +76,6 @@ abstract public class Enemy extends MovableObjects {
     @Override
     public void setDestroyed() {
 
-        if (!isDestroyed()) {
-            SoundEffect.enemySound();
-        }
         super.setDestroyed();
     }
 
@@ -86,7 +83,7 @@ abstract public class Enemy extends MovableObjects {
 
         int randomNumber = (int) (Math.random() * 100);
 
-        if (randomNumber >= 50) {
+        if (randomNumber >= 30) {
             currentDirection = GridDirection.values()[(int) (Math.random() * GridDirection.values().length)];
         }
 
