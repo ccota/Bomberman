@@ -172,14 +172,8 @@ public class Game implements KeyboardHandler {
 
 
 
-        while(!myPlayer.isDestroyed()){
             SoundEffect.music();
-        }
 
-        if(myPlayer.isDestroyed()){
-
-            SoundEffect.gameOverSound();
-        }
 
         while (true) {
 
