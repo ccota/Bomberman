@@ -96,7 +96,7 @@ public class Game implements KeyboardHandler {
          /** Adjust this code later to be more flexible*/
         Enemy enemy;
         int counter = 0;
-        int maxenimes=5;
+        int maxenimes=1;
         while (counter!=maxenimes){
             System.out.println("entro no while");
             int randomX = Random.generate(4,grid().getCols());
@@ -172,11 +172,10 @@ public class Game implements KeyboardHandler {
 
 
 
-            SoundEffect.music();
-
+         //SoundEffect.music();
 
         while (true) {
-
+            System.out.println("o rodrigo está meuitio ste");
             // Pause for a while
             Thread.sleep(delay);
 

@@ -7,7 +7,7 @@ import bomberman.Gameobjects.gameitems.ExtraBomb;
 import bomberman.Gameobjects.gameitems.GameItems;
 import bomberman.Gameobjects.gameitems.PowerUp;
 import bomberman.Gameobjects.movableobjects.Player;
-import bomberman.Gameobjects.movableobjects.enemys.Faustino;
+import bomberman.Gameobjects.movableobjects.enemys.EnemyRoundFace;
 import bomberman.grid.Grid;
 import bomberman.utilities.Random;
 
@@ -43,8 +43,8 @@ public class Factory {
     }
 
     /**Enemies */
-    public Faustino generateEnemies (Grid grid, int x, int y){
-        return new Faustino(grid.makeGridPosition(x, y,"enemigo3.png"));
+    public EnemyRoundFace generateEnemies (Grid grid, int x, int y){
+        return new EnemyRoundFace(grid.makeGridPosition(x, y,"enemigo3.png"));
     }
 
 

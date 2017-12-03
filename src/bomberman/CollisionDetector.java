@@ -7,7 +7,6 @@ import bomberman.Gameobjects.blocks.HardBlock;
 import bomberman.Gameobjects.blocks.SoftBlock;
 import bomberman.Gameobjects.gameitems.GameItems;
 import bomberman.Gameobjects.movableobjects.enemys.Enemy;
-import bomberman.grid.GridDirection;
 import bomberman.utilities.Random;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
@@ -26,51 +25,17 @@ public class CollisionDetector {
 
     public boolean isUnSafe(int col, int row) {
 
-        for (GameObjects c : objects) {
+        for (int c = 0 ; c< objects.size(); c++) {
 
-            if ((c.getPos().getCol() == col && c.getPos().getRow() == row) && !c.isDestroyed()) {
-                if (c instanceof GameItems){
-                   // return false;
+            if ((objects.get(c).getPos().getCol() == col && objects.get(c).getPos().getRow() == row) && !objects.get(c).isDestroyed()) {
+                if (objects.get(c) instanceof GameItems){
+                   return false;
                 }
                 return true;
             }
         }
         return false;
     }
-
-    public GridDirection getSafeDirection(GridDirection prevDirection, int col, int row){
-
-        GridDirection newDirection = prevDirection;
-      switch (prevDirection){
-
-          case UP:
-              if (!isUnSafe(col , row - 1)){
-                  return GridDirection.UP;
-              }
-              break;
-          case DOWN:
-              if (!isUnSafe(col , row + 1)){
-                  return GridDirection.DOWN;
-              }
-              break;
-          case LEFT:
-              if (!isUnSafe(col - 1, row)){
-                  return GridDirection.LEFT;
-              }
-              break;
-          case RIGHT:
-              if (!isUnSafe(col +1, row)){
-                  return GridDirection.RIGHT;
-              }
-              break;
-      }
-
-        return newDirection;
-    }
-
-
-
-
 
     public void destroyObjects(Bomb bomb, Game game) {
 
@@ -265,29 +230,7 @@ public class CollisionDetector {
             }
         }
         picture.draw();
-        /*
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        picture.delete();
 
-        TimerTask timerTask =   new TimerTask() {
-
-
-
-            @Override
-            public void run() {
-               picture.delete();
-
-            }
-        };
-
-        Timer timer = new Timer();
-
-        timer.schedule(timerTask,500);
-*/
 
 
     }

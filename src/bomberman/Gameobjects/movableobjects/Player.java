@@ -6,8 +6,6 @@ import bomberman.Gameobjects.Bomb;
 import bomberman.Gameobjects.gameitems.ExtraBomb;
 import bomberman.Gameobjects.gameitems.GameItems;
 import bomberman.Gameobjects.gameitems.PowerUp;
-import bomberman.SoundEffect;
-import bomberman.grid.GridColor;
 import bomberman.grid.GridDirection;
 import bomberman.grid.position.GridPosition;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
@@ -15,16 +13,13 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 
-import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 public class Player extends MovableObjects implements KeyboardHandler{
 
     private Game game = null;
-    private Bomb bomb;
     private int power=1;
     private int bombCapacity = 1;
     private int bombCurrent = bombCapacity;
-    private boolean dropOrder;
     private Keyboard keyboard;
 
 
@@ -132,9 +127,6 @@ public class Player extends MovableObjects implements KeyboardHandler{
                     }
 
                     break;
-                case KeyboardEvent.KEY_Q:
-                    //game.getPause().launch();
-                    break;
 
                 default:
                     break;
@@ -144,10 +136,8 @@ public class Player extends MovableObjects implements KeyboardHandler{
             item = itemDetector.hasItem(getPos().getCol(), getPos().getRow());
             if (item instanceof ExtraBomb) {
                 increseBombCapacity((ExtraBomb) item);
-                // SoundEffect.itemSound();
             } else if (item instanceof PowerUp) {
                 increasePower((PowerUp) item);
-                // SoundEffect.itemSound();
             }
 
         }
@@ -161,7 +151,7 @@ public class Player extends MovableObjects implements KeyboardHandler{
             bombCurrent++;
     }
 
-    private void increseBombCapacity(ExtraBomb extraBomb){  //just to make sure that the player realy got an extra bomb
+    private void increseBombCapacity(ExtraBomb extraBomb){  //just to make sure that the player really got an extra bomb
         bombCapacity ++;
         bombCurrent = bombCapacity;
 

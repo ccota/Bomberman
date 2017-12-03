@@ -20,7 +20,6 @@ public class Bomb extends GameObjects {
         this.collisionDetector = collisionDetector;
         this.power = player.getPower();
 
-        //pos.setColor(GridColor.RED);
         explode();
 
     }
@@ -46,9 +45,7 @@ public class Bomb extends GameObjects {
 
     }
 
-    public void createExplosionImage(){
 
-    }
 
     private void destroyObjects() {
         collisionDetector.destroyObjects(this, player.getGame());
