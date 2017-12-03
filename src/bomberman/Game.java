@@ -20,6 +20,55 @@ import java.util.ArrayList;
 
 public class Game implements KeyboardHandler {
 
+    private enum GameStage {
+         //string order == backgroung, hardBlock, softBlock, enemy, enemy quantity, percentage of softBlocks
+        STAGE1 ("stage1bg.jpg", "hardBlockS1.gif", "softBlockS1.gif", "enemyS1.png", 3, 10),
+        STAGE2("stage2bg.jpg", "hardBlockS2.gif", "softBlockS2.png", "enemyS2.png", 5, 50),
+        STAGE3("stage3bg.jpg", "hardBlockS3.gif", "softBlockS3.gif" ,"enemyS3.png" , 7, 60);
+
+
+        String background;
+        String hardBlock;
+        String softBlock;
+        String enemy;
+
+        int enemyNumber;
+        int blockPercent;
+
+        GameStage(String background, String hardBlock, String softBlock,String enemy, int enemyNumber, int blockpercent){
+            this.background = background;
+            this.hardBlock = hardBlock;
+            this.softBlock = softBlock;
+            this.enemy = enemy;
+            this.enemyNumber = enemyNumber;
+            this.blockPercent = blockpercent;
+        }
+
+        public String getBackground() {
+            return background;
+        }
+
+        public String getHardBlock() {
+            return hardBlock;
+        }
+
+        public String getSoftBlock() {
+            return softBlock;
+        }
+
+        public String getEnemy() {
+            return enemy;
+        }
+
+        public int getEnemyNumber() {
+            return enemyNumber;
+        }
+
+        public int getBlockPercent() {
+            return blockPercent;
+        }
+    }
+
 
     private static Grid grid;
     private Factory factory;
@@ -31,6 +80,7 @@ public class Game implements KeyboardHandler {
     private CollisionDetector collisionDetector;
     private ItemDetector itemDetector;
     private Keyboard keyboard;
+    private GameStage currentStage = GameStage.STAGE1;
 
 
 
@@ -55,6 +105,14 @@ public class Game implements KeyboardHandler {
     private int width = cols * cellSize;
     private int menuItemHeight = 105;
 
+    private String backgroungImg;
+    private String hardBlockImg;
+    private String softBlockImg;
+    private String enemyImg;
+    private int numberOfStageEnemies;
+    private int blockPercent;
+
+
 
 
     public Game (){
@@ -72,10 +130,38 @@ public class Game implements KeyboardHandler {
 	 */
     public void init() throws InterruptedException{
 
+        switch (currentStage){
+
+            case STAGE1:
+                backgroungImg = GameStage.values()[0].getBackground();
+                hardBlockImg = GameStage.values()[0].getHardBlock();
+                softBlockImg = GameStage.values()[0].getSoftBlock();
+                enemyImg = GameStage.values()[0].getEnemy();
+                numberOfStageEnemies = GameStage.values()[0].getEnemyNumber();
+                blockPercent = GameStage.values()[0].getBlockPercent();
+
+                break;
+            case STAGE2:
+                backgroungImg = GameStage.values()[1].getBackground();
+                hardBlockImg = GameStage.values()[1].getHardBlock();
+                softBlockImg = GameStage.values()[1].getSoftBlock();
+                enemyImg = GameStage.values()[1].getEnemy();
+                numberOfStageEnemies = GameStage.values()[1].getEnemyNumber();
+                blockPercent = GameStage.values()[1].getBlockPercent();
+                break;
+            case STAGE3:
+                backgroungImg = GameStage.values()[2].getBackground();
+                hardBlockImg = GameStage.values()[2].getHardBlock();
+                softBlockImg = GameStage.values()[2].getSoftBlock();
+                enemyImg = GameStage.values()[2].getEnemy();
+                numberOfStageEnemies = GameStage.values()[2].getEnemyNumber();
+                blockPercent = GameStage.values()[2].getBlockPercent();
+                break;
+        }
 
 
-        Picture bg = new Picture(10,10,"stage2bg.jpg");
-        bg.draw();
+        Picture background = new Picture(10,10, backgroungImg);
+        background.draw();
 
 
 
@@ -88,7 +174,7 @@ public class Game implements KeyboardHandler {
         /* -------------| Hard Blocks |------------------ */
         for (int i = 1; i<grid.getCols(); i +=2){
             for (int j = 1 ; j < grid.getRows(); j += 2){
-                objects.add(factory.hardBlocks(grid,i,j));
+                objects.add(factory.hardBlocks(grid,i,j,hardBlockImg));
             }
         }
 
@@ -96,14 +182,14 @@ public class Game implements KeyboardHandler {
          /** Adjust this code later to be more flexible*/
         Enemy enemy;
         int counter = 0;
-        int maxenimes=5;
+        int maxenimes= numberOfStageEnemies;
         while (counter!=maxenimes){
             System.out.println("entro no while");
             int randomX = Random.generate(4,grid().getCols());
             int randomY = Random.generate(4,grid().getRows());
 
             if (checkPosAvailable(randomX, randomY)) {
-                enemy = factory.generateEnemies(grid, randomX ,randomY);
+                enemy = factory.generateEnemies(grid, randomX ,randomY, enemyImg);
                 enemies.add(enemy);
                 objects.add(enemy);
                 counter++;
@@ -128,8 +214,8 @@ public class Game implements KeyboardHandler {
                     else if (checkPosAvailable(x,y)){
                         int randomNumber = (int) (Math.random()*100);
 
-                        if (randomNumber <=60) {
-                            objects.add(factory.softBlocks(grid, x, y));
+                        if (randomNumber <=blockPercent) {
+                            objects.add(factory.softBlocks(grid, x, y, softBlockImg));
                         }
                     }
 
@@ -172,13 +258,13 @@ public class Game implements KeyboardHandler {
 
 
 
-         //SoundEffect.music();
 
         while (true) {
             System.out.println("o rodrigo está meuitio ste");
             // Pause for a while
             Thread.sleep(delay);
 
+            // SoundEffect.music();
             // checks if player want to drop a bomb
            /* if (myPlayer.getDropOrder()){
                 dropBomb(myPlayer);
@@ -195,7 +281,13 @@ public class Game implements KeyboardHandler {
             }
             if (allEnemysDead() && state ==GameStatus.BATTLE) {
                 System.out.println("check for casualties");
-                menuGameOver();
+                resetGame();
+                if (currentStage.ordinal() < GameStage.values().length) {
+                    currentStage = currentStage.values()[currentStage.ordinal() + 1];
+                    init();
+                }else {
+                    menuGuide();
+                }
 
             }
 
@@ -309,6 +401,7 @@ public class Game implements KeyboardHandler {
 
     }
     public void resetGame(){
+        myPlayer = null;
         objects.clear();
         enemies.clear();
         items.clear();
