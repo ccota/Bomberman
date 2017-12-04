@@ -476,7 +476,7 @@ public class Game implements KeyboardHandler {
                             return;
 
                         case EXIT:
-                            System.exit(1);
+                            System.exit(0);
                             break;
 
                     }
