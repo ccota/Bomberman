@@ -1,5 +1,7 @@
 # Bomberman
 
+![alt text](https://i.imgur.com/MRlHaG9.png)
+
 This little Game was created in the extra hours of a programming boocamp lectured by acadeiadecodigo.org,
 after less than one month learning Java.
 
